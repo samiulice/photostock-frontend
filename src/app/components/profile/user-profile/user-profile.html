@@ -1,0 +1,239 @@
+<div class="bg-gray-100 min-h-screen ml-20">
+  <div class="container mx-auto p-2">
+    <!-- Main Dashboard Card -->
+    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
+        <div class="flex space-x-3">
+          <button
+            id="editBtn"
+            class="bg-[#1A73E8] text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors"
+          >
+            <mat-icon
+              aria-hidden="false" class="pt-1"
+              aria-label="Example home icon"
+              fontIcon="edit"
+            ></mat-icon>
+            Edit Profile
+          </button>
+          <button
+          (click)="logout()"
+            id="logoutBtn"
+            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors"
+          >
+          <span>
+            
+          </span>
+            <mat-icon
+              aria-hidden="false" class="pt-1"
+              aria-label="logout button"
+              fontIcon="logout"
+            ></mat-icon>
+            Logout
+          </button>
+          
+          <button
+            id="saveBtn"
+            class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors hidden"
+          >
+            ✓ Save Changes
+          </button>
+          <button
+            id="cancelBtn"
+            class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors hidden"
+          >
+            ✗ Cancel
+          </button>
+        </div>
+      </div>
+
+      <!-- Profile Section -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Profile Photo & Basic Info -->
+        <div class="md:col-span-1">
+          <div class="text-center">
+            <div class="relative inline-block">
+              <img
+                id="profilePhoto"
+                [src]="user.avatar_url || 'images/user.jpg'"
+                alt="Profile Photo"
+                class="w-32 h-32 rounded-full border-1 border-teal-custom shadow-lg"
+              />
+              <button
+                id="changePhotoBtn"
+                class="absolute bottom-0 right-0 bg-teal-custom text-white rounded-full w-8 h-8 items-center justify-center hover:bg-teal-600 transition-colors hidden"
+              >
+                📷
+              </button>
+            </div>
+            <div class="mt-4">
+              <span
+                id="statusBadge"
+                class="inline-block mt-2 px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"
+                >Active User</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Details -->
+        <div class="md:col-span-2">
+          <div class="space-y-6">
+            <!-- Personal Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Name</label
+                >
+                <input
+                  type="text"
+                  id="name"
+                  value="{{user.name}}"
+                  readonly
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-custom"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Contact Number</label
+                >
+                <input
+                  type="tel"
+                  id="contact_number"
+                  value="{{user.mobile || '01xxxxxxxxx'}}"
+                  readonly
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-custom"
+                />
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="email"
+                value="{{user.email}}"
+                readonly
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-custom"
+              />
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Status</label
+                >
+                <select
+                  id="status"
+                  disabled
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-custom"
+                >
+                  <option value="user">User</option>
+                  <option value="premium">Premium User</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Total Earnings</label
+                >
+                <div class="relative">
+                  <input
+                    type="text"
+                    id="earnings"
+                    value="{{user.total_earnings || 0}}"
+                    readonly
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-custom"
+                  />
+                  <span class="absolute right-3 top-2 text-green-600 font-bold"
+                    >TK</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white rounded-lg shadow-md p-6 text-center">
+        <div class="text-3xl font-bold text-teal-custom mb-2">127</div>
+        <div class="text-gray-600">Total Photos</div>
+      </div>
+      <div class="bg-white rounded-lg shadow-md p-6 text-center">
+        <div class="text-3xl font-bold text-blue-500 mb-2">89</div>
+        <div class="text-gray-600">Downloads</div>
+      </div>
+      <div class="bg-white rounded-lg shadow-md p-6 text-center">
+        <div class="text-3xl font-bold text-green-500 mb-2">34</div>
+        <div class="text-gray-600">Uploads This Month</div>
+      </div>
+      <div class="bg-white rounded-lg shadow-md p-6 text-center">
+        <div class="text-3xl font-bold text-purple-500 mb-2">₹12,340</div>
+        <div class="text-gray-600">Monthly Revenue</div>
+      </div>
+    </div>
+
+    <!-- History Tables -->
+    <!-- <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"> -->
+      <!-- Photo History -->
+      <!-- <div class="bg-white rounded-lg shadow-lg p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          🖼️ Photo History
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b">
+                <th class="text-left py-2">Photo</th>
+                <th class="text-left py-2">Name</th>
+                <th class="text-left py-2">Date</th>
+              </tr>
+            </thead>
+            <tbody id="photoHistory" class="divide-y">
+              <tr>
+                <td class="py-2">
+                  <div
+                    class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded"
+                  ></div>
+                </td>
+                <td class="py-2">sunset_beach.jpg</td>
+                <td class="py-2 text-gray-500">2 days ago</td>
+              </tr>
+              <tr>
+                <td class="py-2">
+                  <div
+                    class="w-8 h-8 bg-gradient-to-br from-green-400 to-teal-500 rounded"
+                  ></div>
+                </td>
+                <td class="py-2">mountain_view.jpg</td>
+                <td class="py-2 text-gray-500">5 days ago</td>
+              </tr>
+              <tr>
+                <td class="py-2">
+                  <div
+                    class="w-8 h-8 bg-gradient-to-br from-red-400 to-pink-500 rounded"
+                  ></div>
+                </td>
+                <td class="py-2">city_lights.jpg</td>
+                <td class="py-2 text-gray-500">1 week ago</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+     
+
+      
+    </div> -->
+  </div>
+</div>

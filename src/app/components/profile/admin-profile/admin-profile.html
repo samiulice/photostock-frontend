@@ -1,0 +1,39 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
+    <h2 class="text-2xl font-bold mb-4 text-center">Admin Profile</h2>
+    
+    <div class="grid gap-4">
+      <div>
+        <label class="block text-gray-700 font-semibold">Name:</label>
+        <p class="text-gray-800">{{ admin.name }}</p>
+      </div>
+      
+      <div>
+        <label class="block text-gray-700 font-semibold">Email:</label>
+        <p class="text-gray-800">{{ admin.email }}</p>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold">Phone:</label>
+        <p class="text-gray-800">{{ admin.phone }}</p>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold">Role:</label>
+        <p class="text-gray-800">{{ admin.role }}</p>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold">Permissions:</label>
+        <ul class="list-disc list-inside text-gray-800">
+          <li *ngFor="let permission of admin.permissions">{{ permission }}</li>
+        </ul>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold">Total Users Managed:</label>
+        <p class="text-gray-800">{{ admin.totalUsers }}</p>
+      </div>
+    </div>
+  </div>
+</div>

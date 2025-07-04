@@ -1,0 +1,30 @@
+<!-- Tab buttons -->
+<div class="flex gap-10 border-b border-gray-300 pl-5 ml-13">
+  <div
+    *ngFor="let tab of tabs"
+    (click)="selectTab(tab.id)"
+    [ngClass]="{
+      'text-blue-600 border-b-2 border-blue-600': activeTab === tab.id,
+      'text-gray-600 hover:text-blue-600': activeTab !== tab.id
+    }"
+    class="relative py-3 text-sm font-medium cursor-pointer transition-colors"
+  >
+    {{ tab.label }}
+  </div>
+</div>
+
+<!-- Tab content -->
+<div class="p-4">
+  <div *ngIf="activeTab === 'profile'">
+    <app-user-profile></app-user-profile>
+  </div>
+  <div *ngIf="activeTab === 'upload'">
+    <app-upload-content></app-upload-content>
+  </div>
+  <div *ngIf="activeTab === 'download'">
+    <app-download-history></app-download-history>
+  </div>
+  <div *ngIf="activeTab === 'upload-history'">
+    <app-upload-history></app-upload-history>
+  </div>
+</div>

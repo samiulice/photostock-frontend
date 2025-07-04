@@ -1,0 +1,35 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md ">
+  <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+  <!-- <p id="error-msg"></p> -->
+  <form (ngSubmit)="login()">
+    <input
+      type="email"
+      [(ngModel)]="form.email"
+      name="email"
+      placeholder="Email"
+      class="w-full mb-4 px-4 py-2 border rounded"
+      required
+    />
+    <input
+      type="password"
+      [(ngModel)]="form.password"
+      name="password"
+      placeholder="Password"
+      class="w-full mb-4 px-4 py-2 border rounded"
+      required
+    />
+    <button
+      type="submit"
+      [disabled]="isLoading"
+      class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+    >
+      {{ isLoading ? 'Logging in...' : 'Login' }}
+    </button>
+    <p class="mt-4 text-sm text-center text-gray-600">
+      Don’t have an account?
+      <a routerLink="/register" class="text-blue-500 hover:underline"
+        >Register</a
+      >
+    </p>
+  </form>
+</div>

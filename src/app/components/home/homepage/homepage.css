@@ -1,0 +1,22 @@
+/* styles.css */
+
+.bg-stock-blue {
+    background-color: #2563eb;
+}
+
+.text-stock-blue {
+    color: #2563eb;
+}
+
+/* Additional custom styles */
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.5rem;
+}
+   .bg-stock-blue {
+            background-color: var(--stock-blue);
+        }
+        .text-stock-blue {
+            color: var(--stock-blue);
+        }

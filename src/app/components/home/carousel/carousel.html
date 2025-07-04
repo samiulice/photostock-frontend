@@ -1,0 +1,48 @@
+<!-- carousel.component.html -->
+<div class="relative w-full max-w-7xl mx-auto h-[400px] overflow-hidden">
+  <!-- Slides wrapper -->
+  <div
+    class="flex transition-transform duration-700 ease-in-out"
+    [ngStyle]="{ transform: 'translateX(-' + currentIndex * 100 + '%)' }"
+    style="width: 100%"
+  >
+    <!-- Single slide -->
+    <ng-container *ngFor="let slide of slides">
+      <div
+        class="w-full flex-shrink-0 flex items-center justify-between h-[400px] px-8 bg-white"
+        style="min-width: 100%"
+      >
+        <!-- Text Left -->
+        <div class="w-1/2 text-left space-y-3">
+          <h2 class="text-4xl font-bold text-gray-800 px-5">{{ slide.title }}</h2>
+          <p class="text-lg text-gray-600 px-5">{{ slide.subtitle }}</p>
+        </div>
+
+        <!-- Image Right (always visible) -->
+        <div class="w-1/2 h-full flex items-center justify-center">
+          <img
+            [src]="slide.image"
+            alt="Slide Image"
+            class="h-full w-full object-contain"
+          />
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Prev Button -->
+  <button
+    (click)="prevSlide()"
+    class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-80 text-black p-2 rounded-full hover:bg-opacity-100"
+  >
+    &#10094;
+  </button>
+
+  <!-- Next Button -->
+  <button
+    (click)="nextSlide()"
+    class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-80 text-black p-2 rounded-full hover:bg-opacity-100"
+  >
+    &#10095;
+  </button>
+</div>

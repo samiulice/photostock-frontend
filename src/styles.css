@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+html, body { height: 100%; }
+body { margin: 0; font-family: sans-serif, "Helvetica Neue", sans-serif; }
+button:hover{
+    transition: all 0.6 ease-in-out;
+}
+a:hover {
+    transition: all .3s ease-in-out;
+}
