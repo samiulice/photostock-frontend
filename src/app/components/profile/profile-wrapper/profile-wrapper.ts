@@ -22,6 +22,9 @@ export class ProfileWrapper {
     { id: 'download', label: 'Download History' },
     { id: 'upload-history', label: 'Upload History' },
   ];
+  uploadService: any;
+  message: any;
+  categories: any;
 
   selectTab(tabId: string): void {
     this.activeTab = tabId;

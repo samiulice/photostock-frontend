@@ -80,6 +80,14 @@
       ></textarea>
     </div>
 
+    <!-- Showing Error message -->
+      <div
+        *ngIf="message"
+        class="bg-red-100 text-red-800 p-2 rounded mb-4"
+      >
+        {{ message }}
+      </div>
+
     <!-- Submit Button -->
     <div>
       <button

@@ -46,21 +46,21 @@ export class Register {
     const { confirmPassword, ...payload } = this.form;
 
     this.auth.register(payload).subscribe({
+      
       next: (res) => {
         console.log("Registration",res)
         if(res.error){
-          alert("Unable to register. Please Try again");
+          this.message=res.message
           console.log(res.message);
           return
         }
         localStorage.setItem("user", JSON.stringify(res.user));
-        // this.auth.loginSuccess(res.token)
+        this.auth.loginSuccess(res.token)
         console.log("User:",res.user)
         
       },
       error: (err: any) => {
         this.message = err.error?.message || 'Registration failed.';
-        alert(this.message);
       },
       complete: () => (this.isLoading = false),
     });

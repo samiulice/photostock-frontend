@@ -32,7 +32,7 @@ export class Login {
     this.auth.login(this.form.email, this.form.password).subscribe({
       next: (res) => {
         if (res.error) {
-          alert('Login failed: Invalid credentials');
+          this.message=res.message
           return;
         } else {
           localStorage.setItem('user', JSON.stringify(res.user));

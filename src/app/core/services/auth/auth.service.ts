@@ -32,11 +32,11 @@ export class AuthService {
 
   register(data: RegisterPayload) {
     console.log("Registration Payload",data)
-    return this.http.post<IAuth>(this.baseURL+"/signup", data);
+    return this.http.post<IAuth>(this.baseURL+"/register", data);
 
   }
 
   login(email: string, password: string) {
-    return this.http.post<IAuth>(this.baseURL+"/signin", {email, password});
+    return this.http.post<IAuth>(this.baseURL+"/login", {email, password});
     }
 }

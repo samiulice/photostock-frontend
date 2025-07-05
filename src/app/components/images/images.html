@@ -1,0 +1,44 @@
+<div
+  [ngClass]="{
+    'sticky top-0 z-40 transition-all duration-200 shadow-sm bg-zinc-900 border-b border-zinc-200 ': isScrolled,
+    'sticky top-0 z-40 transition-all duration-200 border-b bg-[#F9FAFB] border-zinc-200': !isScrolled
+  }"
+>
+  <div class="flex items-center justify-between px-3 h-12">
+    <a
+      href="https://kokonutui.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-sm font-medium text-zinc-900 shrink-0"
+    >
+      Shop
+    </a>
+
+    <div
+      class="flex-1 px-8 overflow-x-auto flex items-center justify-center gap-6 scrollbar-none"
+    >
+      <button type="button" class="whitespace-nowrap transition-colors text-sm"
+       [ngClass]="{
+          'text-zinc-900  text-sm font-medium ': selectedCategory === 'All',
+          'text-zinc-400  text-sm hover:text-zinc-900':
+            selectedCategory !== 'All'
+        }"
+      (click)="onCategorySelect('All')">
+        All
+      </button>
+      <button
+        *ngFor="let category of categories"
+        type="button"
+        class="whitespace-nowrap transition-colors text-sm"
+        [ngClass]="{
+          'text-zinc-900  text-sm font-medium ': selectedCategory === category.name,
+          'text-zinc-400  text-sm hover:text-zinc-900':
+            selectedCategory !== category.name
+        }"
+        (click)="onCategorySelect(category.name)"
+      >
+        {{category.name }}
+      </button>
+    </div>
+  </div>
+</div>

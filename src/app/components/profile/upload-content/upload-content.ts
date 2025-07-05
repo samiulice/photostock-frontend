@@ -2,48 +2,54 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UploadService } from '../../../core/services/upload/upload-service.service';
-
+import {
+  IMediaCategory,
+} from '../../../core/interfaces/content.interface';
 @Component({
   selector: 'app-upload-content',
-  standalone:true,
-  imports:[FormsModule,CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule],
+
   templateUrl: './upload-content.html',
-  styleUrl:'./upload-content.css'
+  styleUrl: './upload-content.css',
 })
-export class UploadContent implements OnInit { 
+export class UploadContent implements OnInit {
   @ViewChild('uploadForm') uploadForm!: NgForm;
-  
+  message = '';
+
+  categories: IMediaCategory[] = [];
+
   ngOnInit(): void {
-    //fetch available image categories from backend 
-     this.uploadService.getCategories().subscribe({
-    next: (res) => {
-      this.categories = res;
-    },
-    error: (err) => {
-      console.error('Failed to load categories', err);
-    }
-  });
-
- 
+    //fetch available image categories from backend
+    this.uploadService.getCategories().subscribe({
+      next: (res) => {
+        console.log('category response',res)
+        if (res.error) {
+          this.message = res.message;
+          return;
+        }
+        this.categories = res.media_categories;
+      },
+      error: (err) => {
+        console.error('Failed to load categories', err);
+      },
+    });
   }
-  categories: { id: number; name: string }[] = [];
-
 
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   title: string = '';
-  description:string="";
-  license: string = "";
-  category: string = "";
+  description: string = '';
+  license: string = '';
+  category: string = '';
 
-   resetForm(): void {
-  this.uploadForm.resetForm(); // resets form values + validation
-  this.previewUrl = null;
-  this.selectedFile = null;
-}
+  resetForm(): void {
+    this.uploadForm.resetForm(); // resets form values + validation
+    this.previewUrl = null;
+    this.selectedFile = null;
+  }
 
-
-   constructor(private uploadService: UploadService) {}
+  constructor(private uploadService: UploadService) {}
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -51,7 +57,7 @@ export class UploadContent implements OnInit {
       this.selectedFile = file;
 
       const reader = new FileReader();
-      reader.onload = () => this.previewUrl = reader.result;
+      reader.onload = () => (this.previewUrl = reader.result);
       reader.readAsDataURL(file);
     } else {
       alert('Please select a valid image file.');
@@ -60,12 +66,12 @@ export class UploadContent implements OnInit {
     }
   }
 
- onUpload(): void {
+  onUpload(): void {
     this.uploadForm.control.markAllAsTouched();
-  // Prevent upload if the form is invalid
-  if (this.uploadForm.invalid || !this.selectedFile) {
-    return;
-  }
+    // Prevent upload if the form is invalid
+    if (this.uploadForm.invalid || !this.selectedFile) {
+      return;
+    }
 
     const formData = new FormData();
     formData.append('image', this.selectedFile, this.selectedFile.name);
@@ -73,6 +79,8 @@ export class UploadContent implements OnInit {
     formData.append('description', this.description);
     formData.append('category_id', this.category);
     formData.append('license_type', this.license);
+ 
+
 
     this.uploadService.uploadImage(formData).subscribe({
       next: (res) => {
@@ -83,12 +91,7 @@ export class UploadContent implements OnInit {
       error: (err) => {
         console.error('Upload failed:', err);
         alert('Upload failed, please try again.');
-      }
+      },
     });
-
-    
   }
-  
 }
-
-

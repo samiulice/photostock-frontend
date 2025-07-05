@@ -5,6 +5,8 @@ import { AdminProfile } from './components/profile/admin-profile/admin-profile';
 import { Homepage } from './components/home/homepage/homepage';
 import { authGuardGuard } from './core/guards/auth-guard-guard';
 import { ProfileWrapper } from './components/profile/profile-wrapper/profile-wrapper';
+import { ImageWrapper } from './components/image-gallery/image-wrapper/image-wrapper';
+
 
 
 export const routes: Routes = [
@@ -13,5 +15,7 @@ export const routes: Routes = [
   { path: 'register', component: Register },
   { path: 'user/profile', component: ProfileWrapper, canActivate: [authGuardGuard]},
   { path: 'admin/profile', component: AdminProfile },
+  {path:'image',component:ImageWrapper}
+  
 ];
 
