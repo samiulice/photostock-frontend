@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Images } from './images';
+import { Images } from './images-nav';
 
 describe('Images', () => {
   let component: Images;

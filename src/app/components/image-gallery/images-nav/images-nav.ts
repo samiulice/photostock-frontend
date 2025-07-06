@@ -9,18 +9,17 @@ import { IMediaCategory } from '../../../core/interfaces/content.interface';
 
 
 @Component({
-  selector: 'app-images',
+  selector: 'app-images-nav',
   imports:[CommonModule,FormsModule],
-  templateUrl: './images.html',
-  styleUrls: ['./images.css']
+  templateUrl: './images-nav.html',
+  styleUrls: ['./images-nav.css']
 })
 
 
-export class Images implements OnInit {
+export class ImagesNav implements OnInit {
   cartItemCount: number = 0;
   isSearchOpen: boolean = false;
   selectedCategory: string='All';
-  selectedCategoryId: number=0;
   isScrolled: boolean = false;
   categories: IMediaCategory[] = [];
 
@@ -32,7 +31,7 @@ export class Images implements OnInit {
 
     constructor(private uploadService: UploadService) {}
 
-    @Output() categoryChange = new EventEmitter<string>();
+    @Output() categoryChange = new EventEmitter<IMediaCategory>();
 
 
 
@@ -53,9 +52,8 @@ export class Images implements OnInit {
     });
   }
 
-  onCategorySelect(category_id: number, category:string): void {
-    this.selectedCategoryId = category_id;
-    this.selectedCategory = category;
+  onCategorySelect(category:IMediaCategory): void {
+    this.selectedCategory = category.name;
     this.categoryChange.emit(category);
   }
 

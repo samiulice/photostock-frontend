@@ -2,27 +2,29 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IResp } from '../../interfaces/auth.interface';
 import { IMediaCategoryListResp } from '../../interfaces/content.interface';
+import { ConstService } from '../constants/const.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadService {
-  private uploadUrl = 'https://photostock-api-v1.onrender.com/api/v1';
-   // your API endpoint
+  private uploadUrl: string;
+  constructor(private http: HttpClient, private constant: ConstService) {
+    this.uploadUrl = this.constant.url;
+  }
 
-  constructor(private http: HttpClient) {}
 
 
 
   getCategories() {
     console.log("Fetching categories.....")
-    return this.http.get<IMediaCategoryListResp>(this.uploadUrl+'/categories'); // Replace with your API URL
-    
+    return this.http.get<IMediaCategoryListResp>(this.uploadUrl + '/categories'); // Replace with your API URL
+
   }
 
-  uploadImage(obj:FormData){
-    return this.http.post<IResp>(this.uploadUrl+'/media',obj)
+  uploadImage(obj: FormData) {
+    return this.http.post<IResp>(this.uploadUrl + '/media', obj)
   }
 
-  
+
 }

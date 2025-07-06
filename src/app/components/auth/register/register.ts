@@ -5,7 +5,6 @@ import { IAuth, RegisterPayload } from '../../../core/interfaces/auth.interface'
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Header } from '../../common/header/header';
-import { IUserWithID } from '../../../core/interfaces/user.interface';
 
 @Component({
   selector: 'app-register',

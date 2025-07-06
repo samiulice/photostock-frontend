@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageContainer } from '../image-container/image-container';
-import { Images } from '../images/images';
+import { ImagesNav } from '../images-nav/images-nav';
+import { IMediaCategory } from '../../../core/interfaces/content.interface';
 
 
 
 @Component({
   selector: 'app-image-wrapper',
   standalone: true,
-  imports: [CommonModule,ImageContainer,Images],
+  imports: [CommonModule,ImageContainer,ImagesNav],
   templateUrl: './image-wrapper.html'
 })
 export class ImageWrapper {
-  selectedCategory: string = 'All';
+  selectedCategory!: IMediaCategory
 
-  onCategoryChange(category: string) {
-    this.selectedCategory = category;
+  onCategoryChange(category: IMediaCategory) {
+    this.selectedCategory = category
   }
 }

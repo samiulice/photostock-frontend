@@ -9,9 +9,11 @@ export interface IMediaCategory {
 export interface IMedia {
   id: number;
   media_uuid: string;
+  media_url: string;
   media_title: string;
   description: string;
-  category_id?: number | null;
+  uploader_name: string;
+  category_id: number;
   total_earnings: number;
   license_type: number; // 0 = premium, 1 = free
   media_category: IMediaCategory;
@@ -21,4 +23,8 @@ export interface IMedia {
 
 export interface IMediaCategoryListResp extends IResp{
     media_categories:IMediaCategory[]
+}
+
+export interface IMediaListWithResp extends IResp{
+  medias:IMedia[]
 }
