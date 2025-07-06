@@ -9,11 +9,13 @@ import { ConstService } from '../constants/const.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private baseURL: string;
+  public baseURL: string;
+  private authURL: string;
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   isLoggedIn$ = this.loggedIn.asObservable();
   constructor(private http: HttpClient, private router: Router, private constant: ConstService) {
-    this.baseURL = this.constant.url + '/auth';
+    this.baseURL = this.constant.url;
+    this.authURL = this.constant.url + '/auth';
   }
 
 
@@ -35,11 +37,11 @@ export class AuthService {
 
   register(data: RegisterPayload) {
     console.log("Registration Payload", data)
-    return this.http.post<IAuth>(this.baseURL + "/register", data);
+    return this.http.post<IAuth>(this.authURL + "/register", data);
 
   }
 
   login(email: string, password: string) {
-    return this.http.post<IAuth>(this.baseURL + "/login", { email, password });
+    return this.http.post<IAuth>(this.authURL + "/login", { email, password });
   }
 }

@@ -37,7 +37,7 @@ export class ImagesNav implements OnInit {
 
   ngOnInit(): void {
     //fetch available image categories from backend
-    this.uploadService.getCategories().subscribe({
+    this.uploadService.getCategories(true).subscribe({
       next: (res: { error: any; message: any; media_categories: IMediaCategory[]; }) => {
         console.log('category response',res)
         if (res.error) {

@@ -16,9 +16,9 @@ export class UploadService {
 
 
 
-  getCategories() {
+  getCategories(isNav:boolean=false) {
     console.log("Fetching categories.....")
-    return this.http.get<IMediaCategoryListResp>(this.uploadUrl + '/categories'); // Replace with your API URL
+    return this.http.get<IMediaCategoryListResp>(this.uploadUrl + '/categories?isnav='+isNav); // Replace with your API URL
 
   }
 
