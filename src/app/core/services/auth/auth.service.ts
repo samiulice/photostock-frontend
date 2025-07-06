@@ -3,14 +3,19 @@ import { Injectable } from '@angular/core';
 import { RegisterPayload, IAuth } from '../../interfaces/auth.interface';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { ConstService } from '../constants/const.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseURL = 'https://photostock-api-v1.onrender.com/api/v1/auth'; 
+  private baseURL: string;
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   isLoggedIn$ = this.loggedIn.asObservable();
+  constructor(private http: HttpClient, private router: Router, private constant: ConstService) {
+    this.baseURL = this.constant.url + '/auth';
+  }
+
 
   loginSuccess(token: string) {
     localStorage.setItem('token', token);
@@ -28,15 +33,13 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  constructor(private http: HttpClient, private router: Router) {}
-
   register(data: RegisterPayload) {
-    console.log("Registration Payload",data)
-    return this.http.post<IAuth>(this.baseURL+"/register", data);
+    console.log("Registration Payload", data)
+    return this.http.post<IAuth>(this.baseURL + "/register", data);
 
   }
 
   login(email: string, password: string) {
-    return this.http.post<IAuth>(this.baseURL+"/login", {email, password});
-    }
+    return this.http.post<IAuth>(this.baseURL + "/login", { email, password });
+  }
 }
