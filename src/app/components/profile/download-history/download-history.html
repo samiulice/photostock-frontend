@@ -1,21 +1,103 @@
-<!-- download-history.component.html -->
-<div class="overflow-x-auto mt-4">
-  <table class="min-w-full bg-white border border-gray-200 shadow rounded-lg">
-    <thead class="bg-gray-100 text-gray-700 text-sm">
-      <tr>
-        <th class="px-4 py-2 text-left">File Name</th>
-        <th class="px-4 py-2 text-left">Type</th>
-        <th class="px-4 py-2 text-left">Downloaded At</th>
-        <th class="px-4 py-2 text-left">Size (MB)</th>
-      </tr>
-    </thead>
-    <tbody class="text-sm text-gray-600">
-      <tr *ngFor="let history of downloadHistory" class="border-t hover:bg-gray-50">
-        <td class="px-4 py-2">{{ history.fileName }}</td>
-        <td class="px-4 py-2">{{ history.fileType }}</td>
-        <td class="px-4 py-2">{{ history.downloadedAt | date : ' short' }}</td>
-        <td class="px-4 py-2">{{ history.sizeMB }}</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="p-6 max-w-7xl mx-auto">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">Download History</h2>
+
+  <div class="overflow-auto rounded-lg shadow border border-gray-200">
+    <table class="min-w-full text-sm text-left text-gray-700">
+      <thead class="bg-[#2B7FFF] text-white">
+        <tr>
+          <th class="px-4 py-3 font-semibold">File Name</th>
+          <th class="px-4 py-3 font-semibold">Category</th>
+          <th class="px-4 py-3 font-semibold">Type</th>
+          <th class="px-4 py-3 font-semibold">License</th>
+          <th class="px-4 py-3 font-semibold">Size</th>
+          <th class="px-4 py-3 font-semibold">Resolution</th>
+          <th class="px-4 py-3 font-semibold">Downloaded At</th>
+          <th class="px-4 py-3 font-semibold text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr
+          *ngFor="let item of paginatedItems"
+          class="hover:bg-blue-50 transition"
+        >
+          <td class="px-4 py-3">{{ item.fileName }}</td>
+          <td class="px-4 py-3">{{ item.category }}</td>
+          <td class="px-4 py-3">{{ item.type }}</td>
+          <td class="px-4 py-3">{{ item.license }}</td>
+          <td class="px-4 py-3">{{ item.size }}</td>
+          <td class="px-4 py-3">{{ item.resolution }}</td>
+          <td class="px-4 py-3">{{ item.downloadedAt }}</td>
+          <td class="px-4 py-3 text-center space-x-4">
+            <button
+              mat-icon-button
+              class="text-sky-600 hover:text-sky-800"
+              title="Preview"
+              aria-label="Preview"
+            >
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Preview"
+                fontIcon="visibility"
+                fontSize="small"
+              ></mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="text-emerald-600 hover:text-emerald-800"
+              title="Re-download"
+              aria-label="Download"
+            >
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Download"
+                fontIcon="download"
+                fontSize="small"
+              ></mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Custom Styled Pagination (Like Image) -->
+  <div class="mt-6 flex justify-between items-center">
+    <!-- Left text -->
+    <div class="text-sm text-gray-600 px-2">
+      Showing {{ startItemIndex }}–{{ endItemIndex }} of {{ allItems.length }}
+      items
+    </div>
+
+    <!-- Right pagination -->
+    <nav class="inline-flex border border-gray-300 rounded-md shadow-sm">
+      <button
+        (click)="prevPage()"
+        [disabled]="currentPage === 1"
+        class="px-4 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-l-md disabled:opacity-50"
+      >
+        Previous
+      </button>
+      <ng-container
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+      >
+        <button
+          (click)="changePage(i + 1)"
+          [ngClass]="{
+          'bg-blue-600 text-white': currentPage === i + 1,
+          'bg-white text-blue-600 hover:bg-blue-50': currentPage !== i + 1
+        }"
+          class="px-4 py-2 text-sm border-l border-gray-300"
+        >
+          {{ i + 1 }}
+        </button>
+      </ng-container>
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+        class="px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-100 rounded-r-md border-l border-gray-300 disabled:opacity-50"
+      >
+        Next
+      </button>
+    </nav>
+  </div>
 </div>

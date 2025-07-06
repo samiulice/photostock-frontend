@@ -1,4 +1,62 @@
-/* Optional: Basic styling if needed */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+/* checkbox wrapper */
+        .checkbox-wrapper {
+            width: 18px;
+            height: 18px;
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .checkbox-wrapper svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .checkbox-wrapper .background {
+            fill: #b6b3b3;
+            transition: ease all 0.4s;
+        }
+
+        .checkbox-wrapper .stroke {
+            fill: none;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            stroke-width: 2px;
+            stroke-dashoffset: 100;
+            stroke-dasharray: 100;
+            transition: ease all 0.4s;
+        }
+
+        .checkbox-wrapper .check {
+            fill: none;
+            stroke: #fff;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 3px;
+            stroke-dashoffset: 22;
+            stroke-dasharray: 22;
+            transition: ease all 0.4s;
+        }
+
+        .checkbox-wrapper input[type=checkbox] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            margin: 0;
+            opacity: 0;
+            appearance: none;
+            cursor:not-allowed;
+            pointer-events: none;
+        }
+
+        .checkbox-wrapper input[type=checkbox]:checked+svg .background {
+            fill: #007c40;
+            /* Matches your table header color */
+        }
+
+        .checkbox-wrapper input[type=checkbox]:checked+svg .stroke,
+        .checkbox-wrapper input[type=checkbox]:checked+svg .check {
+            stroke-dashoffset: 0;
+        }

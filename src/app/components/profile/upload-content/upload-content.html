@@ -3,54 +3,62 @@
 
   <form (ngSubmit)="onUpload()" #uploadForm="ngForm">
     <!-- File Input -->
-    <div class="mb-4">
-      <input
-        name="image"
-        type="file"
-        accept="image/*"
-        (change)="onFileSelected($event)"
-        class="block w-full border h-10 rounded-md border-gray-400 px-3 py-3"
-        required
-      />
-    </div>
+    <div class="flex gap-4">
+      <div class="w-1/2 max-h-40">
+        <div class="mb-4">
+          <input
+            name="image"
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <select
+            id="category"
+            name="category_id"
+            [(ngModel)]="category"
+            class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" disabled selected>Choose Category:</option>
+            <option *ngFor="let cat of categories" [value]="cat.id">
+              {{ cat.name }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <select
+            id="License"
+            name="license_type"
+            [(ngModel)]="license"
+            #licenseRef="ngModel"
+            required
+            class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" selected disabled>License Type:</option>
+            <option value="free">Free</option>
+            <option value="paid">Paid</option>
+          </select>
 
-    <!-- Image Preview -->
-    <div *ngIf="previewUrl" class="mb-4">
-      <img
-        [src]="previewUrl"
-        alt="Preview"
-        class="w-32 h-32 object-cover rounded border"
-      />
-    </div>
-
-    <!-- Category + License Type in one row -->
-    <div class="flex gap-4 mb-4 h-10">
-      <select
-        id="category"
-        name="category_id"
-        [(ngModel)]="category"
-        class="w-1/2 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="" disabled selected>Choose Category:</option>
-        <option *ngFor="let cat of categories" [value]="cat.id">
-          {{ cat.name }}
-        </option>
-      </select>
-
-      <select
-        id="License"
-        name="license_type"
-        [(ngModel)]="license"
-        #licenseRef="ngModel"
-        required
-        class="w-1/2 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="" selected disabled>License Type:</option>
-        <option value="free">Free</option>
-        <option value="paid">Paid</option>
-      </select>
-
-      <div  *ngIf="licenseRef.invalid && licenseRef.touched" class="text-red-500 text-sm"> License type is required</div>
+          <div
+            *ngIf="licenseRef.invalid && licenseRef.touched"
+            class="text-red-500 text-sm"
+          >
+            License type is required
+          </div>
+        </div>
+      </div>
+      <div class="w-1/2">
+  <div *ngIf="previewUrl" class="mb-4">
+    <img
+      [src]="previewUrl"
+      alt="Preview"
+      class="w-full h-[9rem] object-contain rounded border"
+    />
+  </div>
+</div>
     </div>
 
     <!-- Title -->
@@ -58,15 +66,18 @@
       <input
         name="media_title"
         type="text"
-        placeholder="Title (optional)"
+        placeholder="Give a suitable title"
         required
         #titleRef="ngModel"
         [(ngModel)]="title"
-        class="w-full px-3 py-2 border rounded h-10 border-gray-400"
+        class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <div *ngIf="titleRef.invalid && titleRef.touched" class="text-red-500 text-sm">
-  Title is required.
-</div>
+      <div
+        *ngIf="titleRef.invalid && titleRef.touched"
+        class="text-red-500 text-sm"
+      >
+        Title is required.
+      </div>
     </div>
 
     <!-- Description -->
@@ -76,17 +87,14 @@
         rows="6"
         placeholder="Description (optional)"
         [(ngModel)]="description"
-        class="w-full px-3 py-2 border rounded border-gray-400 h-20 resize-none"
+        class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
       ></textarea>
     </div>
 
     <!-- Showing Error message -->
-      <div
-        *ngIf="message"
-        class="bg-red-100 text-red-800 p-2 rounded mb-4"
-      >
-        {{ message }}
-      </div>
+    <div *ngIf="message" class="bg-red-100 text-red-800 p-2 rounded mb-4">
+      {{ message }}
+    </div>
 
     <!-- Submit Button -->
     <div>

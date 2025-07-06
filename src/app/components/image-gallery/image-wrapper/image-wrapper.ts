@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageContainer } from '../image-container/image-container';
-import { Images } from '../../images/images';
+import { Images } from '../images/images';
 
 
 

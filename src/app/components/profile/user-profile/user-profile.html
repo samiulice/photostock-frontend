@@ -11,28 +11,28 @@
             class="bg-[#1A73E8] text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors"
           >
             <mat-icon
-              aria-hidden="false" class="pt-1"
+              aria-hidden="false"
+              class="pt-1"
               aria-label="Example home icon"
               fontIcon="edit"
             ></mat-icon>
             Edit Profile
           </button>
           <button
-          (click)="logout()"
+            (click)="logout()"
             id="logoutBtn"
-            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors"
+            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
           >
-          <span>
-            
-          </span>
+            <span> </span>
             <mat-icon
-              aria-hidden="false" class="pt-1"
+              aria-hidden="false"
+              class="pt-1"
               aria-label="logout button"
               fontIcon="logout"
             ></mat-icon>
             Logout
           </button>
-          
+
           <button
             id="saveBtn"
             class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors hidden"
@@ -49,30 +49,55 @@
       </div>
 
       <!-- Profile Section -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center">
         <!-- Profile Photo & Basic Info -->
         <div class="md:col-span-1">
           <div class="text-center">
-            <div class="relative inline-block">
+            <div class="relative inline-block items-center justify-center ">
               <img
                 id="profilePhoto"
                 [src]="user.avatar_url || 'images/user.jpg'"
                 alt="Profile Photo"
-                class="w-32 h-32 rounded-full border-1 border-teal-custom shadow-lg"
+                class="w-32 h-32 rounded-full border-1 border-teal-custom  shadow-lg"
               />
+              <div class="mt-4 flex justify-center gap-2 items-center">
+                <div
+                  class="checkbox-wrapper"
+                  style="margin-bottom: 2px ;margin-top: 3px;"
+                >
+                  <input
+                    type="checkbox"
+                    id="row-selector"
+                    class="row-checkbox"
+                   [checked]="user.status === true"
+                  />
+                  <svg viewBox="0 0 35.6 35.6">
+                    <circle
+                      class="background"
+                      cx="17.8"
+                      cy="17.8"
+                      r="17.8"
+                    ></circle>
+                    <circle
+                      class="stroke"
+                      cx="17.8"
+                      cy="17.8"
+                      r="14.37"
+                    ></circle>
+                    <polyline
+                      class="check"
+                      points="11.78 18.12 15.55 22.23 25.17 12.87"
+                    ></polyline>
+                  </svg>
+                </div>
+                {{user.name}}
+              </div>
               <button
                 id="changePhotoBtn"
                 class="absolute bottom-0 right-0 bg-teal-custom text-white rounded-full w-8 h-8 items-center justify-center hover:bg-teal-600 transition-colors hidden"
               >
                 📷
               </button>
-            </div>
-            <div class="mt-4">
-              <span
-                id="statusBadge"
-                class="inline-block mt-2 px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"
-                >Active User</span
-              >
             </div>
           </div>
         </div>
@@ -184,8 +209,8 @@
 
     <!-- History Tables -->
     <!-- <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"> -->
-      <!-- Photo History -->
-      <!-- <div class="bg-white rounded-lg shadow-lg p-6">
+    <!-- Photo History -->
+    <!-- <div class="bg-white rounded-lg shadow-lg p-6">
         <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
           🖼️ Photo History
         </h3>

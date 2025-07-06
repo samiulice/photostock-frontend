@@ -1,8 +1,8 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UploadService } from '../../core/services/upload/upload-service.service';
-import { IMediaCategory } from '../../core/interfaces/content.interface';
+import { UploadService } from '../../../core/services/upload/upload-service.service';
+import { IMediaCategory } from '../../../core/interfaces/content.interface';
 
 
 
@@ -20,6 +20,7 @@ export class Images implements OnInit {
   cartItemCount: number = 0;
   isSearchOpen: boolean = false;
   selectedCategory: string='All';
+  selectedCategoryId: number=0;
   isScrolled: boolean = false;
   categories: IMediaCategory[] = [];
 
@@ -52,7 +53,8 @@ export class Images implements OnInit {
     });
   }
 
-  onCategorySelect(category: string): void {
+  onCategorySelect(category_id: number, category:string): void {
+    this.selectedCategoryId = category_id;
     this.selectedCategory = category;
     this.categoryChange.emit(category);
   }

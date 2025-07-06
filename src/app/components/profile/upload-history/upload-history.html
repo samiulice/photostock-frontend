@@ -1,49 +1,105 @@
- <!-- Upload History -->
-      <div class="bg-white rounded-lg shadow-lg p-6">
-        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-          ⬆️ Upload History
-        </h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="border-b">
-                <th class="text-left py-2">File</th>
-                <th class="text-left py-2">Size</th>
-                <th class="text-left py-2">Status</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y">
-              <tr>
-                <td class="py-2">portfolio_01.jpg</td>
-                <td class="py-2">2.4 MB</td>
-                <td class="py-2">
-                  <span
-                    class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs"
-                    >Success</span
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td class="py-2">landscape_02.jpg</td>
-                <td class="py-2">3.1 MB</td>
-                <td class="py-2">
-                  <span
-                    class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs"
-                    >Success</span
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td class="py-2">abstract_03.jpg</td>
-                <td class="py-2">1.8 MB</td>
-                <td class="py-2">
-                  <span
-                    class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs"
-                    >Processing</span
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+<div class="p-6 max-w-7xl mx-auto">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">Upload History</h2>
+
+  <div class="overflow-auto rounded-lg shadow border border-gray-200">
+    <table class="min-w-full text-sm text-left text-gray-700">
+      <thead class="bg-[#2B7FFF] text-white">
+        <tr>
+          <th class="px-4 py-3 font-semibold">File Name</th>
+          <th class="px-4 py-3 font-semibold">Category</th>
+          <th class="px-4 py-3 font-semibold">Type</th>
+          <th class="px-4 py-3 font-semibold">License</th>
+          <th class="px-4 py-3 font-semibold">Size</th>
+          <th class="px-4 py-3 font-semibold">Resolution</th>
+          <th class="px-4 py-3 font-semibold ">Total Download</th>
+          <th class="px-4 py-3 font-semibold">Uploaded At</th>
+          <th class="px-4 py-3 font-semibold text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr
+          *ngFor="let item of paginatedItems"
+          class="hover:bg-blue-50 transition"
+        >
+          <td class="px-4 py-3">{{ item.fileName }}</td>
+          <td class="px-4 py-3">{{ item.category }}</td>
+          <td class="px-4 py-3">{{ item.type }}</td>
+          <td class="px-4 py-3">{{ item.license }}</td>
+          <td class="px-4 py-3">{{ item.size }}</td>
+          <td class="px-4 py-3">{{ item.resolution }}</td>
+          <td class="px-4 py-3 text-center">{{ item.totalDownload }}</td>
+          <td class="px-4 py-3">{{ item.uploadedAt }}</td>
+          <td class="px-4 py-3 text-center space-x-4">
+            <button
+              mat-icon-button
+              class="text-sky-600 hover:text-sky-800"
+              title="Preview"
+              aria-label="Preview"
+            >
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Preview"
+                fontIcon="visibility"
+                fontSize="small"
+              ></mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="text-emerald-600 hover:text-emerald-800"
+              title="Re-Upload"
+              aria-label="Upload"
+            >
+              <mat-icon
+                aria-hidden="false"
+                aria-label="edit"
+                fontIcon="edit"
+                fontSize="small"
+              ></mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Custom Styled Pagination (Like Image) -->
+  <div class="mt-6 flex justify-between items-center">
+    <!-- Left text -->
+    <div class="text-sm text-gray-600 px-2">
+      Showing {{ startItemIndex }}–{{ endItemIndex }} of {{ allItems.length }}
+      items
+    </div>
+
+    <!-- Right pagination -->
+    <nav class="inline-flex border border-gray-300 rounded-md shadow-sm">
+      <button
+        (click)="prevPage()"
+        [disabled]="currentPage === 1"
+        class="px-4 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-l-md disabled:opacity-50"
+      >
+        Previous
+      </button>
+      <ng-container
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+      >
+        <button
+          (click)="changePage(i + 1)"
+          [ngClass]="{
+          'bg-blue-600 text-white': currentPage === i + 1,
+          'bg-white text-blue-600 hover:bg-blue-50': currentPage !== i + 1
+        }"
+          class="px-4 py-2 text-sm border-l border-gray-300"
+        >
+          {{ i + 1 }}
+        </button>
+      </ng-container>
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+        class="px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-100 rounded-r-md border-l border-gray-300 disabled:opacity-50"
+      >
+        Next
+      </button>
+    </nav>
+  </div>
+</div>
