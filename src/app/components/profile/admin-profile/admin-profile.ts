@@ -22,7 +22,7 @@ export class AdminProfile implements OnInit {
     email: "sarah.johnson@example.com",
     phone: "+1 (555) 123-4567",
     location: "San Francisco, CA",
-    avatar: "/placeholder.svg?height=100&width=100",
+    avatar: "",
     joinDate: "January 2023",
   }
 
