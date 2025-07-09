@@ -3,7 +3,7 @@
   <!-- Hero Section -->
   <section class="relative  my-5">
     <img
-      src="images/banner.jpg"
+      [src]="baseURL+'/images/banner.jpg'"
       alt="Mountain landscape"
       class="w-full h-145 object-cover"
     />
@@ -15,10 +15,7 @@
         <p class="text-xl mb-8">
           Millions of high-quality royalty-free images for your next project
         </p>
-        <a
-          href="search.html"
-          class="bg-white text-[#45469a] font-medium px-8 py-3 rounded-lg hover:bg-gray-100"
-        >
+        <a routerLink="/image"  class="bg-white text-[#45469a] font-medium px-8 py-3 rounded-lg hover:bg-gray-100" >
           Browse Images
         </a>
       </div>
@@ -30,84 +27,20 @@
   <!-- Categories -->
   <section class="container mx-auto my-10 px-8 md:px-25 mb-16">
     <h2 class="text-3xl mb-6 text-center">Popular Categories</h2>
-    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 my-10">
-      <div class="relative rounded-xl overflow-hidden h-40">
+    <div   class="grid grid-cols-2 md:grid-cols-6 gap-4 my-10">
+      <div *ngFor='let cat of categories' class="relative rounded-xl overflow-hidden h-40">
         <img
-          src="images/Nature/nature-banner.jpg"
+         [src]="cat.thumbnail_url"
           alt="Nature"
           class="w-full h-full object-cover"
         />
         <div
           class="absolute inset-0 bg-black/40 flex items-center justify-center"
         >
-          <span class="text-white font-semibold text-xl">Nature</span>
+          <span class="text-white font-semibold text-xl">{{cat.name}}</span>
         </div>
       </div>
-      <div class="relative rounded-xl overflow-hidden h-40">
-        <img
-          src="images/Business/business-banner.jpg"
-          alt="Business"
-          class="w-full h-full object-cover"
-        />
-        <div
-          class="absolute inset-0 bg-black/40 flex items-center justify-center"
-        >
-          <span class="text-white font-semibold text-xl">Business</span>
-        </div>
-      </div>
-
-      <div class="relative rounded-xl overflow-hidden h-40">
-        <img
-          src="images/Food/food-banner.jpg"
-          alt="Food"
-          class="w-full h-full object-cover"
-        />
-        <div
-          class="absolute inset-0 bg-black/40 flex items-center justify-center"
-        >
-          <span class="text-white font-semibold text-xl">Food</span>
-        </div>
-      </div>
-
-      <div class="relative rounded-xl overflow-hidden h-40">
-        <img
-          src="images/Technology/technology-banner.jpg"
-          alt="Technology"
-          class="w-full h-full object-cover"
-        />
-        <div
-          class="absolute inset-0 bg-black/40 flex items-center justify-center"
-        >
-          <span class="text-white font-semibold text-xl">Technology</span>
-        </div>
-      </div>
-
-      <div class="relative rounded-xl overflow-hidden h-40">
-        <img
-          src="images/People/people-banner.jpg"
-          alt="People"
-          class="w-full h-full object-cover"
-        />
-        <div
-          class="absolute inset-0 bg-black/40 flex items-center justify-center"
-        >
-          <span class="text-white font-semibold text-xl">People</span>
-        </div>
-      </div>
-      <div class="relative rounded-xl overflow-hidden h-40">
-        <img
-          src="images/Travel/travel-banner.jpg"
-          alt="Travel"
-          class="w-full h-full object-cover"
-        />
-        <div
-          class="absolute inset-0 bg-black/40 flex items-center justify-center"
-        >
-          <span class="text-white font-semibold text-xl">Travel</span>
-        </div>
-      </div>
-
-      <!-- Repeat for other categories -->
+    
     </div>
   </section>
 
@@ -138,9 +71,9 @@
           </div>
         </div>
       </div>
-      <!-- Repeat for other trending images -->
+      <-- Repeat for other trending images -->
     <!-- </div>
-  </section> -->
+  </section>  --> 
 
   <!-- CTA -->
   <!-- <section class="bg-stock-blue text-white py-16">

@@ -1,0 +1,31 @@
+<div class="max-w-2xl mx-auto mt-10 bg-white p-6 rounded shadow">
+  <img [src]="image?.url" alt="Image" class="w-full mb-4 rounded" />
+
+  <p class="mb-6 text-gray-700">{{ image?.description }}</p>
+
+  <ng-container *ngIf="image">
+    <button
+      *ngIf="canDownload()"
+      class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+      (click)="downloadImage()"
+    >
+      Download Image
+    </button>
+
+    <div *ngIf="!canDownload()" class="space-y-4">
+      <button
+        class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded"
+        (click)="downloadImage(true)"
+      >
+        Download With Watermark
+      </button>
+
+      <a
+        routerLink="/pricing"
+        class="inline-block text-blue-600 underline"
+      >
+        Buy a Plan to Download Full Image
+      </a>
+    </div>
+  </ng-container>
+</div>

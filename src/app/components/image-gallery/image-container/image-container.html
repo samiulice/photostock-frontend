@@ -1,5 +1,5 @@
-<div *ngFor="let img of images" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-  <div class="image-card overflow-hidden rounded-lg shadow-sm hover:shadow-md bg-white">
+<div  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+  <div *ngFor="let img of images" class="image-card overflow-hidden rounded-lg shadow-sm hover:shadow-md bg-white">
     <a class="block relative"
       [href]="img.id"><img [src]="img.media_url"
         [alt]="img.media_title" class="w-full h-56 object-cover">
@@ -11,12 +11,12 @@
       </div>
     </a>
     <div class="p-3 flex justify-between items-center">
-      <span class="text-xs text-gray-500">542 Downloads</span>
+      <span class="text-xs text-gray-500">{{img.total_downloads}} Downloads</span>
     </div>
   </div>
   
 </div>
-<div *ngIf="images.length == 0">
+<div *ngIf="images &&  images.length == 0">
   <h3>No image available</h3>
 </div>
 

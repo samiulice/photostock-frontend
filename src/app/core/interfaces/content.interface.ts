@@ -5,6 +5,7 @@ export interface IMediaCategory {
   name: string;
   created_at: Date;
   updated_at: Date;
+  thumbnail_url: string;
 }
 export interface IMedia {
   id: number;
@@ -16,6 +17,7 @@ export interface IMedia {
   category_id: number;
   total_earnings: number;
   license_type: number; // 0 = premium, 1 = free
+  total_downloads:number;
   media_category: IMediaCategory;
   created_at: Date;
   updated_at: Date;

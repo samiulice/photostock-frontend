@@ -44,4 +44,9 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http.post<IAuth>(this.authURL + "/login", { email, password });
   }
+
+  getUserSubscription(): 'none' | 'basic' | 'premium' {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    return user?.subscription || 'none';
+}
 }
