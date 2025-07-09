@@ -1,5 +1,5 @@
 @import "tailwindcss";
-html, body { height: 100%; }
+/* html, body { height: 100%; }
 body { margin: 0; font-family: sans-serif, "Helvetica Neue", sans-serif; }
 
 button:hover{
@@ -7,4 +7,4 @@ button:hover{
 }
 a:hover {
     transition: all .3s ease-in-out;
-}
+} */

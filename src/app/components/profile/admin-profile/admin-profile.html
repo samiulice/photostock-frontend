@@ -1,38 +1,574 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
-    <h2 class="text-2xl font-bold mb-4 text-center">Admin Profile</h2>
-    
-    <div class="grid gap-4">
-      <div>
-        <label class="block text-gray-700 font-semibold">Name:</label>
-        <p class="text-gray-800">{{ admin.name }}</p>
+<div class="min-h-screen">
+  <div class="container mx-auto px-3 py-4 max-w-5xl">
+    <!-- Header -->
+    <div class="mb-4">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">Account Settings</h1>
+          <p class="text-1xl text-gray-600 mt-0.5">Manage your profile and subscription</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <span [class]="'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ' + getStatusColor(subscription.status)">
+            <svg class="w-6 h-6 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {{ subscription.plan }} Plan
+          </span>
+        </div>
       </div>
-      
-      <div>
-        <label class="block text-gray-700 font-semibold">Email:</label>
-        <p class="text-gray-800">{{ admin.email }}</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="space-y-4">
+      <div class="grid grid-cols-5 h-9 bg-gray-100 rounded-lg p-1">
+        <button 
+          *ngFor="let tab of ['profile', 'subscription', 'categories', 'billing', 'settings']"
+          (click)="onTabChange(tab)"
+          [class]="'flex items-center justify-center space-x-1 text-xs rounded-md transition-colors ' + 
+                   (activeTab === tab ? 'bg-white shadow-sm' : 'hover:bg-gray-200')"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path *ngIf="tab === 'profile'" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+            <path *ngIf="tab === 'subscription'" d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+            <path *ngIf="tab === 'categories'" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+            <path *ngIf="tab === 'billing'" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"/>
+            <path *ngIf="tab === 'settings'" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+          </svg>
+          <span class="capitalize">{{ tab === 'subscription' ? 'Plans' : tab }}</span>
+        </button>
       </div>
 
-      <div>
-        <label class="block text-gray-700 font-semibold">Phone:</label>
-        <p class="text-gray-800">{{ admin.phone }}</p>
+      <!-- Profile Tab -->
+      <div *ngIf="activeTab === 'profile'" class="space-y-4">
+        <div class="bg-white rounded-lg  border border-gray-200 "> 
+          <div class="p-4 ">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-lg font-semibold">Personal Information</h3>
+                <p class="text-sm text-gray-600">Update your personal details</p>
+              </div>
+              <button 
+                (click)="toggleEdit()"
+                [class]="'flex items-center space-x-1 px-3 py-1.5 text-xs rounded-md border border-gray-200 transition-colors ' + 
+                         (isEditing ? 'border border-gray-200-gray-300 bg-white hover:bg-gray-50' : 'bg-blue-600 text-white hover:bg-blue-700 border border-gray-200-blue-600')"
+              >
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path *ngIf="isEditing" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                  <path *ngIf="!isEditing" d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+                </svg>
+                <span>{{ isEditing ? 'Save' : 'Edit' }}</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="p-4 space-y-4">
+            <form [formGroup]="profileForm">
+              <div class="flex items-center space-x-4 mb-4">
+                <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                  <img 
+                    [src]="userProfile.avatar || '/placeholder.svg?height=64&width=64'" 
+                    [alt]="userProfile.name"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-base font-semibold text-gray-900">{{ userProfile.name }}</h3>
+                  <p class="text-sm text-gray-600">Member since {{ userProfile.joinDate }}</p>
+                  <button 
+                    *ngIf="isEditing"
+                    class="mt-1 px-2 py-1 text-xs border border-gray-200 rounded-md hover:bg-gray-50"
+                  >
+                    Change Photo
+                  </button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Full Name</label>
+                  <div class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                    </svg>
+                    <input 
+                      formControlName="name"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Email Address</label>
+                  <div class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                    </svg>
+                    <input 
+                      formControlName="email"
+                      type="email"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Phone Number</label>
+                  <div class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                    </svg>
+                    <input 
+                      formControlName="phone"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Location</label>
+                  <div class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"/>
+                    </svg>
+                    <input 
+                      formControlName="location"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label class="block text-gray-700 font-semibold">Role:</label>
-        <p class="text-gray-800">{{ admin.role }}</p>
+      <!-- Subscription Tab -->
+      <div *ngIf="activeTab === 'subscription'" class="space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-lg font-semibold">Subscription Plans</h2>
+            <p class="text-sm text-gray-600">Manage your subscription plans</p>
+          </div>
+          <button 
+            (click)="showCreatePlan = true"
+            class="flex items-center space-x-1 px-3 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5z"/>
+            </svg>
+            <span>Create Plan</span>
+          </button>
+        </div>
+
+        <!-- Create Plan Form -->
+        <div *ngIf="showCreatePlan" class="bg-white rounded-lg shadow-sm border border-gray-200 mb-10">
+          <div class="p-4 ">
+            <h3 class="text-lg font-semibold">Create New Plan</h3>
+            <p class="text-sm text-gray-600">Add a new subscription plan</p>
+          </div>
+          
+          <div class="p-4">
+            <form [formGroup]="planForm" class="space-y-3">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Plan Name</label>
+                  <input 
+                    formControlName="name"
+                    placeholder="e.g., Premium"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
+                </div>
+                
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Price</label>
+                  <input 
+                    formControlName="price"
+                    type="number"
+                    placeholder="29.99"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
+                </div>
+                
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Billing Interval</label>
+                  <select 
+                    formControlName="interval"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  >
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
+                </div>
+                
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Category</label>
+                  <select 
+                    formControlName="category"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  >
+                    <option value="">Select Category</option>
+                    <option *ngFor="let cat of categories" [value]="cat.name.toLowerCase()">
+                      {{ cat.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label class="text-xs font-medium text-gray-700">Features</label>
+                <div formArrayName="features">
+                  <div *ngFor="let feature of planFeatures.controls; let i = index" class="flex items-center space-x-2 mb-2">
+                    <input 
+                      [formControlName]="i"
+                      placeholder="Enter feature"
+                      class="h-8 text-sm border border-gray-200 rounded px-2 flex-1"
+                    />
+                    <button 
+                      *ngIf="planFeatures.length > 1"
+                      type="button"
+                      (click)="removeFeature(i)"
+                      class="h-8 w-8 p-0 text-red-600 border border-gray-200 rounded hover:bg-red-50"
+                    >
+                      <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <button 
+                  type="button"
+                  (click)="addFeature()"
+                  class="text-xs h-7 px-3 py-1 border border-gray-200 rounded hover:bg-gray-50"
+                >
+                  Add Feature
+                </button>
+              </div>
+
+              <div class="flex space-x-2 pt-2">
+                <button 
+                  type="button"
+                  (click)="createPlan()"
+                  class="text-xs px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Create Plan
+                </button>
+                <button 
+                  type="button"
+                  (click)="cancelPlanCreation()"
+                  class="text-xs px-3 py-1.5 border border-gray-200 rounded hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Plans List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+          <div *ngFor="let plan of plans" class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-4 ">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h4 class="text-base font-semibold">{{ plan.name }}</h4>
+                  <p class="text-sm text-gray-600 capitalize">{{ plan.category }}</p>
+                </div>
+                <span [class]="'inline-flex px-2 py-1 text-xs rounded-full ' + 
+                               (plan.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800')">
+                  {{ plan.status }}
+                </span>
+              </div>
+            </div>
+            
+            <div class="p-4 space-y-3">
+              <div class="text-center">
+                <span class="text-2xl font-bold">${{ plan.price }}</span>
+                <span class="text-sm text-gray-600">/{{ plan.interval }}</span>
+              </div>
+
+              <ul class="space-y-1">
+                <li *ngFor="let feature of plan.features" class="flex items-center space-x-2">
+                  <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                  </svg>
+                  <span class="text-xs text-gray-700">{{ feature }}</span>
+                </li>
+              </ul>
+
+              <div class="flex space-x-2 pt-2">
+                <button class="text-xs flex-1 px-2 py-1.5 border border-gray-200 rounded hover:bg-gray-50">
+                  Edit
+                </button>
+                <button class="text-xs px-2 py-1.5 text-red-600 border border-gray-200 rounded hover:bg-red-50">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label class="block text-gray-700 font-semibold">Permissions:</label>
-        <ul class="list-disc list-inside text-gray-800">
-          <li *ngFor="let permission of admin.permissions">{{ permission }}</li>
-        </ul>
+      <!-- Categories Tab -->
+      <div *ngIf="activeTab === 'categories'" class="space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-lg font-semibold">Category Management</h2>
+            <p class="text-sm text-gray-600">Manage subscription plan categories</p>
+          </div>
+          <button 
+            (click)="showCreateCategory = true"
+            class="flex items-center space-x-1 px-3 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+            </svg>
+            <span>Add Category</span>
+          </button>
+        </div>
+
+        <!-- Create Category Form -->
+        <div *ngIf="showCreateCategory" class="bg-white rounded-lg shadow-sm border border-gray-200">
+          <div class="p-4 ">
+            <h3 class="text-lg font-semibold">Create New Category</h3>
+            <p class="text-sm text-gray-600">Add a new plan category with thumbnail</p>
+          </div>
+          
+          <div class="p-4">
+            <form [formGroup]="categoryForm" class="space-y-3">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Category Name</label>
+                  <input 
+                    formControlName="name"
+                    placeholder="e.g., Professional"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
+                </div>
+                
+                <div class="space-y-1">
+                  <label class="text-xs font-medium text-gray-700">Description</label>
+                  <input 
+                    formControlName="description"
+                    placeholder="Brief description of the category"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
+                </div>
+              </div>
+
+              <!-- Image Upload Section -->
+              <div class="space-y-2">
+                <label class="text-xs font-medium text-gray-700">Category Thumbnail</label>
+                <div class="flex items-start space-x-4">
+                  <!-- Image Preview -->
+                  <div class="flex-shrink-0">
+                    <div *ngIf="imagePreview; else noImage" class="relative">
+                      <img 
+                        [src]="imagePreview" 
+                        alt="Category preview"
+                        class="w-20 h-20 object-cover rounded-lg border border-gray-200-2 border border-gray-200-gray-200"
+                      />
+                      <button 
+                        type="button"
+                        (click)="removeImage()"
+                        class="absolute -top-2 -right-2 h-6 w-6 p-0 rounded-full bg-red-500 text-white hover:bg-red-600 border border-gray-200-red-500"
+                      >
+                        <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <ng-template #noImage>
+                      <div class="w-20 h-20 border border-gray-200-2 border border-gray-200-dashed border border-gray-200-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                        <div class="text-center">
+                          <svg class="w-6 h-6 text-gray-400 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                          </svg>
+                          <p class="text-xs text-gray-500">No image</p>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+
+                  <!-- Upload Controls -->
+                  <div class="flex-1 space-y-2">
+                    <div class="flex items-center space-x-2">
+                      <input 
+                        type="file" 
+                        #fileInput
+                        accept="image/*"
+                        (change)="onImageUpload($event)"
+                        class="hidden"
+                      />
+                      <button 
+                        type="button"
+                        (click)="fileInput.click()"
+                        class="text-xs h-7 px-3 py-1 border border-gray-200 rounded hover:bg-gray-50"
+                      >
+                        Choose Image
+                      </button>
+                      <button 
+                        *ngIf="imagePreview"
+                        type="button"
+                        (click)="removeImage()"
+                        class="text-xs h-7 px-3 py-1 text-red-600 border border-gray-200 rounded hover:bg-red-50"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <p class="text-xs text-gray-500">
+                      Upload a square image (recommended: 200x200px). Supports JPG, PNG, GIF.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex space-x-2 pt-2">
+                <button 
+                  type="button"
+                  (click)="createCategory()"
+                  class="text-xs px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Create Category
+                </button>
+                <button 
+                  type="button"
+                  (click)="cancelCategoryCreation()"
+                  class="text-xs px-3 py-1.5 border border-gray-200 rounded hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Categories List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div *ngFor="let category of categories" class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-4 ">
+              <div class="flex items-start space-x-3">
+                <img 
+                  [src]="category.image || '/placeholder.svg?height=60&width=60'"
+                  [alt]="category.name"
+                  class="w-12 h-12 object-cover rounded-lg border border-gray-200 flex-shrink-0"
+                />
+                <div class="flex-1 min-w-0">
+                  <h4 class="text-base font-semibold truncate">{{ category.name }}</h4>
+                  <p class="text-sm text-gray-600 line-clamp-2">{{ category.description }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Plans in category:</span>
+                <span class="font-medium">{{ category.planCount }}</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Created:</span>
+                <span class="font-medium">{{ category.createdDate }}</span>
+              </div>
+
+              <div class="flex space-x-2 pt-2">
+                <button class="text-xs flex-1 px-2 py-1.5 border border-gray-200 rounded hover:bg-gray-50">
+                  Edit
+                </button>
+                <button class="text-xs px-2 py-1.5 text-red-600 border border-gray-200 rounded hover:bg-red-50">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label class="block text-gray-700 font-semibold">Total Users Managed:</label>
-        <p class="text-gray-800">{{ admin.totalUsers }}</p>
+      <!-- Billing Tab -->
+      <div *ngIf="activeTab === 'billing'" class="space-y-4">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+          <div class="p-4 ">
+            <h3 class="text-lg font-semibold flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"/>
+              </svg>
+              <span>Payment Methods</span>
+            </h3>
+            <p class="text-sm text-gray-600">Manage your payment methods</p>
+          </div>
+          
+          <div class="p-4 space-y-3">
+            <div *ngFor="let method of paymentMethods" class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-5 bg-gradient-to-r from-blue-600 to-blue-700 rounded flex items-center justify-center">
+                  <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm font-medium">{{ method.brand }} ending in {{ method.last4 }}</p>
+                  <p class="text-xs text-gray-600">Expires {{ method.expiryMonth }}/{{ method.expiryYear }}</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span *ngIf="method.isDefault" class="inline-flex px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">
+                  Default
+                </span>
+                <button class="text-xs h-7 px-2 py-1 border border-gray-200 rounded hover:bg-gray-50">
+                  Edit
+                </button>
+                <button class="text-red-600 h-7 w-7 p-0 border border-gray-200 rounded hover:bg-red-50">
+                  <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <button class="w-full h-8 text-xs border border-gray-200 rounded hover:bg-gray-50 flex items-center justify-center space-x-2">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"/>
+              </svg>
+              <span>Add New Payment Method</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div *ngIf="activeTab === 'settings'" class="space-y-4">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+          <div class="p-4 ">
+            <h3 class="text-lg font-semibold flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5z"/>
+              </svg>
+              <span>Notifications</span>
+            </h3>
+            <p class="text-sm text-gray-600">Configure your notification preferences</p>
+          </div>
+          
+          <div class="p-4 space-y-3">
+            <div *ngFor="let setting of [
+              { label: 'Email notifications', description: 'Receive updates via email' },
+              { label: 'Billing alerts', description: 'Get notified about billing and payments' },
+              { label: 'Product updates', description: 'Stay informed about new features' },
+              { label: 'Marketing emails', description: 'Receive promotional content' }
+            ]" class="flex items-center justify-between py-1">
+              <div>
+                <p class="text-sm font-medium">{{ setting.label }}</p>
+                <p class="text-xs text-gray-600">{{ setting.description }}</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border border-gray-200-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border border-gray-200-gray-300 after:border border-gray-200 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
