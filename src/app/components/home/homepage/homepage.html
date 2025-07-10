@@ -3,11 +3,11 @@
   <!-- Hero Section -->
   <section class="relative  my-5">
     <img
-      [src]="baseURL+'/images/banner.jpg'"
+      [src]="baseURL+'/images/banner/banner.jpg'"
       alt="Mountain landscape"
       class="w-full h-145 object-cover"
     />
-    <div class="absolute inset-0 flex items-center justify-center bg-black/30">
+    <div class="absolute inset-0 flex items-center justify-center bg-black/35">
       <div class="text-center text-white max-w-2xl px-4">
         <h1 class="text-4xl md:text-5xl font-bold mb-4">
           Discover Amazing Stock Photos
@@ -29,16 +29,18 @@
     <h2 class="text-3xl mb-6 text-center">Popular Categories</h2>
     <div   class="grid grid-cols-2 md:grid-cols-6 gap-4 my-10">
       <div *ngFor='let cat of categories' class="relative rounded-xl overflow-hidden h-40">
-        <img
+        <a [routerLink]="['/image']" [queryParams]="{ id: cat.id, name: cat.name}">
+          <img
          [src]="cat.thumbnail_url"
-          alt="Nature"
+          [alt]="cat.name"
           class="w-full h-full object-cover"
         />
         <div
-          class="absolute inset-0 bg-black/40 flex items-center justify-center"
+          class="absolute inset-0 bg-black/20 flex items-center justify-center hover:bg-black/50"
         >
-          <span class="text-white font-semibold text-xl">{{cat.name}}</span>
+          <span class="text-white font-bold text-xl">{{cat.name}}</span>
         </div>
+      </a>
       </div>
     
     </div>

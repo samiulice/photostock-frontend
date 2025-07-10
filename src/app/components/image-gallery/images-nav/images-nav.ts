@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UploadService } from '../../../core/services/upload/upload-service.service';
 import { IMediaCategory } from '../../../core/interfaces/content.interface';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -29,13 +30,15 @@ export class ImagesNav implements OnInit {
 
   message: any;
 
-    constructor(private uploadService: UploadService) {}
+    constructor(private uploadService: UploadService, private route:ActivatedRoute) {}
 
     @Output() categoryChange = new EventEmitter<IMediaCategory>();
 
 
 
   ngOnInit(): void {
+    
+
     //fetch available image categories from backend
     this.uploadService.getCategories(true).subscribe({
       next: (res: { error: any; message: any; media_categories: IMediaCategory[]; }) => {
@@ -50,6 +53,22 @@ export class ImagesNav implements OnInit {
         console.error('Failed to load categories', err);
       },
     });
+
+    //read query param for category id and name
+    let id = 0;
+    let name = "All"
+    this.route.queryParams.subscribe((params) => {
+      const i = params['id'];
+      const n = params['name'];
+
+      if(i && n){
+        id = parseInt(i);
+        name = n
+        this.selectedCategory = name
+      }
+    });
+
+    console.log("Query: ", id, name)
   }
 
   onCategorySelect(category:IMediaCategory): void {

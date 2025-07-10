@@ -5,6 +5,7 @@ import {
   IMediaCategory,
 } from '../../../core/interfaces/content.interface';
 import { ContentService } from '../../../core/services/content/content.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-image-container',
@@ -14,11 +15,24 @@ import { ContentService } from '../../../core/services/content/content.service';
 })
 export class ImageContainer implements OnInit {
   @Input() category!: IMediaCategory;
-  constructor(private content: ContentService) {}
+  constructor(private content: ContentService, private route: ActivatedRoute) {}
   images: IMedia[] = [];
   imageCount: number = 0;
   ngOnInit(): void {
-    this.loadImagesByCategory(0, 'All');
+    //read query param for category id and name
+    let id = 0;
+    let name = "All"
+    this.route.queryParams.subscribe((params) => {
+      const i = params['id'];
+      const n = params['name'];
+
+      if(i && n){
+        id = parseInt(i);
+        name = n
+      }
+    });
+
+    this.loadImagesByCategory(id, name);
   }
   ngOnChanges() {
     console.log(this.category.id, this.category.name);

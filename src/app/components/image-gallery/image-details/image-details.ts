@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, RouterModule } from "@angular/router";
 import { ImageService } from "../../../core/services/image/image.service";
 import { AuthService } from "../../../core/services/auth/auth.service";
+import { ConstService } from "../../../core/services/constants/const.service";
 
 export interface ImageData {
   id: string;
@@ -22,14 +23,21 @@ export interface ImageData {
 export class ImageDetails implements OnInit {
   image: ImageData | null = null;
   userSub: 'none' | 'basic' | 'premium' = 'none';
+  hostURL:string = ""
+  
+  license_type:string = "free"
 
   constructor(
     private route: ActivatedRoute,
     private imageService: ImageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private constantService: ConstService
   ) {}
 
   ngOnInit() {
+
+    this.hostURL = this.constantService.getHostURL()
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.imageService.getImageById(id).subscribe();

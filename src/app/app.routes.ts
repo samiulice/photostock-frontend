@@ -14,8 +14,8 @@ export const routes: Routes = [
   { path: '', component: Homepage },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
-  { path: 'user/profile', component: ProfileWrapper, canActivate: [authGuardGuard]},
-  { path: 'admin/profile', component: AdminProfile },
+  { path: 'profile/user', component: ProfileWrapper, canActivate: [authGuardGuard]},
+  { path: 'profile/admin', component: AdminProfile },
   {path:'image',component:ImageWrapper},
   {path:'image-details', component:ImageDetails}
   

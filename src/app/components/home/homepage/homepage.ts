@@ -31,7 +31,7 @@ export class Homepage implements OnInit {
             }
     
             this.categories=res.media_categories
-            this.baseURL = this.constant.url
+            this.baseURL = this.constant.getHostURL()
         },
     
              error: (err) => {
@@ -41,5 +41,6 @@ export class Homepage implements OnInit {
     
         
     }
+    
     //category service
 }

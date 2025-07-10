@@ -22,7 +22,7 @@ export class AuthService {
   loginSuccess(token: string) {
     localStorage.setItem('token', token);
     this.loggedIn.next(true);
-    this.router.navigate(['/user/profile']);
+    this.router.navigate(['/profile/user']);
   }
   logoutSuccess() {
     localStorage.removeItem('token');

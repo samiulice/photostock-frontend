@@ -73,7 +73,7 @@ export class UploadContent implements OnInit {
       reader.onload = () => (this.previewUrl = reader.result);
       reader.readAsDataURL(file);
     } else {
-      // ❗ Alert user using popup
+      // Alert user using popup
       Swal.fire({
         icon:'warning',
         title:'Oops...',
