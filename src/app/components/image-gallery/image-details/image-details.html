@@ -1,52 +1,60 @@
 <div
-  class="flex flex-col md:flex-row max-w-6xl  bg-white rounded shadow my-10 gap-2  ml-65"
+  class="flex flex-col md:flex-row max-w-6xl bg-white rounded shadow my-10 gap-2 ml-65"
 >
   <!-- Left: Image Section -->
-  <div class="w-[540px] h-[540px] ">
-    <img
-      [src]="hostURL + '/images/thumbnails/thumb_f7d887e2-ab70-454c-81f2-237bae216f8d_1752153176348338200.jpg'"
-      alt="Preview"
-      class="rounded border border-gray-300 w-[540px] h-[540px] object-cover p-1 shadow"
-    />
+  <div class="w-[540px] h-[540px] relative flex items-center justify-center">
+  <!-- Image if loaded -->
+  <img
+    *ngIf="imageData"
+    [src]="imageData.media_url"
+    [alt]="imageData.media_title"
+    class="rounded border border-gray-300 w-[540px] h-[540px] object-cover p-1 shadow"
+  />
+
+  <!-- Modern Ring Preloader while loading -->
+  <div *ngIf="!imageData" class="absolute inset-0 flex items-center justify-center">
+    <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
   </div>
+</div>
+
 
   <!-- Right: Details and Subscription -->
-  <div class="w-full md:w-2/5 p-4 border border-gray-300 ">
-    <div class="flex items-center ">
+  <div class="w-full md:w-2/5 p-4 border border-gray-300">
+    <div class="flex items-center">
       <div>
-        <h2 class="text-lg font-semibold border-b border-blue-800  mb-3">A cup of Cappuccino</h2>
-        
-        <span class="text-sm text-[#786ECA] font-semibold mb-2 mr-5 ">Food </span> 
-        <span [class]="'inline-flex px-2 py-1 text-sm mb-2 rounded-full ' + 
-                   (license_type === 'free' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800')">
-                  {{license_type}}
-                </span>
+        <h2 class="text-lg font-semibold border-b border-blue-800 mb-3">
+          {{imageData?.media_title}}
+        </h2>
+
+        <span class="text-sm text-[#786ECA] font-semibold mb-2 mr-5"
+          >{{imageData?.media_category?.name}}
+        </span>
+        <span
+          [class]="'inline-flex px-2 py-1 text-sm mb-2 rounded-full ' + 
+                   (imageData?.license_type == 0 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800')"
+        >
+          {{imageData?.license_type ==0 ? 'Free' : 'Premium'}}
+        </span>
       </div>
     </div>
-    <p class="text-sm text-gray-700 mb-4">
-      For creatives who need unlimited downloads of a variety of assets.
+    <p class="text-sm text-gray-700 mb-4 mt-6">
+      {{imageData?.description || "No description available for this image"}}
     </p>
 
-    <ul class="list-disc list-inside text-sm text-gray-600 mb-6 space-y-1">
-      <li>80+ million of our best images, video and music</li>
-      <li>Unlimited royalty-free downloads</li>
-      <li>Standard license for creative digital and print use</li>
-      <li>Single seat</li>
-    </ul>
-
     <p class="text-xs text-gray-500 mb-4">
-      * Fair use policy and cancellation fee apply.
-      <a href="#" class="underline">See terms and conditions.</a>
+      <!-- * Fair use policy and cancellation fee apply.
+      <a href="#" class="underline">See terms and conditions.</a> -->
     </p>
     <button
       class="bg-[#6051dc] hover:bg-[#3d2ad0e1] text-white p-2 rounded font-medium mb-4 w-full"
+      (click)="handleDownload()"
     >
       Download
     </button>
 
     <!-- show this link when user don't have any subscription -->
-    <a class="text-sm text-center text-blue-600 cursor-pointer underline">
+    <!-- <a class="text-sm text-center text-blue-600 cursor-pointer underline">
       See more pricing plans
-    </a>
+    </a> -->
   </div>
 </div>

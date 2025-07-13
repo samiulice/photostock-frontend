@@ -5,11 +5,11 @@ import {
   IMediaCategory,
 } from '../../../core/interfaces/content.interface';
 import { ContentService } from '../../../core/services/content/content.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-image-container',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './image-container.html',
   styleUrl: './image-container.css',
 })

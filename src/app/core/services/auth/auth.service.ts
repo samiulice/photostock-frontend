@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterPayload, IAuth } from '../../interfaces/auth.interface';
 import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ConstService } from '../constants/const.service';
 
 @Injectable({
@@ -13,16 +13,23 @@ export class AuthService {
   private authURL: string;
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   isLoggedIn$ = this.loggedIn.asObservable();
-  constructor(private http: HttpClient, private router: Router, private constant: ConstService) {
+  route: any;
+  constructor(private http: HttpClient, private router: Router, private activatedRoute:ActivatedRoute, private constant: ConstService) {
     this.baseURL = this.constant.url;
     this.authURL = this.constant.url + '/auth';
   }
 
 
-  loginSuccess(token: string) {
+  loginSuccess(token: string, redirectedRoute:string = '/profile/user') {
     localStorage.setItem('token', token);
     this.loggedIn.next(true);
-    this.router.navigate(['/profile/user']);
+    this.router.navigate([redirectedRoute]);
+  }
+  getImageData(id: any) {
+    throw new Error('Method not implemented.');
+  }
+  checkUserSubscription() {
+    throw new Error('Method not implemented.');
   }
   logoutSuccess() {
     localStorage.removeItem('token');

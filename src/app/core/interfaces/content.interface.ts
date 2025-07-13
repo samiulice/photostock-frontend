@@ -30,3 +30,6 @@ export interface IMediaCategoryListResp extends IResp{
 export interface IMediaListWithResp extends IResp{
   medias:IMedia[]
 }
+export interface IMediaWithResp extends IResp{
+  media:IMedia
+}
