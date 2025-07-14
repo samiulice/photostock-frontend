@@ -1,0 +1,109 @@
+<div class="bg-white rounded-lg border border-gray-200">
+          <div class="p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-lg font-semibold">Personal Information</h3>
+                <p class="text-sm text-gray-600">
+                  Update your personal details
+                </p>
+              </div>
+              <button
+                (click)="toggleEdit()"
+                [class]="'flex items-center space-x-1 px-3 py-1.5 text-sm rounded-md border border-gray-200 transition-colors ' + 
+                         (isEditing ? 'border border-gray-200-gray-300 bg-white hover:bg-gray-50' : 'bg-blue-600 text-white hover:bg-blue-700 border border-gray-200-blue-600')"
+              >
+                <span *ngIf="isEditing" class="material-icons">check</span>
+                <span *ngIf="!isEditing" class="material-icons">mode_edit</span>
+                <span>{{ isEditing ? 'Save' : 'Edit' }}</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4 space-y-4">
+            <form [formGroup]="profileForm">
+              <div class="flex items-center space-x-4 mb-4">
+                <div
+                  class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden"
+                >
+                  <img
+                    [src]="user.avatar_url  || 'images/user.png'"
+                    alt="userProfile.name"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-base font-semibold text-gray-900">
+                    {{ user.name }}
+                  </h3>
+                  <p class="text-sm text-gray-600">
+                    Member since {{ user.created_at | date }}
+                  </p>
+                  <button
+                    *ngIf="isEditing"
+                    class="mt-1 px-2 py-1 text-sm border border-gray-200 rounded-md hover:bg-gray-50"
+                  >
+                    Change Photo
+                  </button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                  <label class="text-sm font-medium text-gray-700"
+                    >Full Name</label
+                  >
+                  <div class="flex items-center space-x-2">
+                    <span class="material-icons custom-icon">person</span>
+                    <input 
+                      formControlName="name"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-sm font-medium text-gray-700"
+                    >Email Address</label
+                  >
+                  <div class="flex items-center space-x-2">
+                    <span class="material-icons custom-icon">mail</span>
+                    <input
+                      formControlName="email"
+                      type="email"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-sm font-medium text-gray-700"
+                    >Phone Number</label
+                  >
+                  <div class="flex items-center space-x-2">
+                    <span class="material-icons custom-icon">phone</span>
+                    <input
+                      formControlName="phone"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-sm font-medium text-gray-700"
+                    >Location</label
+                  >
+                  <div class="flex items-center space-x-2">
+                    <span class="material-icons custom-icon">home</span>
+                    <input
+                      formControlName="location"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
