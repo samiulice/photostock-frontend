@@ -12,7 +12,7 @@
     <!-- Individuals Plan -->
     <div class="flex flex-col justify-between bg-gradient-to-br from-[#FAEBE7] to-white border border-gray-200 shadow rounded-2xl p-6 min-h-[550px]">
     <div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Individuals</h3>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Basic</h3>
       <p class="text-sm text-gray-500 mb-4">Starts at</p>
       <p class="text-3xl font-bold text-gray-900 mb-2">$0 <span class="text-sm font-normal">/ month/user</span></p>
       <p class="text-sm text-gray-700 mb-4">Good for individuals who are just starting out and simply want the essentials.</p>
@@ -27,8 +27,8 @@
       </ul>
       </div>
       <div>
-        <button class="w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 font-medium py-2 px-4 rounded-lg mb-6 ">
-        Get started
+        <button (click)="buyPlan(1)" class="w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 font-medium py-2 px-4 rounded-lg mb-6 ">
+        Buy now
       </button>
       </div>
     </div>
@@ -36,7 +36,7 @@
     <!-- Teams Plan -->
     <div class="flex flex-col justify-between bg-gradient-to-br from-[#E0E6FB] to-white border border-gray-200 shadow rounded-2xl p-6 min-h-[550px]">
       <div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Teams</h3>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Premium</h3>
       <p class="text-sm text-gray-500 mb-4">Starts at</p>
       <p class="text-3xl font-bold text-gray-900 mb-2">$12 <span class="text-sm font-normal">/ month/user</span></p>
       <p class="text-sm text-gray-700 mb-4">Highly recommended for small teams who seek to upgrade their time & perform.</p>
@@ -51,8 +51,8 @@
       </ul>
       </div>
       <div>
-      <button class="w-full bg-indigo-600 text-white hover:bg-indigo-700 font-medium py-2 px-4 rounded-lg mb-6 mt-6">
-        Get started
+      <button (click)="buyPlan(2)" class="w-full bg-indigo-600 text-white hover:bg-indigo-700 font-medium py-2 px-4 rounded-lg mb-6 mt-6">
+        Buy now
       </button>
       </div>
     </div>
@@ -60,7 +60,7 @@
     <!-- Enterprise Plan -->
     <div class="flex flex-col justify-between bg-gradient-to-br from-[#E7F6FC] to-white border border-gray-200 shadow rounded-2xl p-6 min-h-[550px]">
       <div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Enterprise</h3>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Unlimited</h3>
       <p class="text-sm text-gray-500 mb-4">Starts at</p>
       <p class="text-3xl font-bold text-gray-900 mb-2">$15k <span class="text-sm font-normal">/ year</span></p>
       <p class="text-sm text-gray-700 mb-4">Robust scheduling for larger teams looking to have more control, privacy & security.</p>
@@ -75,8 +75,8 @@
       </ul>
       </div>
       <div>
-        <button class="w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 font-medium py-2 px-4 rounded-lg mb-6 mt-6">
-        Contact us
+        <button (click)="buyPlan(3)" class="w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 font-medium py-2 px-4 rounded-lg mb-6 mt-6">
+        Buy now
       </button>
       </div>
     </div>
