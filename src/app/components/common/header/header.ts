@@ -10,26 +10,45 @@ import { IUserWithID } from '../../../core/interfaces/user.interface';
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
-export class Header implements OnInit{
+export class Header implements OnInit {
   public isLoggedIn: boolean = false;
-  
-  getUserName(){
-    if(this.auth.hasToken()){
-      //DEV
-      const user:IUserWithID = JSON.parse(localStorage.getItem("user")||"")
-      return user.name
-    }
-    return "Dashboard"
-  }
-  
-  ngOnInit(): void {
-    this.auth.isLoggedIn$.subscribe(status=>{
-      this.isLoggedIn=status;
-    });
+  public user!: IUserWithID;
 
+  getUserName() {
+    if (this.auth.hasToken()) {
+      //DEV
+      let user: IUserWithID = JSON.parse(localStorage.getItem('user') || '');
+
+      const name = user.name || ''; // or this.user.fullName etc.
+
+      const words = name.trim().split(' ');
+      console.log('splitted ', JSON.stringify(words));
+
+      if (words.length === 0) return '';
+      if (words.length === 1) return words[0][0].toUpperCase();
+
+      return (words[0][0] + words[1][0]).toUpperCase();
+    }
+    return 'Dashboard';
   }
-  constructor(private router:Router,private auth:AuthService){}
- 
-  
- 
+
+  getAvatarURL() {
+    if (this.auth.hasToken()) {
+      //DEV
+      let user: IUserWithID = JSON.parse(localStorage.getItem('user') || '');
+      if(user.avatar_url == ""){
+        user.avatar_url = "/images/user.png"
+      }
+      return user.avatar_url
+    }
+    return '';
+  }
+
+  ngOnInit(): void {
+    const user: IUserWithID = JSON.parse(localStorage.getItem('user') || '');
+    this.auth.isLoggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+  }
+  constructor(private router: Router, private auth: AuthService) {}
 }
