@@ -5,44 +5,65 @@
       <div class="flex items-center justify-between mb-3">
         <div>
           <h1 class="text-3xl font-bold text-gray-900">Account Settings</h1>
-          <p class="text-sm text-gray-600 mt-0.5">Manage your profile and subscription</p>
+          <p class="text-sm text-gray-600 mt-0.5">
+            Manage your profile and subscription
+          </p>
         </div>
-
       </div>
     </div>
 
     <!-- Tabs -->
     <div class="space-y-4">
       <div class="grid grid-cols-6 h-9 bg-gray-100 rounded-lg p-1">
-        <button *ngFor="let tab of ['profile', 'subscription', 'categories','payment history','upload history','download history']"
-          (click)="onTabChange(tab)" [class]="'flex items-center justify-center space-x-1 text-sm rounded-md transition-colors ' + 
-                   (activeTab === tab ? 'bg-white shadow-sm' : 'hover:bg-gray-200')">
-
+        <button
+          *ngFor="let tab of ['profile', 'subscription', 'categories','payment-history','upload-history','download-history']"
+          (click)="onTabChange(tab)"
+          [class]="'flex items-center justify-center space-x-1 text-sm rounded-md transition-colors ' + 
+                   (activeTab === tab ? 'bg-white shadow-sm' : 'hover:bg-gray-200')"
+        >
           <span *ngIf="tab === 'profile'" class="material-icons">person</span>
-          <span *ngIf="tab === 'subscription'" class="material-symbols-outlined">crown</span>
-          <span *ngIf="tab === 'categories'" class="material-icons">category</span>
+          <span *ngIf="tab === 'subscription'" class="material-symbols-outlined"
+            >crown</span
+          >
+          <span *ngIf="tab === 'categories'" class="material-icons"
+            >category</span
+          >
           <!-- <span *ngIf="tab === 'billing'" class="material-icons">payment</span>
           <span *ngIf="tab === 'settings'" class="material-icons">settings</span> -->
-          
-          <span *ngIf="tab === 'payment history'" class="material-icons">payment</span>
-          <span *ngIf="tab === 'upload history'" class="material-symbols-outlined">upload</span>
-          <span *ngIf="tab === 'download history'" class="material-icons">download</span>
-          <span class="capitalize">{{ tab === 'subscription' ? 'Plans' : tab }}</span>
+
+          <span *ngIf="tab === 'payment-history'" class="material-icons"
+            >payment</span
+          >
+          <span
+            *ngIf="tab === 'upload-history'"
+            class="material-symbols-outlined"
+            >upload</span
+          >
+          <span *ngIf="tab === 'download-history'" class="material-icons"
+            >download</span
+          >
+          <span class="capitalize"
+            >{{ tab === 'subscription' ? 'Plans' : tab }}</span
+          >
         </button>
       </div>
 
       <!-- Profile Tab -->
       <div *ngIf="activeTab === 'profile'" class="space-y-4">
-        <div class="bg-white rounded-lg  border border-gray-200 ">
-          <div class="p-4 ">
+        <div class="bg-white rounded-lg border border-gray-200">
+          <div class="p-4">
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="text-lg font-semibold">Personal Information</h3>
-                <p class="text-sm text-gray-600">Update your personal details</p>
+                <p class="text-sm text-gray-600">
+                  Update your personal details
+                </p>
               </div>
-              <button (click)="toggleEdit()"
+              <button
+                (click)="toggleEdit()"
                 [class]="'flex items-center space-x-1 px-3 py-1.5 text-sm rounded-md border border-gray-200 transition-colors ' + 
-                         (isEditing ? 'border border-gray-200-gray-300 bg-white hover:bg-gray-50' : 'bg-blue-600 text-white hover:bg-blue-700 border border-gray-200-blue-600')">
+                         (isEditing ? 'border border-gray-200-gray-300 bg-white hover:bg-gray-50' : 'bg-blue-600 text-white hover:bg-blue-700 border border-gray-200-blue-600')"
+              >
                 <span *ngIf="isEditing" class="material-icons">check</span>
                 <span *ngIf="!isEditing" class="material-icons">mode_edit</span>
                 <span>{{ isEditing ? 'Save' : 'Edit' }}</span>
@@ -53,15 +74,26 @@
           <div class="p-4 space-y-4">
             <form [formGroup]="profileForm">
               <div class="flex items-center space-x-4 mb-4">
-                <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                  <img [src]="userProfile.avatar || 'images/user.png'" [alt]="userProfile.name"
-                    class="w-full h-full object-cover" />
+                <div
+                  class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden"
+                >
+                  <img
+                    [src]="user.avatar_url  || 'images/user.png'"
+                    alt="userProfile.name"
+                    class="w-full h-full object-cover"
+                  />
                 </div>
                 <div class="flex-1">
-                  <h3 class="text-base font-semibold text-gray-900">{{ userProfile.name }}</h3>
-                  <p class="text-sm text-gray-600">Member since {{ userProfile.joinDate }}</p>
-                  <button *ngIf="isEditing"
-                    class="mt-1 px-2 py-1 text-sm border border-gray-200 rounded-md hover:bg-gray-50">
+                  <h3 class="text-base font-semibold text-gray-900">
+                    {{ user.name }}
+                  </h3>
+                  <p class="text-sm text-gray-600">
+                    Member since {{ user.created_at }}
+                  </p>
+                  <button
+                    *ngIf="isEditing"
+                    class="mt-1 px-2 py-1 text-sm border border-gray-200 rounded-md hover:bg-gray-50"
+                  >
                     Change Photo
                   </button>
                 </div>
@@ -69,38 +101,59 @@
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-1">
-                  <label class="text-sm font-medium text-gray-700">Full Name</label>
+                  <label class="text-sm font-medium text-gray-700"
+                    >Full Name</label
+                  >
                   <div class="flex items-center space-x-2">
-                    <span class="material-icons  custom-icon">person</span>
-                    <input formControlName="name" [disabled]="!isEditing"
-                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50" />
+                    <span class="material-icons custom-icon">person</span>
+                    <input
+                      formControlName="name"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
                   </div>
                 </div>
 
                 <div class="space-y-1">
-                  <label class="text-sm font-medium text-gray-700">Email Address</label>
+                  <label class="text-sm font-medium text-gray-700"
+                    >Email Address</label
+                  >
                   <div class="flex items-center space-x-2">
-                    <span class="material-icons  custom-icon">mail</span>
-                    <input formControlName="email" type="email" [disabled]="!isEditing"
-                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50" />
+                    <span class="material-icons custom-icon">mail</span>
+                    <input
+                      formControlName="email"
+                      type="email"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
                   </div>
                 </div>
 
                 <div class="space-y-1">
-                  <label class="text-sm font-medium text-gray-700">Phone Number</label>
+                  <label class="text-sm font-medium text-gray-700"
+                    >Phone Number</label
+                  >
                   <div class="flex items-center space-x-2">
-                    <span class="material-icons  custom-icon">phone</span>
-                    <input formControlName="phone" [disabled]="!isEditing"
-                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50" />
+                    <span class="material-icons custom-icon">phone</span>
+                    <input
+                      formControlName="phone"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
                   </div>
                 </div>
 
                 <div class="space-y-1">
-                  <label class="text-sm font-medium text-gray-700">Location</label>
+                  <label class="text-sm font-medium text-gray-700"
+                    >Location</label
+                  >
                   <div class="flex items-center space-x-2">
-                    <span class="material-icons  custom-icon">home</span>
-                    <input formControlName="location" [disabled]="!isEditing"
-                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50" />
+                    <span class="material-icons custom-icon">home</span>
+                    <input
+                      formControlName="location"
+                      [disabled]="!isEditing"
+                      class="flex-1 h-8 text-sm border border-gray-200 rounded px-2 disabled:bg-gray-50"
+                    />
                   </div>
                 </div>
               </div>
@@ -116,16 +169,21 @@
             <h2 class="text-lg font-semibold">Subscription Plans</h2>
             <p class="text-sm text-gray-600">Manage your subscription plans</p>
           </div>
-          <button (click)="showCreatePlan = true"
-            class="flex items-center space-x-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">
+          <button
+            (click)="showCreatePlan = true"
+            class="flex items-center space-x-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
             <span class="material-symbols-outlined">add</span>
             <span>Create Plan</span>
           </button>
         </div>
 
         <!-- Create Plan Form -->
-        <div *ngIf="showCreatePlan" class="bg-white rounded-lg shadow-sm border border-gray-200 mb-10">
-          <div class="p-4 ">
+        <div
+          *ngIf="showCreatePlan"
+          class="bg-white rounded-lg shadow-sm border border-gray-200 mb-10"
+        >
+          <div class="p-4">
             <h3 class="text-lg font-semibold">Create New Plan</h3>
             <p class="text-sm text-gray-600">Add a new subscription plan</p>
           </div>
@@ -134,30 +192,52 @@
             <form [formGroup]="planForm" class="space-y-3">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
-                  <label class="text-sm font-medium text-gray-700">Plan Name</label>
-                  <input formControlName="name" placeholder="e.g., Premium"
-                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full" />
+                  <label class="text-sm font-medium text-gray-700"
+                    >Plan Name</label
+                  >
+                  <input
+                    formControlName="name"
+                    placeholder="e.g., Premium"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
                 </div>
 
                 <div class="space-y-1">
                   <label class="text-sm font-medium text-gray-700">Price</label>
-                  <input formControlName="price" type="number" placeholder="29.99"
-                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full" />
+                  <input
+                    formControlName="price"
+                    type="number"
+                    placeholder="29.99"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
                 </div>
 
                 <div class="space-y-1">
-                  <label class="text-sm font-medium text-gray-700">Billing Interval</label>
-                  <select formControlName="interval" class="h-8 text-sm border border-gray-200 rounded px-2 w-full">
+                  <label class="text-sm font-medium text-gray-700"
+                    >Billing Interval</label
+                  >
+                  <select
+                    formControlName="interval"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  >
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                   </select>
                 </div>
 
                 <div class="space-y-1">
-                  <label class="text-sm font-medium text-gray-700">Category</label>
-                  <select formControlName="category" class="h-8 text-sm border border-gray-200 rounded px-2 w-full">
+                  <label class="text-sm font-medium text-gray-700"
+                    >Category</label
+                  >
+                  <select
+                    formControlName="category"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  >
                     <option value="">Select Category</option>
-                    <option *ngFor="let cat of categories" [value]="cat.name.toLowerCase()">
+                    <option
+                      *ngFor="let cat of categories"
+                      [value]="cat.name.toLowerCase()"
+                    >
                       {{ cat.name }}
                     </option>
                   </select>
@@ -165,31 +245,51 @@
               </div>
 
               <div class="space-y-2">
-                <label class="text-sm font-medium text-gray-700">Features</label>
+                <label class="text-sm font-medium text-gray-700"
+                  >Features</label
+                >
                 <div formArrayName="features">
-                  <div *ngFor="let feature of planFeatures.controls; let i = index"
-                    class="flex items-center space-x-2 mb-2">
-                    <input [formControlName]="i" placeholder="Enter feature"
-                      class="h-8 text-sm border border-gray-200 rounded px-2 flex-1" />
-                    <button *ngIf="planFeatures.length > 1" type="button" (click)="removeFeature(i)"
-                      class="h-8 w-8 p-0 text-red-600 border border-gray-200">
+                  <div
+                    *ngFor="let feature of planFeatures.controls; let i = index"
+                    class="flex items-center space-x-2 mb-2"
+                  >
+                    <input
+                      [formControlName]="i"
+                      placeholder="Enter feature"
+                      class="h-8 text-sm border border-gray-200 rounded px-2 flex-1"
+                    />
+                    <button
+                      *ngIf="planFeatures.length > 1"
+                      type="button"
+                      (click)="removeFeature(i)"
+                      class="h-8 w-8 p-0 text-red-600 border border-gray-200"
+                    >
                       <span class="mt-1 material-icons">clear</span>
                     </button>
                   </div>
                 </div>
-                <button type="button" (click)="addFeature()"
-                  class="text-sm h-7 px-3 py-1 border border-gray-200 rounded hover:bg-gray-50">
+                <button
+                  type="button"
+                  (click)="addFeature()"
+                  class="text-sm h-7 px-3 py-1 border border-gray-200 rounded hover:bg-gray-50"
+                >
                   Add Feature
                 </button>
               </div>
 
               <div class="flex space-x-2 pt-2">
-                <button type="button" (click)="createPlan()"
-                  class="text-sm px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700">
+                <button
+                  type="button"
+                  (click)="createPlan()"
+                  class="text-sm px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
                   Create Plan
                 </button>
-                <button type="button" (click)="cancelPlanCreation()"
-                  class="text-sm px-3 py-1.5 border border-gray-200 rounded hover:bg-gray-50">
+                <button
+                  type="button"
+                  (click)="cancelPlanCreation()"
+                  class="text-sm px-3 py-1.5 border border-gray-200 rounded hover:bg-gray-50"
+                >
                   Cancel
                 </button>
               </div>
@@ -199,16 +299,23 @@
 
         <!-- Plans List -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-          <div *ngFor="let plan of plans" class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col">
+          <div
+            *ngFor="let plan of plans"
+            class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col"
+          >
             <!-- Top: Name, Category, Status -->
             <div class="p-4">
               <div class="flex justify-between items-start">
                 <div>
                   <h4 class="text-base font-semibold">{{ plan.name }}</h4>
-                  <p class="text-sm text-gray-600 capitalize">{{ plan.category }}</p>
+                  <p class="text-sm text-gray-600 capitalize">
+                    {{ plan.category }}
+                  </p>
                 </div>
-                <span [class]="'inline-flex px-2 py-1 text-sm rounded-full ' + 
-                   (plan.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800')">
+                <span
+                  [class]="'inline-flex px-2 py-1 text-sm rounded-full ' + 
+                   (plan.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800')"
+                >
                   {{ plan.status }}
                 </span>
               </div>
@@ -224,7 +331,10 @@
 
               <!-- Features -->
               <ul class="space-y-1 mb-4">
-                <li *ngFor="let feature of plan.features" class="flex items-center space-x-2">
+                <li
+                  *ngFor="let feature of plan.features"
+                  class="flex items-center space-x-2"
+                >
                   <span class="material-icons text-green-500">check</span>
                   <span class="text-sm text-gray-700">{{ feature }}</span>
                 </li>
@@ -232,17 +342,20 @@
 
               <!-- Buttons -->
               <div class="flex space-x-2 mt-auto pt-2">
-                <button class="text-sm flex-1 px-2 py-1.5 border border-gray-200 rounded hover:bg-gray-50">
+                <button
+                  class="text-sm flex-1 px-2 py-1.5 border border-gray-200 rounded hover:bg-gray-50"
+                >
                   Edit
                 </button>
-                <button class="text-sm px-2 py-1.5 text-red-600 border border-gray-200 rounded hover:bg-red-50">
+                <button
+                  class="text-sm px-2 py-1.5 text-red-600 border border-gray-200 rounded hover:bg-red-50"
+                >
                   Delete
                 </button>
               </div>
             </div>
           </div>
         </div>
-
       </div>
 
       <!-- Categories Tab -->
@@ -250,57 +363,89 @@
         <div class="flex justify-between items-center">
           <div>
             <h2 class="text-lg font-semibold">Category Management</h2>
-            <p class="text-sm text-gray-600">Manage subscription plan categories</p>
+            <p class="text-sm text-gray-600">
+              Manage subscription plan categories
+            </p>
           </div>
-          <button (click)="showCreateCategory = true"
-            class="flex items-center space-x-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">
+          <button
+            (click)="showCreateCategory = true"
+            class="flex items-center space-x-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
             <span class="material-icons">add</span>
             <span>Create Category</span>
           </button>
         </div>
 
         <!-- Create Category Form -->
-        <div *ngIf="showCreateCategory" class="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div class="p-4 ">
+        <div
+          *ngIf="showCreateCategory"
+          class="bg-white rounded-lg shadow-sm border border-gray-200"
+        >
+          <div class="p-4">
             <h3 class="text-lg font-semibold">Create New Category</h3>
-            <p class="text-sm text-gray-600">Add a new plan category with thumbnail</p>
+            <p class="text-sm text-gray-600">
+              Add a new plan category with thumbnail
+            </p>
           </div>
 
           <div class="p-4">
             <form [formGroup]="categoryForm" class="space-y-3">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
-                  <label class="text-sm font-medium text-gray-700">Category Name</label>
-                  <input formControlName="name" placeholder="e.g., Professional"
-                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full" />
+                  <label class="text-sm font-medium text-gray-700"
+                    >Category Name</label
+                  >
+                  <input
+                    formControlName="name"
+                    placeholder="e.g., Professional"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
                 </div>
 
                 <div class="space-y-1">
-                  <label class="text-sm font-medium text-gray-700">Description</label>
-                  <input formControlName="description" placeholder="Brief description of the category"
-                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full" />
+                  <label class="text-sm font-medium text-gray-700"
+                    >Description</label
+                  >
+                  <input
+                    formControlName="description"
+                    placeholder="Brief description of the category"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
                 </div>
               </div>
 
               <!-- Image Upload Section -->
               <div class="space-y-2">
-                <label class="text-sm font-medium text-gray-700">Category Thumbnail</label>
+                <label class="text-sm font-medium text-gray-700"
+                  >Category Thumbnail</label
+                >
                 <div class="flex items-start space-x-4 mt-3">
                   <!-- Image Preview -->
-                  <div class="flex-shrink-0 ">
+                  <div class="flex-shrink-0">
                     <div *ngIf="imagePreview; else noImage" class="relative">
-                      <img [src]="imagePreview" alt="Category preview"
-                        class="w-20 h-20 object-cover rounded-lg border border-gray-200-2" />
-                      <button type="button" (click)="removeImage()"
-                        class="absolute -top-2 -right-2 h-6 w-6 p-0 rounded-full bg-red-500 text-white hover:bg-red-600 border border-gray-200-red-500">
+                      <img
+                        [src]="imagePreview"
+                        alt="Category preview"
+                        class="w-20 h-20 object-cover rounded-lg border border-gray-200-2"
+                      />
+                      <button
+                        type="button"
+                        (click)="removeImage()"
+                        class="absolute -top-2 -right-2 h-6 w-6 p-0 rounded-full bg-red-500 text-white hover:bg-red-600 border border-gray-200-red-500"
+                      >
                         <span class="material-icons">clear</span>
                       </button>
                     </div>
                     <ng-template #noImage>
                       <div
-                        class="w-20 h-20 border border-gray-200-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                        class="w-20 h-20 border border-gray-200-gray-300 rounded-lg flex items-center justify-center bg-gray-50"
+                      >
                         <div class="text-center">
-                          <span class="material-icons" style="color:#525151;font-size: 50px;">art_track</span>
+                          <span
+                            class="material-icons"
+                            style="color: #525151; font-size: 50px"
+                            >art_track</span
+                          >
                         </div>
                       </div>
                     </ng-template>
@@ -309,13 +454,26 @@
                   <!-- Upload Controls -->
                   <div class="flex-1 space-y-2">
                     <div class="flex items-center space-x-2">
-                      <input type="file" #fileInput accept="image/*" (change)="onImageUpload($event)" class="hidden" />
-                      <button type="button" (click)="fileInput.click()"
-                        class="text-sm h-7 px-3 py-1 border border-gray-200 rounded hover:bg-gray-50">
+                      <input
+                        type="file"
+                        #fileInput
+                        accept="image/*"
+                        (change)="onImageUpload($event)"
+                        class="hidden"
+                      />
+                      <button
+                        type="button"
+                        (click)="fileInput.click()"
+                        class="text-sm h-7 px-3 py-1 border border-gray-200 rounded hover:bg-gray-50"
+                      >
                         Choose Image
                       </button>
-                      <button *ngIf="imagePreview" type="button" (click)="removeImage()"
-                        class="text-sm h-7 px-3 py-1 text-red-600 border border-gray-200 rounded hover:bg-red-50">
+                      <button
+                        *ngIf="imagePreview"
+                        type="button"
+                        (click)="removeImage()"
+                        class="text-sm h-7 px-3 py-1 text-red-600 border border-gray-200 rounded hover:bg-red-50"
+                      >
                         Remove
                       </button>
                     </div>
@@ -327,12 +485,18 @@
               </div>
 
               <div class="flex space-x-2 pt-2">
-                <button type="button" (click)="createCategory()"
-                  class="text-sm px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700">
+                <button
+                  type="button"
+                  (click)="createCategory()"
+                  class="text-sm px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
                   Create Category
                 </button>
-                <button type="button" (click)="cancelCategoryCreation()"
-                  class="text-sm px-3 py-1.5 border border-gray-200 rounded hover:bg-gray-50">
+                <button
+                  type="button"
+                  (click)="cancelCategoryCreation()"
+                  class="text-sm px-3 py-1.5 border border-gray-200 rounded hover:bg-gray-50"
+                >
                   Cancel
                 </button>
               </div>
@@ -342,14 +506,21 @@
 
         <!-- Categories List -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div *ngFor="let category of categories" class="bg-white rounded-lg shadow-sm border border-gray-200">
-            <div class="p-4 ">
+          <div
+            *ngFor="let category of categories"
+            class="bg-white rounded-lg shadow-sm border border-gray-200"
+          >
+            <div class="p-4">
               <div class="flex items-start space-x-3">
-                <img [src]="category.image || 'images/upload-image.jpg'" [alt]="category.name"
-                  class="w-12 h-12 object-cover rounded-lg border border-gray-200 flex-shrink-0" />
+                <img
+                  [src]="category.thumbnail_url || 'images/upload-image.jpg'"
+                  [alt]="category.name"
+                  class="w-12 h-12 object-cover rounded-lg border border-gray-200 flex-shrink-0"
+                />
                 <div class="flex-1 min-w-0">
-                  <h4 class="text-base font-semibold truncate">{{ category.name }}</h4>
-                  <p class="text-sm text-gray-600 line-clamp-2">{{ category.description }}</p>
+                  <h4 class="text-base font-semibold truncate">
+                    {{ category.name }}
+                  </h4>
                 </div>
               </div>
             </div>
@@ -357,18 +528,22 @@
             <div class="p-4 space-y-3">
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600">Plans in category:</span>
-                <span class="font-medium">{{ category.planCount }}</span>
+                <span class="font-medium">0</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600">Created:</span>
-                <span class="font-medium">{{ category.createdDate }}</span>
+                <span class="font-medium">{{ category.created_at }}</span>
               </div>
 
               <div class="flex space-x-2 pt-2">
-                <button class="text-sm flex-1 px-2 py-1.5 border border-gray-200 rounded hover:bg-gray-50">
+                <button
+                  class="text-sm flex-1 px-2 py-1.5 border border-gray-200 rounded hover:bg-gray-50"
+                >
                   Edit
                 </button>
-                <button class="text-sm px-2 py-1.5 text-red-600 border border-gray-200 rounded hover:bg-red-50">
+                <button
+                  class="text-sm px-2 py-1.5 text-red-600 border border-gray-200 rounded hover:bg-red-50"
+                >
                   Delete
                 </button>
               </div>
@@ -377,55 +552,212 @@
         </div>
       </div>
 
-      <!-- Billing Tab -->
-      <!-- <div *ngIf="activeTab === 'billing'" class="space-y-4">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div class="p-4 ">
-            <h3 class="text-lg font-semibold flex items-center space-x-2">
-              <span class="material-icons" >payments</span>
-              <span>Payment Methods</span>
-            </h3>
-            
-          </div>
-
-          <div class="p-4 space-y-3">
-            <div *ngFor="let method of paymentMethods"
-              class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
-              <div class="flex items-center space-x-3">
-                <div
-                  class="w-8 h-5 rounded flex items-center justify-center">
-                  <span class="material-icons">payments</span>
-                </div>
-                <div>
-                  <p class="text-sm font-medium">{{ method.brand }} ending in {{ method.last4 }}</p>
-                  <p class="text-sm text-gray-600">Expires {{ method.expiryMonth }}/{{ method.expiryYear }}</p>
-                </div>
-              </div>
-              <div class="flex items-center space-x-2">
-                <span *ngIf="method.isDefault"
-                  class="inline-flex px-2 py-1 text-sm bg-gray-100 text-gray-800 rounded-full">
-                  Default
-                </span>
-                <button class="text-sm h-7 px-2 py-1 border border-gray-200 rounded hover:bg-gray-50">
-                  Edit
-                </button>
-                <button class="text-red-600 h-7 w-7 p-0 border border-gray-200 rounded hover:bg-red-50">
-                  <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <button
-              class="w-full h-8 text-sm border border-gray-200 rounded hover:bg-gray-50 flex items-center justify-center space-x-2">
-             <span class="material-icons">payments</span>
-              <span>Add New Payment Method</span>
-            </button>
+      <!-- Payment History Tab -->
+      <div *ngIf="activeTab === 'payment-history'" class="tab-content">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Payment History</h2>
+            <p class="section-subtitle">
+              View your payment transactions and invoices
+            </p>
           </div>
         </div>
-      </div> -->
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg class="icon-md" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                />
+              </svg>
+              <span>Transaction History</span>
+            </h3>
+          </div>
+
+          <div class="card-content">
+            <div class="history-list">
+              <div *ngFor="let payment of paymentHistory" class="history-item">
+                <div class="history-info">
+                  <div class="history-icon">
+                    <svg
+                      class="icon-sm"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                      />
+                    </svg>
+                  </div>
+                  <div class="history-details">
+                    <h4 class="history-title">{{ payment.description }}</h4>
+                    <p class="history-subtitle">
+                      {{ payment.method }} • {{ payment.date }}
+                    </p>
+                  </div>
+                </div>
+                <div class="history-actions">
+                  <span
+                    [class]="'badge ' + getStatusBadgeClass(payment.status)"
+                  >
+                    {{ payment.status | titlecase }}
+                  </span>
+                  <span class="history-amount">${{ payment.amount }}</span>
+                  <button
+                    *ngIf="payment.invoiceUrl"
+                    (click)="downloadInvoice(payment.invoiceUrl)"
+                    class="btn btn-outline btn-sm"
+                  >
+                    <svg
+                      class="icon-sm"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                      />
+                    </svg>
+                    Invoice
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload History Tab -->
+      <div *ngIf="activeTab === 'upload-history'" class="tab-content">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Upload History</h2>
+            <p class="section-subtitle">
+              Track your file uploads and their status
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg class="icon-md" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
+                />
+              </svg>
+              <span>File Uploads</span>
+            </h3>
+          </div>
+
+          <div class="card-content">
+            <div class="history-list">
+              <div *ngFor="let upload of uploadHistory" class="history-item">
+                <div class="history-info">
+                  <div class="history-icon file-icon">
+                    <span class="file-type">{{ upload.fileType }}</span>
+                  </div>
+                  <div class="history-details">
+                    <h4 class="history-title">{{ upload.fileName }}</h4>
+                    <p class="history-subtitle">
+                      {{ upload.category }} • {{ formatFileSize(upload.fileSize)
+                      }} • {{ upload.uploadDate }}
+                    </p>
+                  </div>
+                </div>
+                <div class="history-actions">
+                  <span [class]="'badge ' + getStatusBadgeClass(upload.status)">
+                    {{ upload.status | titlecase }}
+                  </span>
+                  <button class="btn btn-outline btn-sm">
+                    <svg
+                      class="icon-sm"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                      />
+                    </svg>
+                    Options
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Download History Tab -->
+      <div *ngIf="activeTab === 'download-history'" class="tab-content">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Download History</h2>
+            <p class="section-subtitle">
+              View your downloaded files and access them again
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg class="icon-md" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                />
+              </svg>
+              <span>Downloaded Files</span>
+            </h3>
+          </div>
+
+          <div class="card-content">
+            <div class="history-list">
+              <div
+                *ngFor="let download of downloadHistory"
+                class="history-item"
+              >
+                <div class="history-info">
+                  <div class="history-icon file-icon">
+                    <span class="file-type">{{ download.fileType }}</span>
+                  </div>
+                  <div class="history-details">
+                    <h4 class="history-title">{{ download.fileName }}</h4>
+                    <p class="history-subtitle">
+                      {{ download.category }} • {{
+                      formatFileSize(download.fileSize) }} • Downloaded {{
+                      download.downloadCount }} times
+                    </p>
+                    <p class="history-date">
+                      Last downloaded: {{ download.downloadDate }}
+                    </p>
+                  </div>
+                </div>
+                <div class="history-actions">
+                  <span class="download-count"
+                    >{{ download.downloadCount }}x</span
+                  >
+                  <button
+                    (click)="downloadFile(download.fileName)"
+                    class="btn btn-primary btn-sm"
+                  >
+                    <svg
+                      class="icon-sm"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                      />
+                    </svg>
+                    Download
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Settings Tab -->
       <!-- <div *ngIf="activeTab === 'settings'" class="space-y-4">

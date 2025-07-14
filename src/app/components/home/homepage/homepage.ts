@@ -13,7 +13,7 @@ import { ConstService } from '../../../core/services/constants/const.service';
 @Component({
     selector: 'app-homepage',
     standalone: true,
-    imports: [CommonModule,FormsModule, RouterLink],
+    imports: [CommonModule, FormsModule, RouterLink, PlanCards],
     templateUrl: './homepage.html',
   styleUrls: ['./homepage.css']
 })
