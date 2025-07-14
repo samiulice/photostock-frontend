@@ -120,7 +120,6 @@ export class AdminProfile implements OnInit {
         }
 
         this.categories = res.media_categories;
-        this.baseURL = this.constant.getHostURL();
       },
 
       error: (err) => {

@@ -1,31 +1,61 @@
+<div class="min-h-screen">
+  <div class="container mx-auto px-3 py-4 max-w-5xl">
+    <!-- Header -->
+    <div class="mb-4">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">Account Settings</h1>
+          <p class="text-sm text-gray-600 mt-0.5">
+            Manage your profile and subscription
+          </p>
+        </div>
+      </div>
+    </div>
 
-<!-- Tab buttons -->
-<div class="flex gap-10 border-b border-gray-300 pl-5 ml-13">
-  <div
-    *ngFor="let tab of tabs"
-    (click)="selectTab(tab.id)"
-    [ngClass]="{
-      'text-blue-600 border-b-2 border-blue-600': activeTab === tab.id,
-      'text-gray-600 hover:text-blue-600': activeTab !== tab.id
-    }"
-    class="relative py-3 text-sm font-medium cursor-pointer transition-colors"
-  >
-    {{ tab.label }}
-  </div>
-</div>
+    <!-- Tabs -->
+    <div class="space-y-4">
+      <div class="grid grid-cols-6 h-9 bg-gray-100 rounded-lg p-1">
+        <button *ngFor="let tab of tabs" (click)="onTabChange(tab.id)" [class]="'flex items-center justify-center space-x-1 text-sm rounded-md transition-colors ' + 
+                   (activeTab === tab.id ? 'bg-white shadow-sm' : 'hover:bg-gray-200')">
+          <!-- tab icons -->
+          <span [class]="tab.class">{{tab.icon}}</span>
 
-<!-- Tab content -->
-<div class="p-4">
-  <div *ngIf="activeTab === 'profile'">
-    <app-user-profile></app-user-profile>
-  </div>
-  <div *ngIf="activeTab === 'upload'">
-    <app-upload-content></app-upload-content>
-  </div>
-  <div *ngIf="activeTab === 'download'">
-    <app-download-history></app-download-history>
-  </div>
-  <div *ngIf="activeTab === 'upload-history'">
-    <app-upload-history></app-upload-history>
+          <!-- tab label -->
+          <span class="capitalize">{{ tab.label }}</span>
+        </button>
+      </div>
+
+      <!-- Profile Tab -->
+      <div *ngIf="activeTab === 'profile'" class="space-y-4">
+        <app-profile-component></app-profile-component>
+      </div>
+
+      <!-- Subscription Tab -->
+      <div *ngIf="activeTab === 'plans'" class="space-y-4">
+        <app-plan></app-plan>
+      </div>
+
+      <!-- Categories Tab -->
+      <div *ngIf="activeTab === 'categories'" class="space-y-4">
+        <app-category></app-category>
+      </div>
+
+      <!-- Upload History Tab -->
+      <div *ngIf="activeTab === 'upload-history'" class="tab-content">
+        <app-upload-history></app-upload-history>
+      </div>
+
+      <!-- Download History Tab -->
+      <div *ngIf="activeTab === 'download-history'" class="tab-content">
+        <app-download-history></app-download-history>
+      </div>
+
+      <!-- Upload image Tab -->
+      <div *ngIf="activeTab === 'upload-image'" class="tab-content">
+        <app-upload-image></app-upload-image>
+      </div>
+
+
+    </div>
   </div>
 </div>
