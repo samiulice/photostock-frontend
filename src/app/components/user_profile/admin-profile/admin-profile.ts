@@ -107,9 +107,9 @@ export class AdminProfile implements OnInit {
   }
 
   loadData(): void {
-    this.profileService.plans$.subscribe((plans) => {
-      this.plans = plans;
-    });
+    // this.profileService.plans$.subscribe((plans) => {
+    //   this.plans = plans;
+    // });
 
     this.uploadService.getCategories().subscribe({
       next: (res) => {
@@ -126,21 +126,21 @@ export class AdminProfile implements OnInit {
         console.error('Failed to load categories', err);
       },
     });
-    this.profileService.paymentHistory$.subscribe(
-      (history: PaymentHistory[]) => {
-        this.paymentHistory = history;
-      }
-    );
+    // this.profileService.paymentHistory$.subscribe(
+    //   (history: PaymentHistory[]) => {
+    //     this.paymentHistory = history;
+    //   }
+    // );
 
-    this.profileService.uploadHistory$.subscribe((history: UploadHistory[]) => {
-      this.uploadHistory = history;
-    });
+    // this.profileService.uploadHistory$.subscribe((history: UploadHistory[]) => {
+    //   this.uploadHistory = history;
+    // });
 
-    this.profileService.downloadHistory$.subscribe(
-      (history: DownloadHistory[]) => {
-        this.downloadHistory = history;
-      }
-    );
+    // this.profileService.downloadHistory$.subscribe(
+    //   (history: DownloadHistory[]) => {
+    //     this.downloadHistory = history;
+    //   }
+    // );
   }
 
   get planFeatures(): FormArray {
@@ -202,7 +202,7 @@ saveProfile(): void {
         createdDate: new Date().toISOString().split('T')[0],
       };
 
-      this.profileService.addPlan(newPlan);
+      // this.profileService.addPlan(newPlan);
       this.resetPlanForm();
       this.showCreatePlan = false;
     }

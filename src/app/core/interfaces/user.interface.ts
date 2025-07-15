@@ -1,3 +1,5 @@
+import { IResp } from "./auth.interface";
+
 export interface IUser {
   name: string;
   avatar_url: string;
@@ -14,9 +16,11 @@ export interface IUser {
 
 export interface IUserWithID extends IUser{
     id:string
-    
 }
 
+export interface IUserWithResp extends IResp {
+  user:IUserWithID
+}
 
 
 

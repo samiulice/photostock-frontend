@@ -1,1 +1,50 @@
-<p>upload-history works!</p>
+<!-- Upload History Tab -->
+
+<div class="section-header">
+    <div>
+        <h2 class="section-title">Upload History</h2>
+        <p class="section-subtitle">
+            Track your file uploads and their status
+        </p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+           <span class="material-icons">file_upload</span>
+            <span>File Uploads</span>
+        </h3>
+    </div>
+
+    <div class="card-content">
+        <div class="history-list">
+            <div *ngFor="let upload of uploadHistory" class="history-item">
+                <div class="history-info">
+                    <div class="history-icon file-icon">
+                        <span class="file-type">{{ upload.fileType }}</span>
+                    </div>
+                    <div class="history-details">
+                        <h4 class="history-title">{{ upload.fileName }}</h4>
+                        <p class="history-subtitle">
+                            {{ upload.category }} • {{ formatFileSize(upload.fileSize)
+                            }} • {{ upload.uploadDate }}
+                        </p>
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <span [class]="'badge ' + getStatusBadgeClass(upload.status)">
+                        {{ upload.status | titlecase }}
+                    </span>
+                    <button class="btn btn-outline btn-sm">
+                        <svg class="icon-sm" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                        </svg>
+                        Options
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

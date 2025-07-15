@@ -19,7 +19,7 @@ import { ConstService } from '../../../core/services/constants/const.service';
 })
 export class Homepage implements OnInit {
     categories:IMediaCategory[]=[];
-    baseURL!:string
+    hostURL!:string
     message='';
     constructor(private  uploadService:UploadService, private constant:ConstService ){}
     ngOnInit(): void {
@@ -31,7 +31,7 @@ export class Homepage implements OnInit {
             }
     
             this.categories=res.media_categories
-            this.baseURL = this.constant.getHostURL()
+            this.hostURL = this.constant.getHostURL()
         },
     
              error: (err) => {
