@@ -39,18 +39,18 @@ export class UserProfile implements OnInit {
     this.originalUserData=this.user;
   }
 saveChanges() {
-  this.update.updateUserProfile(this.user).subscribe({
-    next: (res) => {
-      // Update local data and UI
-      this.originalUserData = this.user;
-      localStorage.setItem('user', JSON.stringify(this.user));
-      this.isEditing = false;
-      console.log('User updated successfully!');
-    },
-    error: (err) => {
-      console.error('Failed to update user:', err);
-    }
-  });
+  // this.update.updateUserProfile(this.user).subscribe({
+  //   next: (res) => {
+  //     // Update local data and UI
+  //     this.originalUserData = this.user;
+  //     localStorage.setItem('user', JSON.stringify(this.user));
+  //     this.isEditing = false;
+  //     console.log('User updated successfully!');
+  //   },
+  //   error: (err) => {
+  //     console.error('Failed to update user:', err);
+  //   }
+  // });
 }
 
 

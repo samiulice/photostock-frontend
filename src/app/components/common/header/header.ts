@@ -28,7 +28,6 @@ export class Header implements OnInit {
     const clickedInside = this.dropdownWrapper.nativeElement.contains(
       event.target
     );
-    console.log('Clicked inside?', clickedInside);
 
     if (!clickedInside) {
       this.dropdownOpen = false;

@@ -1,0 +1,173 @@
+<div class="space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-lg font-semibold">Subscription Plans</h2>
+            <p class="text-sm text-gray-600">Manage your subscription plans</p>
+          </div>
+          <button
+            (click)="showCreatePlan = true"
+            class="flex items-center space-x-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            <span class="material-symbols-outlined">add</span>
+            <span>Create Plan</span>
+          </button>
+        </div>
+
+        <!-- Create Plan Form -->
+        <div
+          *ngIf="showCreatePlan"
+          class="bg-white rounded-lg shadow-sm border border-gray-200 mb-10"
+        >
+          <div class="p-4">
+            <h3 class="text-lg font-semibold">Create New Plan</h3>
+            <p class="text-sm text-gray-600">Add a new subscription plan</p>
+          </div>
+
+          <div class="p-4">
+            <form [formGroup]="planForm" class="space-y-3">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                  <label class="text-sm font-medium text-gray-700"
+                    >Plan Name</label
+                  >
+                  <input
+                    formControlName="name"
+                    placeholder="e.g., Premium"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-sm font-medium text-gray-700">Price</label>
+                  <input
+                    formControlName="price"
+                    type="number"
+                    placeholder="29.99"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-sm font-medium text-gray-700"
+                    >Billing Interval</label
+                  >
+                  <select
+                    formControlName="interval"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  >
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-gray-700"
+                  >Features</label
+                >
+                <div formArrayName="features">
+                  <div
+                    *ngFor="let feature of planFeatures.controls; let i = index"
+                    class="flex items-center space-x-2 mb-2"
+                  >
+                    <input
+                      [formControlName]="i"
+                      placeholder="Enter feature"
+                      class="h-8 text-sm border border-gray-200 rounded px-2 flex-1"
+                    />
+                    <button
+                      *ngIf="planFeatures.length > 1"
+                      type="button"
+                      (click)="removeFeature(i)"
+                      class="h-8 w-8 p-0 text-red-600 border border-gray-200"
+                    >
+                      <span class="mt-1 material-icons">clear</span>
+                    </button>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  (click)="addFeature()"
+                  class="text-sm h-7 px-3 py-1 border border-gray-200 rounded hover:bg-gray-50"
+                >
+                  Add Feature
+                </button>
+              </div>
+
+              <div class="flex space-x-2 pt-2">
+                <button
+                  type="button"
+                  (click)="createPlan()"
+                  class="text-sm px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Create Plan
+                </button>
+                <button
+                  type="button"
+                  (click)="cancelPlanCreation()"
+                  class="text-sm px-3 py-1.5 border border-gray-200 rounded hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Plans List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+          <div
+            *ngFor="let plan of plans"
+            class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col"
+          >
+            <!-- Top: Name, Category, Status -->
+            <div class="p-4">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h4 class="text-base font-semibold">{{ plan.name }}</h4>
+                </div>
+                <span
+                  [class]="'inline-flex px-2 py-1 text-sm rounded-full ' + 
+                   (plan.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800')"
+                >
+                  {{ plan.status }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Middle: Price, Features, Buttons -->
+            <div class="p-4 flex flex-col flex-1 justify-between">
+              <!-- Price -->
+              <div class="text-center mb-3">
+                <span class="text-2xl font-bold">${{ plan.price }}</span>
+                <span class="text-sm text-gray-600">/{{ plan.interval }}</span>
+              </div>
+
+              <!-- Features -->
+              <ul class="space-y-1 mb-4">
+                <li
+                  *ngFor="let feature of plan.features"
+                  class="flex items-center space-x-2"
+                >
+                  <span class="material-icons text-green-500">check</span>
+                  <span class="text-sm text-gray-700">{{ feature }}</span>
+                </li>
+              </ul>
+
+              <!-- Buttons -->
+              <div class="flex space-x-2 mt-auto pt-2">
+                <button
+                  class="text-sm flex-1 px-2 py-1.5 border border-gray-200 rounded hover:bg-gray-50"
+                >
+                  Edit
+                </button>
+                <button
+                  class="text-sm px-2 py-1.5 text-red-600 border border-gray-200 rounded hover:bg-red-50"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
