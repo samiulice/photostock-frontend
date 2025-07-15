@@ -28,10 +28,10 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                   <label class="text-sm font-medium text-gray-700"
-                    >Plan Name</label
+                    >Plan Title</label
                   >
                   <input
-                    formControlName="name"
+                    formControlName="Title"
                     placeholder="e.g., Premium"
                     class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
                   />
@@ -40,9 +40,18 @@
                 <div class="space-y-1">
                   <label class="text-sm font-medium text-gray-700">Price</label>
                   <input
-                    formControlName="price"
+                    formControlName="Price"
                     type="number"
                     placeholder="29.99"
+                    class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
+                  />
+                </div>
+                <div class="space-y-1">
+                  <label class="text-sm font-medium text-gray-700">Download Limit</label>
+                  <input
+                    formControlName="DownloadLimit"
+                    type="number"
+                    placeholder="100"
                     class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
                   />
                 </div>
@@ -52,11 +61,12 @@
                     >Billing Interval</label
                   >
                   <select
-                    formControlName="interval"
+                    formControlName="ExpiresAt"
                     class="h-8 text-sm border border-gray-200 rounded px-2 w-full"
                   >
-                    <option value="monthly">Monthly</option>
-                    <option value="yearly">Yearly</option>
+                    <option value="7">Weekly</option>
+                    <option value="30">Monthly</option>
+                    <option value="365">Yearly</option>
                   </select>
                 </div>
               </div>
@@ -65,9 +75,9 @@
                 <label class="text-sm font-medium text-gray-700"
                   >Features</label
                 >
-                <div formArrayName="features">
+                <div formArrayName="Terms">
                   <div
-                    *ngFor="let feature of planFeatures.controls; let i = index"
+                    *ngFor="let feature of planTerms.controls; let i = index"
                     class="flex items-center space-x-2 mb-2"
                   >
                     <input
@@ -76,7 +86,7 @@
                       class="h-8 text-sm border border-gray-200 rounded px-2 flex-1"
                     />
                     <button
-                      *ngIf="planFeatures.length > 1"
+                      *ngIf="planTerms.length > 1"
                       type="button"
                       (click)="removeFeature(i)"
                       class="h-8 w-8 p-0 text-red-600 border border-gray-200"
@@ -124,13 +134,13 @@
             <div class="p-4">
               <div class="flex justify-between items-start">
                 <div>
-                  <h4 class="text-base font-semibold">{{ plan.name }}</h4>
+                  <h4 class="text-base font-semibold">{{ plan.Title }}</h4>
                 </div>
                 <span
                   [class]="'inline-flex px-2 py-1 text-sm rounded-full ' + 
-                   (plan.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800')"
+                   (plan.Status)"
                 >
-                  {{ plan.status }}
+                  {{ plan.Status }}
                 </span>
               </div>
             </div>
@@ -139,18 +149,17 @@
             <div class="p-4 flex flex-col flex-1 justify-between">
               <!-- Price -->
               <div class="text-center mb-3">
-                <span class="text-2xl font-bold">${{ plan.price }}</span>
-                <span class="text-sm text-gray-600">/{{ plan.interval }}</span>
+                <span class="text-2xl font-bold">${{ plan.Price }}</span>
               </div>
 
-              <!-- Features -->
+              <!-- Terms -->
               <ul class="space-y-1 mb-4">
                 <li
-                  *ngFor="let feature of plan.features"
+                  *ngFor="let term of plan.Terms"
                   class="flex items-center space-x-2"
                 >
                   <span class="material-icons text-green-500">check</span>
-                  <span class="text-sm text-gray-700">{{ feature }}</span>
+                  <span class="text-sm text-gray-700">{{ term }}</span>
                 </li>
               </ul>
 

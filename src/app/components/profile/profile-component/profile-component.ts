@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
 
   isEditing = false;
   isPhotoChange = false;
+  isSaving = false;
   user!: IUserWithID;
   profileForm!: FormGroup;
   imagePreview = '';
@@ -82,8 +83,7 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-
-
+    this.isSaving = true;
     const formData = new FormData();
     formData.append('image', this.selectedFile);  // Append raw file (not base64)
 
