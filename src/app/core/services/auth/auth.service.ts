@@ -20,7 +20,7 @@ export class AuthService {
   }
 
 
-  loginSuccess(token: string, redirectedRoute:string = '/profile/user') {
+  loginSuccess(token: string, redirectedRoute:string = '/profile') {
     localStorage.setItem('token', token);
     this.loggedIn.next(true);
     this.router.navigate([redirectedRoute]);

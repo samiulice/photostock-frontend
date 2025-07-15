@@ -11,12 +11,12 @@
         <div class="hidden md:flex space-x-4">
           <a
             href="/"
-            class="text-[#2B7FFF] hover:bg-[#2B7FFF] px-3 py-2 hover:text-white rounded-md text-sm font-bold"
+            class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold"
             >Home</a
           >
           <a
             routerLink="/image"
-            class="text-[#2B7FFF] hover:bg-[#2B7FFF] hover:text-white px-3 py-2 rounded-md text-sm font-bold"
+            class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold"
             >Images</a
           >
         </div>
@@ -32,31 +32,92 @@
       </div>
 
       <!-- Right: Login/Register OR Profile -->
-      <div class="flex items-center space-x-2">
+      <div class="flex items-center space-x-2 pl-80">
         <ng-container *ngIf="!isLoggedIn">
           <a
             routerLink="/login"
-            class="text-[#2B7FFF] hover:bg-[#2B7FFF] hover:text-white px-3 py-2 rounded-md text-sm font-bold ml-20"
+            class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold ml-20"
             >Login</a
           >
           <a
             routerLink="/register"
-            class="text-[#2B7FFF] hover:bg-[#2B7FFF] hover:text-white px-3 py-2 rounded-md text-sm font-bold"
+            class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold"
             >Register</a
           >
         </ng-container>
         <ng-container *ngIf="isLoggedIn">
-          <a
-            routerLink="/profile/user"
-            class="text-[#2B7FFF] rounded-md text-2xl font-bold mr-0 py-2"
+          <!-- Profile Dropdown Container -->
+          <div
+            #dropdownWrapper
+            class="relative inline-block"
+            (click)="toggleDropdown()"
           >
+            <!-- Avatar Button -->
             <img
               [src]="getAvatarURL()"
-              alt="profile"
-              class="w-8 h-8 rounded-full object-cover border border-gray-300"
+              alt="Profile"
+              class="w-10 h-10 rounded-full object-cover border border-gray-300 cursor-pointer"
             />
-            {{ getUserName() }}
-          </a>
+
+            <!-- Dropdown Menu -->
+          
+              <div
+              *ngIf="dropdownOpen"
+              class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-55 bg-[#E3F2FF66] rounded-lg shadow-lg border border-gray-200 z-50"
+            >
+              <div class="px-4 py-3 text-center">
+                <p class="text-sm font-bold text-gray-800">
+                  {{ getUserName() }}
+                </p>
+                <p class="text-sm text-gray-500 mt-1">{{ getUserEmail() }}</p>
+              </div>
+              <div class="border-t border-gray-200">
+                <div class="flex justify-between">
+                  <div class="flex items-center pl-4 py-4 space-x-1">
+                    <span
+                      class="material-icons text-[#3d2ad0e1]"
+                      style="
+                        margin-top: 4px;
+                        font-size: 18px;
+                        line-height: 1;
+                        display: inline-flex;
+                        align-items: center;
+                      "
+                    >
+                      power_settings_new
+                    </span>
+                    <button
+                      (click)="logout()"
+                      class="text-sm text-[#6051dc] font-bold rounded-md"
+                    >
+                      Logout
+                    </button>
+                  </div>
+
+                  <div class="flex items-center pr-4 py-4 space-x-1">
+                    <span
+                      class="material-icons text-[#3d2ad0e1]"
+                      style="
+                        font-size: 17px;
+                        line-height: 1;
+                        display: inline-flex;
+                        align-items: center;
+                      "
+                    >
+                      dashboard
+                    </span>
+                    <button
+                      routerLink="/profile"
+                      class="text-sm text-[#6051dc] font-bold rounded-md"
+                    >
+                      Dashboard
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          
         </ng-container>
       </div>
     </div>

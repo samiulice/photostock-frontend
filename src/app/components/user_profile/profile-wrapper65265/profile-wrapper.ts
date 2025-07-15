@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { UserProfile } from "../user-profile/user-profile";
+
 import {  DownloadHistory } from "../download-history/download-history";
 import { UploadHistory } from "../upload-history/upload-history";
 import { UploadContent } from "../upload-content/upload-content";
 import { CommonModule } from '@angular/common';
+import { Profile } from '../../../dummy-user/profile/profile';
 
 @Component({
   selector: 'app-profile-wrapper',
-  imports: [UserProfile, UploadHistory,UploadContent, DownloadHistory,CommonModule],
+  imports: [ UploadHistory,UploadContent, DownloadHistory,CommonModule],
   templateUrl: './profile-wrapper.html',
   styleUrl: './profile-wrapper.css'
 })

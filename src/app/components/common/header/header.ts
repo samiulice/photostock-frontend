@@ -3,9 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { IUserWithID } from '../../../core/interfaces/user.interface';
+import { ElementRef, HostListener, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
   imports: [RouterLink, CommonModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
@@ -13,6 +15,25 @@ import { IUserWithID } from '../../../core/interfaces/user.interface';
 export class Header implements OnInit {
   public isLoggedIn: boolean = false;
   public user!: IUserWithID;
+  dropdownOpen = false;
+  @ViewChild('dropdownWrapper') dropdownWrapper!: ElementRef;
+
+    
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+@HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    if (!this.dropdownWrapper) return;
+    const clickedInside = this.dropdownWrapper.nativeElement.contains(
+      event.target
+    );
+    console.log('Clicked inside?', clickedInside);
+
+    if (!clickedInside) {
+      this.dropdownOpen = false;
+    }
+  }
 
   getUserName() {
     if (this.auth.hasToken()) {
@@ -21,13 +42,18 @@ export class Header implements OnInit {
 
       const name = user.name || ''; // or this.user.fullName etc.
 
-      const words = name.trim().split(' ');
-      console.log('splitted ', JSON.stringify(words));
+      return name;
+    }
+    return 'Dashboard';
+  }
+  getUserEmail() {
+    if (this.auth.hasToken()) {
+      //DEV
+      let user: IUserWithID = JSON.parse(localStorage.getItem('user') || '');
 
-      if (words.length === 0) return '';
-      if (words.length === 1) return words[0][0].toUpperCase();
+      const email = user.email || ''; // or this.user.fullName etc.
 
-      return (words[0][0] + words[1][0]).toUpperCase();
+      return email;
     }
     return 'Dashboard';
   }
@@ -36,12 +62,15 @@ export class Header implements OnInit {
     if (this.auth.hasToken()) {
       //DEV
       let user: IUserWithID = JSON.parse(localStorage.getItem('user') || '');
-      if(user.avatar_url == ""){
-        user.avatar_url = "/images/user.png"
+      if (user.avatar_url == '') {
+        user.avatar_url = '/images/user.png';
       }
-      return user.avatar_url
+      return user.avatar_url;
     }
     return '';
+  }
+  logout() {
+    this.auth.logoutSuccess();
   }
 
   ngOnInit(): void {

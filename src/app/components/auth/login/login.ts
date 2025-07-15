@@ -22,7 +22,7 @@ export class Login implements OnInit {
 
   isLoading = false;
   message = '';
-  redirectedRoute: string = '/profile/user';
+  redirectedRoute: string = '/profile';
 
   constructor(
     private auth: AuthService,
