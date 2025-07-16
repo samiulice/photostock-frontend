@@ -98,7 +98,9 @@ export class ProfileComponent implements OnInit {
         console.log('Upload successful:', res);
         localStorage.setItem('user', JSON.stringify(res.user))
         this.user = res.user
-        location.reload()
+        this.isSaving = false
+        this.isPhotoChange = false
+        // location.reload()
       },
       error: (err) => {
         console.error('Upload failed:', err);
