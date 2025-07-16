@@ -134,13 +134,13 @@
             <div class="p-4">
               <div class="flex justify-between items-start">
                 <div>
-                  <h4 class="text-base font-semibold">{{ plan.Title }}</h4>
+                  <h4 class="text-base font-semibold">{{ plan.title }}</h4>
                 </div>
                 <span
-                  [class]="'inline-flex px-2 py-1 text-sm rounded-full ' + 
-                   (plan.Status)"
+                  [class]="'inline-flex px-2 py-1 text-sm rounded-full ' + getStatusBadgeClass(plan.status) + ' ' + getStatusColor(plan.status)"
+
                 >
-                  {{ plan.Status }}
+                  <span>{{ plan.status ? 'Active' : 'Inactive' }}</span>
                 </span>
               </div>
             </div>
@@ -149,15 +149,16 @@
             <div class="p-4 flex flex-col flex-1 justify-between">
               <!-- Price -->
               <div class="text-center mb-3">
-                <span class="text-2xl font-bold">${{ plan.Price }}</span>
+                <span class="text-2xl font-bold">${{ plan.price }}</span>
               </div>
 
               <!-- Terms -->
               <ul class="space-y-1 mb-4">
                 <li
-                  *ngFor="let term of plan.Terms"
+                  *ngFor="let term of plan.terms"
                   class="flex items-center space-x-2"
                 >
+                
                   <span class="material-icons text-green-500">check</span>
                   <span class="text-sm text-gray-700">{{ term }}</span>
                 </li>
