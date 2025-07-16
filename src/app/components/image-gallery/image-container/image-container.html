@@ -1,7 +1,6 @@
-<div  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
   <div *ngFor="let img of images" class="image-card overflow-hidden rounded-lg shadow-sm hover:shadow-md bg-white">
-    <a class="block relative"  [routerLink]="['/image-details',img.id]"
-      [href]="img.id"><img [src]="img.media_url"
+    <a class="block relative" [routerLink]="['/image-details',img.id]" [href]="img.id"><img [src]="img.media_url"
         [alt]="img.media_title" class="w-full h-56 object-cover">
       <div class="overlay opacity-0 transition-opacity absolute inset-0 bg-black bg-opacity-40 flex items-end">
         <div class="p-3 w-full bg-gradient-to-t from-black to-transparent text-white">
@@ -14,9 +13,10 @@
       <span class="text-xs text-gray-500">{{img.total_downloads}} Downloads</span>
     </div>
   </div>
-  
 </div>
-<div *ngIf="images &&  images.length == 0">
-  <h3>No image available</h3>
+<div *ngIf="imageCount == 0 && !isLoading" class="badge flex justify-center">
+  No image available in this categoru
 </div>
-
+<div *ngIf="isLoading" class="flex justify-center items-center">
+  <div class="w-8 h-8 border-2 border-[#6051DC] border-t-transparent rounded-full animate-spin"></div>
+</div>

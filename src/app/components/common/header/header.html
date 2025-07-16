@@ -7,7 +7,7 @@
         <div class="hidden md:flex space-x-4">
           <a href="/"
             class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold">Home</a>
-          <a routerLink="/image"
+          <a [routerLink]="['/image']" [queryParams]="{ id: 0, name: 'All'}"
             class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold">Images</a>
         </div>
       </div>

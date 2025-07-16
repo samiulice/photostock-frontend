@@ -11,7 +11,7 @@
             type="file"
             accept=".jpg, .jpeg, .png"
             (change)="onFileSelected($event)"
-            class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="block w-full border rounded-md border-gray-200 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
             />
         </div>
@@ -20,7 +20,7 @@
             id="category"
             name="category_id"
             [(ngModel)]="category"
-            class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="block w-full border rounded-md border-gray-200 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="" disabled selected>Choose Category:</option>
             <option *ngFor="let cat of categories" [value]="cat.id">
@@ -35,11 +35,11 @@
             [(ngModel)]="license"
             #licenseRef="ngModel"
             required
-            class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="block w-full border rounded-md border-gray-200 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="" selected disabled>License Type:</option>
-            <option value="1">Free</option>
-            <option value="0">Paid</option>
+            <option value="free">Free</option>
+            <option value="premium">Premium</option>
           </select>
 
           <div
@@ -70,7 +70,7 @@
         required
         #titleRef="ngModel"
         [(ngModel)]="title"
-        class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="block w-full border rounded-md border-gray-200 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <div
         *ngIf="titleRef.invalid && titleRef.touched"
@@ -87,7 +87,7 @@
         rows="6"
         placeholder="Description (optional)"
         [(ngModel)]="description"
-        class="block w-full border rounded-md border-gray-400 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="block w-full border rounded-md border-gray-200 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
       ></textarea>
     </div>
 
