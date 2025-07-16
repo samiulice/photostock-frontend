@@ -57,20 +57,42 @@ export class PlanComponent implements OnInit {
       this.planTerms.removeAt(index);
     }
   }
+getStatusBadgeClass(status: boolean): string {
+  return status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+}
 
+getStatusColor(status: boolean): string {
+  return status ? 'status-active' : 'status-cancelled';
+}
+
+getIntervalText(days: number): string {
+  switch (days) {
+    case 7:
+      return 'week';
+    case 30:
+      return 'month';
+    case 365:
+      return 'year';
+    default:
+      return `${days} days`;
+  }
+}
+
+  
   createPlan(): void {
     if (this.planForm.valid) {
       const formValue = this.planForm.value;
 
       const newPlan: IPlan = {
-        Title: formValue.Title,
-        Terms: formValue.Terms,
-        Status: formValue.Status,
-        Price: Number(formValue.Price),
-        DownloadLimit: Number(formValue.DownloadLimit),
-        ExpiresAt: Number(formValue.ExpiresAt),
-        CreatedAt: new Date().toISOString(),
-        UpdatedAt: new Date().toISOString()
+        title: formValue.Title,
+        terms: formValue.Terms,
+        concat_terms : '',
+        status: formValue.Status,
+        price: Number(formValue.Price),
+        download_limit: Number(formValue.DownloadLimit),
+        expires_at: Number(formValue.ExpiresAt),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       };
 
       console.log('Creating plan:', newPlan);

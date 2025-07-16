@@ -3,9 +3,9 @@ import { IResp } from "./auth.interface";
 export interface IMediaCategory {
   id: number;
   name: string;
+  thumbnail_url: string;
   created_at: Date;
   updated_at: Date;
-  thumbnail_url: string;
 }
 export interface IMedia {
   id: number;

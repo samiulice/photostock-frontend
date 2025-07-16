@@ -1,17 +1,18 @@
 import { IResp } from "./auth.interface";
 
 export interface IPlan {
-	Title: string;
-	Terms: string[];
-	Status: boolean;
-	Price:number;
-	DownloadLimit: number;
-	ExpiresAt: number;
-	CreatedAt: string;
-	UpdatedAt: string;
+	title: string;
+	terms: string[];
+	concat_terms: string;
+	status: boolean;
+	price:number;
+	download_limit: number;
+	expires_at: number;
+	created_at: string;
+	updated_at: string;
 }
 export interface IPlanWithID extends IPlan{
-		ID: number;
+		id: number;
 }
 export interface IPlanListWithResp extends IResp {
 	plans: IPlanWithID[];
