@@ -1,105 +1,112 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UploadService } from '../../../core/services/upload/upload-service.service';
-import { Plan } from '../../../core/interfaces/user.interface';
+import { IPlan, IPlanWithID } from '../../../core/interfaces/subscriptionPlan.interface';
+import { SubscriptionPlanService } from '../../../core/services/subscriptionPlan/subscription-plan.service';
 
 @Component({
   selector: 'app-plan-component',
+  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './plan-component.html',
   styleUrl: './plan-component.css'
 })
 export class PlanComponent implements OnInit {
   showCreatePlan = false;
-  plans: Plan[] = [];
+  plans: IPlanWithID[] = [];
   planForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private uploadService: UploadService
-  ) { }
+    private planService: SubscriptionPlanService
+  ) {}
 
   ngOnInit(): void {
     this.planForm = this.fb.group({
-      name: ['', Validators.required],
-      price: [0, [Validators.required, Validators.min(0.01)]],
-      interval: ['monthly', Validators.required],
-      category: ['', Validators.required],
-      features: this.fb.array([this.fb.control('', Validators.required)]),
+      Title: ['', Validators.required],
+      Price: [0, [Validators.required, Validators.min(0.01)]],
+      DownloadLimit: [0, [Validators.required, Validators.min(1)]],
+      ExpiresAt: [30, [Validators.required, Validators.min(1)]], // assuming days
+      Status: [true, Validators.required],
+      Terms: this.fb.array([
+        this.fb.control('', Validators.required)
+      ])
     });
-    this.plans = [
-    {
-      id: "1",
-      name: "Basic",
-      price: 9.99,
-      interval: "monthly",
-      features: ["5 projects", "Basic support", "1GB storage"],
-      category: "starter",
-      status: "active",
-      createdDate: "2024-01-15",
-    },
-    {
-      id: "2",
-      name: "Pro",
-      price: 29.99,
-      interval: "monthly",
-      features: ["Unlimited projects", "Priority support", "10GB storage", "Advanced analytics"],
-      category: "professional",
-      status: "active",
-      createdDate: "2024-01-10",
-    },
-    {
-      id: "3",
-      name: "Enterprise",
-      price: 99.99,
-      interval: "monthly",
-      features: ["Everything in Pro", "Custom integrations", "Dedicated support", "100GB storage"],
-      category: "enterprise",
-      status: "active",
-      createdDate: "2024-01-05",
-    },
-  ]
+
+    this.planService.plansList.subscribe((res) => {
+      if (res.error) {
+        alert(res.message);
+        return;
+      }
+      console.log("initial: ", res)
+      this.plans = res.plans;
+      console.log("initial: ", this.plans)
+    });
   }
-  get planFeatures(): FormArray {
-    return this.planForm.get('features') as FormArray;
+
+  get planTerms(): FormArray {
+    return this.planForm.get('Terms') as FormArray;
   }
 
   addFeature(): void {
-    this.planFeatures.push(this.fb.control('', Validators.required));
+    this.planTerms.push(this.fb.control('', Validators.required));
   }
 
   removeFeature(index: number): void {
-    if (this.planFeatures.length > 1) {
-      this.planFeatures.removeAt(index);
+    if (this.planTerms.length > 1) {
+      this.planTerms.removeAt(index);
     }
   }
-createPlan(): void {
+
+  createPlan(): void {
     if (this.planForm.valid) {
       const formValue = this.planForm.value;
-      
 
-      // this.profileService.addPlan(newPlan);
+      const newPlan: IPlan = {
+        Title: formValue.Title,
+        Terms: formValue.Terms,
+        Status: formValue.Status,
+        Price: Number(formValue.Price),
+        DownloadLimit: Number(formValue.DownloadLimit),
+        ExpiresAt: Number(formValue.ExpiresAt),
+        CreatedAt: new Date().toISOString(),
+        UpdatedAt: new Date().toISOString()
+      };
+
+      console.log('Creating plan:', newPlan);
+
+      // connect to backend
+      this.planService.addPlan(newPlan).subscribe((res)=>{
+        if (res.error){
+          alert(res.message);
+          return;
+        }
+        this.plans.push(res.plan)
+      });
+
       this.resetPlanForm();
       this.showCreatePlan = false;
     }
   }
+
   resetPlanForm(): void {
     this.planForm.reset({
-      name: '',
-      price: 0,
-      interval: 'monthly',
-      category: '',
+      Title: '',
+      Price: 0,
+      DownloadLimit: 0,
+      ExpiresAt: 30,
+      Status: true,
     });
 
-    while (this.planFeatures.length > 1) {
-      this.planFeatures.removeAt(1);
+    while (this.planTerms.length > 1) {
+      this.planTerms.removeAt(1);
     }
-    this.planFeatures.at(0).setValue('');
+
+    this.planTerms.at(0).setValue('');
   }
+
   cancelPlanCreation(): void {
     this.showCreatePlan = false;
     this.resetPlanForm();
   }
-
 }

@@ -5,6 +5,8 @@ import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { IResp } from '../../interfaces/auth.interface';
+import { IPlanListWithResp } from '../../interfaces/subscriptionPlan.interface';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +17,8 @@ export class ProfileService {
     this.baseURL = constantService.url
    }
 
-
+  
+  // Profile
   updateProfile(updatedUser: IUserWithID){
     return this.http.put<IResp>(this.baseURL+'/auth/profile',updatedUser)
   }
@@ -23,6 +26,7 @@ export class ProfileService {
     return this.http.put<IUserWithResp>(`${this.baseURL}/auth/profile/image`, formData);
   }
 
+  
 
 
   formatFileSize(bytes: number): string {

@@ -1,20 +1,22 @@
-import { isSubscription } from "rxjs/internal/Subscription";
 import { IResp } from "./auth.interface";
 
-export interface ISubscriptionPlan  {
-	ID :  number   ;
-	Title:  string  ;
-	Terms: string  ;
-	Status : boolean   ;
-	DownloadLimit :number    ;
-	ExpiresAt: number  ;
-	CreatedAt : string;
-	UpdatedAt : string;
+export interface IPlan {
+	Title: string;
+	Terms: string[];
+	Status: boolean;
+	Price:number;
+	DownloadLimit: number;
+	ExpiresAt: number;
+	CreatedAt: string;
+	UpdatedAt: string;
 }
-export interface ISubscriptionPlanListWithResp extends IResp{
-	subscriptionPlan:ISubscriptionPlan[];
+export interface IPlanWithID extends IPlan{
+		ID: number;
+}
+export interface IPlanListWithResp extends IResp {
+	plans: IPlanWithID[];
+}
 
-}export interface ISubscriptionPlanWithResp extends IResp{
-	subscriptionPlan:ISubscriptionPlan;
-
+export interface IPlanWithResp extends IResp {
+	plan: IPlanWithID;
 }
