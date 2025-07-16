@@ -5,6 +5,7 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { LoginPayload } from '../../../core/interfaces/auth.interface';
 import { Header } from '../../common/header/header';
+import { ErrorHandlerService } from '../../../core/services/errorHandler/error-handler.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -26,32 +27,33 @@ export class Login implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private router: Router,
+    private errorHandlerService: ErrorHandlerService,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
   ngOnInit() {
     const redirectTo =
       this.activatedRoute.snapshot.queryParamMap.get('redirectTo');
-      console.log('User should be redirected to:', redirectTo);
-      if(redirectTo){
-        this.redirectedRoute = redirectTo;
-      }
+    console.log('User should be redirected to:', redirectTo);
+    if (redirectTo) {
+      this.redirectedRoute = redirectTo;
+    }
   }
   login() {
+    this.isLoading = true;
     console.log('redirect: ', this.redirectedRoute);
     this.auth.login(this.form.email, this.form.password).subscribe({
       next: (res) => {
-        if (res.error) {
-          this.message = res.message;
-          return;
-        } else {
+        this.errorHandlerService.notifyUser(res.error, res.message, () => {
           localStorage.setItem('user', JSON.stringify(res.user));
           this.auth.loginSuccess(res.token, this.redirectedRoute);
-        }
+        })
       },
       error: (err) => {
         alert('Login error');
       },
-    });
+    })
+      .add(() => {
+        this.isLoading = false
+      })
   }
 }

@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { IUserWithID } from '../../../core/interfaces/user.interface';
 import { ElementRef, HostListener, ViewChild } from '@angular/core';
+import { ConstService } from '../../../core/services/constants/const.service';
 
 @Component({
   selector: 'app-header',
@@ -16,13 +17,22 @@ export class Header implements OnInit {
   public isLoggedIn: boolean = false;
   public user!: IUserWithID;
   dropdownOpen = false;
+  hostURL:string = ""
   @ViewChild('dropdownWrapper') dropdownWrapper!: ElementRef;
 
-    
+
+  constructor(private auth: AuthService, private constService:ConstService) { }
+  ngOnInit(): void {
+    this.hostURL = this.constService.getHostURL()
+    const user: IUserWithID = JSON.parse(localStorage.getItem('user') || '');
+    this.auth.isLoggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+  }
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
-@HostListener('document:click', ['$event'])
+  @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
     if (!this.dropdownWrapper) return;
     const clickedInside = this.dropdownWrapper.nativeElement.contains(
@@ -71,12 +81,5 @@ export class Header implements OnInit {
   logout() {
     this.auth.logoutSuccess();
   }
-
-  ngOnInit(): void {
-    const user: IUserWithID = JSON.parse(localStorage.getItem('user') || '');
-    this.auth.isLoggedIn$.subscribe((status) => {
-      this.isLoggedIn = status;
-    });
-  }
-  constructor(private router: Router, private auth: AuthService) {}
+  
 }

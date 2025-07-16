@@ -4,9 +4,9 @@
     <div class="mb-4">
       <div class="flex items-center justify-between mb-3">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">Account Settings</h1>
+          <h1 class="text-3xl font-bold text-gray-900">{{tab_header}}</h1>
           <p class="text-sm text-gray-600 mt-0.5">
-            Manage your profile and subscription
+            {{tab_description}}
           </p>
         </div>
       </div>
@@ -15,7 +15,7 @@
     <!-- Tabs -->
     <div class="space-y-4">
       <div class="grid grid-cols-6 h-9 bg-gray-100 rounded-lg p-1">
-        <button *ngFor="let tab of tabs" (click)="onTabChange(tab.id)" [class]="'flex items-center justify-center space-x-1 text-sm rounded-md transition-colors ' + 
+        <button *ngFor="let tab of tabs" (click)="onTabChange(tab)" [class]="'flex items-center justify-center space-x-1 text-sm rounded-md transition-colors ' + 
                    (activeTab === tab.id ? 'bg-white shadow-sm' : 'hover:bg-gray-200')">
           <!-- tab icons -->
           <span [class]="tab.class">{{tab.icon}}</span>

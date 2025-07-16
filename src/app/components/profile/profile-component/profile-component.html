@@ -1,23 +1,6 @@
 <div class="bg-white rounded-lg border border-gray-200">
-  <div class="p-4">
-    <div class="flex items-center justify-between">
-      <div>
-        <h3 class="text-lg font-semibold">Personal Information</h3>
-        <p class="text-sm text-gray-600">
-          Update your personal details
-        </p>
-      </div>
-      <button (click)="toggleEdit()"
-        [class]="'flex items-center space-x-1 px-3 py-1.5 text-sm rounded-md border border-gray-400 transition-colors ' + 
-                         (isEditing ? 'border border-gray-400-gray-300 bg-white hover:bg-gray-50' : 'bg-[#6051dc]  text-white hover:bg-[#6031dc] border border-gray-400-blue-600')">
-        <span *ngIf="isEditing" class="material-icons">check</span>
-        <span *ngIf="!isEditing" class="material-icons">mode_edit</span>
-        <span>{{ isEditing ? 'Save' : 'Edit' }}</span>
-      </button>
-    </div>
-  </div>
 
-  <div class="p-4 space-y-4">
+  <div class="p-2 space-y-4 flex">
     <!-- Image Upload Section -->
     <div *ngIf="isPhotoChange" class="space-y-2 mb-5">
       <label class="text-sm font-medium text-gray-700">Profile Picture</label>
@@ -43,16 +26,16 @@
         </div>
 
         <!-- Upload Controls -->
-        <div class="flex-1 space-y-2">
+        <div class="flex-1 space-y-2 w-100">
           <div class="flex items-center space-x-2">
             <input type="file" #fileInput accept="image/jpeg, image/png" (change)="onImageUpload($event)"
               class="hidden" />
             <button type="button" (click)="fileInput.click()"
-              class="text-sm h-7 px-3 py-1 border border-gray-400 rounded hover:bg-gray-50">
+              class="text-sm h-7 px-1 py-1 border border-gray-400 rounded hover:bg-gray-50">
               Choose Image
             </button>
-            <button  [disabled]="isSaving" *ngIf="imagePreview" type="button" (click)="saveImage()"
-              class="text-sm h-7 px-3 py-1 text-red-800 border border-gray-400 rounded hover:bg-red-50">
+            <button [disabled]="isSaving" *ngIf="imagePreview" type="button" (click)="saveImage()"
+              class="text-sm h-7 px-1 py-1 text-red-800 border border-gray-400 rounded hover:bg-red-50">
 
               <ng-container *ngIf="!isSaving; else loading">
                 Save
@@ -69,24 +52,42 @@
         </div>
       </div>
     </div>
-    <div *ngIf="!isPhotoChange" class="flex items-center space-x-4 mb-4">
-      <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-        <img [src]="user.avatar_url  || 'images/user.png'" alt="userProfile.name" class="w-full h-full object-cover" />
-      </div>
-      <div class="flex-1">
-        <h3 class="text-base font-semibold text-gray-900">
-          {{ user.name }}
-        </h3>
-        <p class="text-sm text-gray-600">
-          Member since {{ user.created_at | date }}
-        </p>
+    <div class="w-4/5">
+      <div *ngIf="!isPhotoChange" class="flex items-center space-x-4">
+        <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+          <img [src]="user.avatar_url  || 'images/user.png'" alt="userProfile.name"
+            class="w-full h-full object-cover" />
+        </div>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-gray-900">
+            {{ user.name }}
+          </h3>
+          <p class="text-sm text-gray-600">
+            Member since {{ user.created_at | date }}
+          </p>
 
-        <button (click)="togglePhotoPreview()"
-          class="mt-1 px-2 py-1 text-sm border border-gray-400 rounded-md hover:bg-gray-100">
-          <span>{{ isPhotoChange ? 'Save Photo' : 'Change Photo' }}</span>
+          <button (click)="togglePhotoPreview()"
+            class="mt-1 px-2 py-1 text-sm border border-gray-400 rounded-md hover:bg-gray-100">
+            <span>{{ isPhotoChange ? 'Save Photo' : 'Change Photo' }}</span>
+          </button>
+        </div>
+
+
+      </div>
+
+    </div>
+    <div class="w-1/5">
+      <div class="flex justify-end">
+        <button (click)="toggleEdit()"
+          [class]="'flex space-x-1 px-3 py-1.5 text-sm rounded-md border border-gray-400 transition-colors ' + 
+                         (isEditing ? 'border border-gray-400-gray-300 bg-white hover:bg-gray-50' : 'bg-[#6051dc]  text-white hover:bg-[#6031dc] border border-gray-400-blue-600')">
+          <span *ngIf="isEditing" class="material-icons">check</span>
+          <span *ngIf="!isEditing" class="material-icons">mode_edit</span>
+          <span>{{ isEditing ? 'Save' : 'Edit' }}</span>
         </button>
       </div>
     </div>
+
   </div>
 
 

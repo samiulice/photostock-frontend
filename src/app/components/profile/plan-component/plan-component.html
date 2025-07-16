@@ -1,9 +1,5 @@
 <div class="space-y-4">
         <div class="flex justify-between items-center">
-          <div>
-            <h2 class="text-lg font-semibold">Subscription Plans</h2>
-            <p class="text-sm text-gray-600">Manage your subscription plans</p>
-          </div>
           <button
             (click)="showCreatePlan = true"
             class="flex items-center space-x-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
@@ -125,7 +121,10 @@
         </div>
 
         <!-- Plans List -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+        <div *ngIf="isLoading" class="flex justify-center items-center h-[20vh]">
+    <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+  <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
           <div
             *ngFor="let plan of plans"
             class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col"
