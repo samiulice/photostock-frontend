@@ -15,7 +15,8 @@ export class Category implements OnInit{
   showCreateCategory: boolean = false;
   imagePreview: string | undefined;
   showCreatePlan: boolean = false;
-  message: any;
+  message!: string;
+  isLoading:boolean = true;
   categories!: IMediaCategory[];
 
   constructor(private uploadService:UploadService){}
@@ -30,6 +31,7 @@ export class Category implements OnInit{
 
         this.categories = res.media_categories;
         console.log(this.categories)
+        this.isLoading =false;
       },
 
       error: (err) => {

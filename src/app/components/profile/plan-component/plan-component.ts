@@ -15,6 +15,7 @@ export class PlanComponent implements OnInit {
   showCreatePlan = false;
   plans: IPlanWithID[] = [];
   planForm!: FormGroup;
+  isLoading:boolean =true;
 
   constructor(
     private fb: FormBuilder,
@@ -41,6 +42,7 @@ export class PlanComponent implements OnInit {
       console.log("initial: ", res)
       this.plans = res.plans;
       console.log("initial: ", this.plans)
+      this.isLoading = false;
     });
   }
 

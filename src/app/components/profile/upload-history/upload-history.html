@@ -1,12 +1,4 @@
 <!-- Upload History Tab -->
-
-<div class="section-header">
-  <div>
-    <h2 class="section-title">Upload History</h2>
-    <p class="section-subtitle">Track your file uploads and their status</p>
-  </div>
-</div>
-
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">
@@ -20,29 +12,35 @@
       <div *ngFor="let upload of uploadHistory" class="history-item">
         <div class="history-info">
           <div class="history-icon file-icon">
-            <span class="file-type">{{ upload.fileType }}</span>
+            <span class="file-type">{{ upload.file_ext }}</span>
           </div>
           <div class="history-details">
-            <h4 class="history-title">{{ upload.fileName }}</h4>
+            <h4 class="history-title">{{ upload.file_name }}</h4>
             <p class="history-subtitle">
-              {{ upload.category }} • {{ formatFileSize(upload.fileSize) }} • {{
-              upload.uploadDate }}
+              {{ upload.file_type }} • {{ upload.file_size}} • {{
+              upload.uploaded_at | date}}
             </p>
           </div>
         </div>
         <div class="history-actions">
-          <span [class]="'badge ' + getStatusBadgeClass(upload.status)">
-            {{ upload.status }}
+          <span [class]="'badge ' + getStatusBadgeClass(true)">
+            Active
           </span>
           <button class="btn btn-outline btn-sm">
             <svg class="icon-sm" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
-              />
+              <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
             </svg>
             Options
           </button>
         </div>
+      </div>
+
+      <div *ngIf="uploadHistory.length == 0 && !isLoading" class="badge flex justify-center">
+        No history available
+      </div>
+
+      <div *ngIf="isLoading" class="flex justify-center items-center h-[20vh]">
+        <div class="w-6 h-6 border-2 border-[#6051DC] border-t-transparent rounded-full animate-spin"></div>
       </div>
     </div>
   </div>

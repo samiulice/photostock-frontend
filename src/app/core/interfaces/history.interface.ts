@@ -1,31 +1,27 @@
-export interface IHistoryItem {
+import { IResp } from "./auth.interface";
+
+export interface IHistory {
   id: number;
-  fileName: string;
-  category: string;
-  type: string;
-  license: string;
-  size: string;
+  media_id: string;
+  user_id: number;
+  file_type: string;
+  file_ext: string;
+  file_name: string;
+  file_size: string;
   resolution: string;
- 
 }
 
-export interface IDownloadHistoryItem extends IHistoryItem{
-   downloadedAt: string;
+export interface IDownloadHistory extends IHistory{
+   downloaded_at: string;
 
 }
-export interface IUploadHistoryItem extends IHistoryItem{
-  uploadedAt:string;
-  totalDownload:number;
+export interface IUploadHistory extends IHistory{
+  uploaded_at:string;
 }
 
-//remove
-
-export interface UploadHistoryItem {
-  fileType: string;
-  fileName: string;
-  category: string;
-  fileSize: number;       // Assuming it's in bytes
-  uploadDate: string;     // Or `Date` if parsed
-  // status: 'pending' | 'completed' | 'failed' | string;  // Extend with your statuses
-  status:boolean
+export interface IUploadHistoryListWithResp extends IResp {
+  history:IUploadHistory[];
+}
+export interface IDownloadHistoryListWithResp extends IResp {
+  history:IDownloadHistory[];
 }

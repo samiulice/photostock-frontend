@@ -1,1 +1,50 @@
-<p>download-history works!</p>
+<!-- Download History Tab -->
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">
+      <span class="material-icons">file_download</span>
+      <span>File Downloads</span>
+    </h3>
+  </div>
+
+  <div class="card-content">
+    <div class="history-list">
+      <div *ngFor="let download of downloadHistory" class="history-item">
+        <div class="history-info">
+          <div class="history-icon file-icon">
+            <span class="file-type">{{ download.file_ext }}</span>
+          </div>
+          <div class="history-details">
+            <h4 class="history-title">{{ download.file_name }}</h4>
+            <p class="history-subtitle">
+              {{ download.file_type }} • {{ download.file_size}} • {{
+              download.downloaded_at | date}}
+            </p>
+          </div>
+        </div>
+        <div class="history-actions">
+          <span [class]="'badge ' + getStatusBadgeClass(true)">
+            Active
+          </span>
+          <button class="btn btn-outline btn-sm">
+            <svg class="icon-sm" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+            </svg>
+            Options
+          </button>
+        </div>
+      </div>
+      <div *ngIf="downloadHistory.length == 0 && !isLoading" class="badge flex justify-center">
+        No history available
+      </div>
+
+      <div *ngIf="isLoading" class="flex justify-center items-center h-[20vh]">
+        <div class="w-6 h-6 border-2 border-[#6051DC] border-t-transparent rounded-full animate-spin"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
