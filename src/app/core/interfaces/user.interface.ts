@@ -1,10 +1,11 @@
 import { IResp } from "./auth.interface";
+import { ISubscriptionWithID } from "./subscriptionPlan.interface";
 
 export interface IUser {
   name: string;
   avatar_url: string;
   status: boolean;
-  role: 'user' | 'admin' | 'premium';
+  role: 'user' | 'admin';
   email: string;
   mobile: string;
   total_earnings: number;
@@ -12,6 +13,7 @@ export interface IUser {
   subscription_id: number | null;
   created_at: string;  // use string if it's ISO string from API
   updated_at: string;
+  current_subscription:ISubscriptionWithID |null
 }
 
 export interface IUserWithID extends IUser{

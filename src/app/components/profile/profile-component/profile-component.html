@@ -178,9 +178,9 @@
   <div class="flex">
     <div class="flex justify-start w-1/2 p-4 space-y-4">
    <label for="current_plan">Current Plan: </label>
-   <span class="badge text-[#6051dc] px-2">Free</span>
+   <span class="badge text-[#6051dc] px-2">{{user.current_subscription?.plan_details?.title || "Free"}}</span>
   </div>
-  <div class="flex justify-end w-1/2 p-4 space-y-4">
+  <div *ngIf="!user.current_subscription" class="flex justify-end w-1/2 p-4 space-y-4">
    <button
       type="button"
       class="px-5 py-2 text-sm bg-[#6051dc] text-white rounded hover:bg-[#6031dc] transition duration-150"

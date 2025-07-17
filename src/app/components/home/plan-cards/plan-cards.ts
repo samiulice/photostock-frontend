@@ -4,6 +4,7 @@ import { SubscriptionPlanService } from '../../../core/services/subscriptionPlan
 import { ActivatedRoute, Router } from '@angular/router';
 import { IUserWithID } from '../../../core/interfaces/user.interface';
 import { HttpParams } from '@angular/common/http';
+import { ErrorHandlerService } from '../../../core/services/errorHandler/error-handler.service';
 
 @Component({
   selector: 'app-plan-cards',
@@ -18,7 +19,8 @@ export class PlanCards implements OnInit {
   constructor(
     private subscriptionPlanService: SubscriptionPlanService,
     private router: Router,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private errorHandlerService:ErrorHandlerService
   ) {}
 
     
@@ -60,11 +62,13 @@ export class PlanCards implements OnInit {
 
     this.subscriptionPlanService.purchasePlan(planId).subscribe({
       next: (res) => {
-        if (res.error) {
-          alert('Failed: ' + res.message);
-          return;
-        }
-
+        this.errorHandlerService.notifyUser(res.error, res.message, () => {
+          if (this.user) {
+            this.user.subscription_id = res.subscription.id;
+            this.user.current_subscription = res.subscription;
+          }
+        });
+        
         alert('Success: Plan purchased!');
         // Optionally reload user data or redirect
       },

@@ -1,21 +1,15 @@
-<div
-  class="flex flex-col md:flex-row max-w-6xl bg-white rounded shadow my-10 gap-2 ml-65"
->
+<div class="flex flex-col md:flex-row max-w-6xl bg-white rounded shadow my-10 gap-2 ml-65">
   <!-- Left: Image Section -->
   <div class="w-[540px] h-[540px] relative flex items-center justify-center">
-  <!-- Image if loaded -->
-  <img
-    *ngIf="imageData"
-    [src]="imageData.media_url"
-    [alt]="imageData.media_title"
-    class="rounded border border-gray-300 w-[540px] h-[540px] object-cover p-1 shadow"
-  />
+    <!-- Image if loaded -->
+    <img *ngIf="imageData" [src]="imageData.media_url" [alt]="imageData.media_title"
+      class="rounded border border-gray-300 w-[540px] h-[540px] object-cover p-1 shadow" />
 
-  <!-- Modern Ring Preloader while loading -->
-  <div *ngIf="!imageData" class="absolute inset-0 flex items-center justify-center">
-    <div class="w-12 h-12 border-4 border-[#6051DC] border-t-transparent rounded-full animate-spin"></div>
+    <!-- Modern Ring Preloader while loading -->
+    <div *ngIf="!imageData" class="absolute inset-0 flex items-center justify-center">
+      <div class="w-12 h-12 border-4 border-[#6051DC] border-t-transparent rounded-full animate-spin"></div>
+    </div>
   </div>
-</div>
 
 
   <!-- Right: Details and Subscription -->
@@ -23,34 +17,79 @@
     <div class="flex items-center">
       <div>
         <h2 class="text-lg font-semibold border-b border-blue-800 mb-3">
-          {{imageData?.media_title}}
+          {{imageData.media_title}}
         </h2>
 
-        <span class="text-sm text-[#786ECA] font-semibold mb-2 mr-5"
-          >{{imageData?.media_category?.name}}
-        </span>
-        <span
-          [class]="'inline-flex px-2 py-1 text-sm mb-2 rounded-full ' + 
-                   (imageData?.license_type == 0 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800')"
-        >
-          {{imageData?.license_type ==0 ? 'Free' : 'Premium'}}
-        </span>
+        <div class="flex">
+
+
+          <span
+            class="inline-flex items-center px-3 py-1 mr-2 rounded-full text-xs font-semibold bg-gray-100 text-[#6051dc]">
+            {{imageData.media_category.name}}
+          </span>
+
+
+          <!-- Free Badge -->
+          <span *ngIf="imageData.license_type == 0"
+            class="inline-flex items-center px-2 py-1 rounded-full text-xs  font-medium bg-green-100 text-green-800">
+            <span class="material-icons text-xs -translate-y-px mr-1" style="font-size: 15px;">check_circle</span>
+            Free
+          </span>
+
+          <!-- Premium Badge -->
+          <span *ngIf="imageData.license_type == 1"
+            class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+            <span class="material-icons text-xs -translate-y-px mr-1" style="font-size: 15px;">stars</span>
+            Premium
+          </span>
+        </div>
       </div>
     </div>
     <p class="text-sm text-gray-700 mb-4 mt-6">
-      {{imageData?.description || "No description available for this image"}}
+      {{imageData.description == ""? imageData.description: "No description available for this image"}}
     </p>
 
     <p class="text-xs text-gray-500 mb-4">
       <!-- * Fair use policy and cancellation fee apply.
       <a href="#" class="underline">See terms and conditions.</a> -->
     </p>
-    <button
-      class="bg-[#6051dc] hover:bg-[#6051dc] text-white p-2 rounded font-medium mb-4 w-full"
-      (click)="handleDownload()"
-    >
-      Download
-    </button>
+    <div class="mt-6">
+
+      <!-- Show spinner while loading -->
+      <div *ngIf="isLoading"
+        class="flex justify-center items-center bg-[#6051dc] text-white p-2 rounded font-medium w-full">
+        <div class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+      </div>
+
+      <!-- Free image: allow full download -->
+      <button *ngIf="!isLoading && imageData.license_type === 0" (click)="handleDownload()"
+        class="bg-[#6051dc] hover:bg-[#6031dc] text-white p-2 rounded font-medium w-full">
+        Download
+      </button>
+
+      <!-- Premium image with no subscription: show watermarked + subscribe -->
+      <ng-container
+        *ngIf="!isLoading && imageData.license_type === 1 && (!user?.subscription_id || user.subscription_id === 0)">
+
+        <!-- Download watermarked -->
+        <button (click)="downloadWatermarkedPreview()"
+          class="bg-gray-200 hover:bg-gray-300 text-black p-2 rounded font-medium w-full mb-2">
+          Download Watermarked
+        </button>
+
+        <!-- Subscription link -->
+        <a routerLink="/pricing" class="text-sm text-center text-blue-600 underline block">
+          Get a Subscription to Download Full Resolution
+        </a>
+      </ng-container>
+
+      <!-- Premium image with valid subscription: full download -->
+      <button *ngIf="!isLoading && imageData.license_type === 1 && user?.subscription_id" (click)="handleDownload()"
+        class="bg-[#6051dc] hover:bg-[#6031dc] text-white p-2 rounded font-medium w-full">
+        Download
+      </button>
+
+    </div>
 
     <!-- show this link when user don't have any subscription -->
     <!-- <a class="text-sm text-center text-blue-600 cursor-pointer underline">
