@@ -24,10 +24,6 @@ export class ImagesNav implements OnInit {
   isScrolled: boolean = false;
   categories: IMediaCategory[] = [];
 
-  
-
-  // @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
-
   message: any;
 
     constructor(private uploadService: UploadService, private route:ActivatedRoute) {}

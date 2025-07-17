@@ -2,11 +2,7 @@
 <div class="flex-grow">
   <!-- Hero Section -->
   <section class="relative  my-5">
-    <img
-      [src]="hostURL+'/public/banner/banner.jpg'"
-      alt="Mountain landscape"
-      class="w-full h-145 object-cover"
-    />
+    <img [src]="hostURL+'/public/banner/banner.jpg'" alt="Mountain landscape" class="w-full h-145 object-cover" />
     <div class="absolute inset-0 flex items-center justify-center bg-black/35">
       <div class="text-center text-white max-w-2xl px-4">
         <h1 class="text-4xl md:text-5xl font-bold mb-4">
@@ -15,7 +11,7 @@
         <p class="text-xl mb-8">
           Millions of high-quality royalty-free images for your next project
         </p>
-        <a routerLink="/image"  class="bg-white text-[#45469a] font-medium px-8 py-3 rounded-lg hover:bg-gray-100" >
+        <a routerLink="/image" class="bg-white text-[#45469a] font-medium px-8 py-3 rounded-lg hover:bg-gray-100">
           Browse Images
         </a>
       </div>
@@ -26,30 +22,20 @@
   <!-- Categories -->
   <section class="container mx-auto my-10 px-8 md:px-25 mb-16">
     <h2 class="text-3xl mb-6 text-center">Popular Categories</h2>
-    <div   class="grid grid-cols-2 md:grid-cols-6 gap-4 my-10">
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 my-10">
       <div *ngFor='let cat of categories' class="relative rounded-xl overflow-hidden h-40">
         <a [routerLink]="['/image']" [queryParams]="{ id: cat.id, name: cat.name}">
-          <img
-         [src]="cat.thumbnail_url"
-          [alt]="cat.name"
-          class="w-full h-full object-cover"
-        />
-        <div
-          class="absolute inset-0 bg-black/20 flex items-center justify-center hover:bg-black/50"
-        >
-          <span class="text-white font-bold text-xl">{{cat.name}}</span>
-        </div>
-      </a>
+          <img [src]="cat.thumbnail_url" [alt]="cat.name" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/20 flex items-center justify-center hover:bg-black/50">
+            <span class="text-white font-bold text-xl">{{cat.name}}</span>
+          </div>
+        </a>
       </div>
-    
+
     </div>
   </section>
 
   <!-- plans section -->
-<app-plan-cards></app-plan-cards>
+  <app-plan-cards></app-plan-cards>
 
-  
-
-
-   
 </div>

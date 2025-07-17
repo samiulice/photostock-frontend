@@ -15,18 +15,18 @@ export class PlanComponent implements OnInit {
   showCreatePlan = false;
   plans: IPlanWithID[] = [];
   planForm!: FormGroup;
-  isLoading:boolean =true;
+  isLoading: boolean = true;
 
   constructor(
     private fb: FormBuilder,
     private planService: SubscriptionPlanService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.planForm = this.fb.group({
       Title: ['', Validators.required],
-      Price: [0, [Validators.required, Validators.min(0.01)]],
-      DownloadLimit: [0, [Validators.required, Validators.min(1)]],
+      Price: [0, [Validators.required]],
+      DownloadLimit: [0, [Validators.required]],
       ExpiresAt: [30, [Validators.required, Validators.min(1)]], // assuming days
       Status: [true, Validators.required],
       Terms: this.fb.array([
@@ -40,7 +40,10 @@ export class PlanComponent implements OnInit {
         return;
       }
       console.log("initial: ", res)
-      this.plans = res.plans;
+      if (res.plans && res.plans.length != 0) {
+
+        this.plans = res.plans;
+      }
       console.log("initial: ", this.plans)
       this.isLoading = false;
     });
@@ -59,28 +62,28 @@ export class PlanComponent implements OnInit {
       this.planTerms.removeAt(index);
     }
   }
-getStatusBadgeClass(status: boolean): string {
-  return status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
-}
-
-getStatusColor(status: boolean): string {
-  return status ? 'status-active' : 'status-cancelled';
-}
-
-getIntervalText(days: number): string {
-  switch (days) {
-    case 7:
-      return 'week';
-    case 30:
-      return 'month';
-    case 365:
-      return 'year';
-    default:
-      return `${days} days`;
+  getStatusBadgeClass(status: boolean): string {
+    return status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
   }
-}
 
-  
+  getStatusColor(status: boolean): string {
+    return status ? 'status-active' : 'status-cancelled';
+  }
+
+  getIntervalText(days: number): string {
+    switch (days) {
+      case 7:
+        return 'week';
+      case 30:
+        return 'month';
+      case 365:
+        return 'year';
+      default:
+        return `${days} days`;
+    }
+  }
+
+
   createPlan(): void {
     if (this.planForm.valid) {
       const formValue = this.planForm.value;
@@ -88,7 +91,7 @@ getIntervalText(days: number): string {
       const newPlan: IPlan = {
         title: formValue.Title,
         terms: formValue.Terms,
-        concat_terms : '',
+        concat_terms: '',
         status: formValue.Status,
         price: Number(formValue.Price),
         download_limit: Number(formValue.DownloadLimit),
@@ -100,8 +103,8 @@ getIntervalText(days: number): string {
       console.log('Creating plan:', newPlan);
 
       // connect to backend
-      this.planService.addPlan(newPlan).subscribe((res)=>{
-        if (res.error){
+      this.planService.addPlan(newPlan).subscribe((res) => {
+        if (res.error) {
           alert(res.message);
           return;
         }

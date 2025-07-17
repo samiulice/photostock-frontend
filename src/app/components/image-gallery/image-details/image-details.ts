@@ -25,7 +25,6 @@ export class ImageDetails implements OnInit {
     private imageService: ImageService,
     private authService: AuthService,
     private constantService: ConstService,
-    private getImage: ImageService
   ) {
     this.hostURL = constantService.getHostURL();
   }
@@ -51,6 +50,7 @@ export class ImageDetails implements OnInit {
         return;
       }
       this.imageData = data.media;
+      console.log("Fetched image data: ", this.imageData)
     });
   }
 
@@ -73,14 +73,14 @@ export class ImageDetails implements OnInit {
     //if lic_type == 0, download it for free
 
     if (this.imageData.license_type == 0) {
-  const url = this.imageData.media_url.replace("/thumbnails/thumb_", "/original/");
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'original-image.jpg'; // optional filename
-  document.body.appendChild(a);
-  a.click(); // ✅ this triggers the download
-  document.body.removeChild(a);
-}
+      const url = this.imageData.media_url;
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'original-image.jpg'; // optional filename
+      document.body.appendChild(a);
+      a.click(); // ✅ this triggers the download
+      document.body.removeChild(a);
+    }
 
     //else check user subscription
     else {

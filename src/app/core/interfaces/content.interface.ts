@@ -4,6 +4,9 @@ export interface IMediaCategory {
   id: number;
   name: string;
   thumbnail_url: string;
+  thumbnail_uuid: string;
+  upload_count:number;
+  download_count:number;
   created_at: Date;
   updated_at: Date;
 }

@@ -18,6 +18,7 @@ export class ImageContainer implements OnInit {
   constructor(private content: ContentService, private route: ActivatedRoute) {}
   images: IMedia[] = [];
   imageCount: number = 0;
+  isLoading:boolean = true;
   ngOnInit(): void {
     //read query param for category id and name
     let id = 0;
@@ -35,7 +36,7 @@ export class ImageContainer implements OnInit {
     this.loadImagesByCategory(id, name);
   }
   ngOnChanges() {
-    console.log(this.category.id, this.category.name);
+    this.isLoading = true;
     this.loadImagesByCategory(this.category.id, this.category.name);
   }
 
@@ -48,11 +49,10 @@ export class ImageContainer implements OnInit {
           return;
         }
         this.images = res.medias;
-        if (res.medias == null || res.medias.length == 0) {
-          this.imageCount = 0;
-        } else {
-          this.imageCount = this.images.length;
+        if (res.medias != null) {
+          this.imageCount = res.medias.length;
         }
+        this.isLoading = false;
       },
     });
   }

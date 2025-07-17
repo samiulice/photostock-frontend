@@ -40,7 +40,7 @@ export class ProfileWrapper implements OnInit {
           id: 'profile',
           label: 'Profile',
           icon: "person",
-          class: "material-icons",
+          icon_class: "material-icons",
           header: "Profile Settings",
           description: "Manage your personal Details"
         },
@@ -48,7 +48,7 @@ export class ProfileWrapper implements OnInit {
           id: 'upload-image',
           label: 'Upload Image',
           icon: "upload",
-          class: "material-symbols-outlined",
+          icon_class: "material-symbols-outlined",
           header: "Upload Image",
           description: "Upload your images to the platform"
         },
@@ -56,7 +56,7 @@ export class ProfileWrapper implements OnInit {
           id: 'download-history',
           label: 'Download History',
           icon: "download",
-          class: "material-icons",
+          icon_class: "material-icons",
           header: "Download History",
           description: "View and manage your downloaded items"
         },
@@ -64,7 +64,7 @@ export class ProfileWrapper implements OnInit {
           id: 'upload-history',
           label: 'Upload History',
           icon: "upload",
-          class: "material-symbols-outlined",
+          icon_class: "material-symbols-outlined",
           header: "Upload History",
           description: "Track your uploaded images and files"
         },
@@ -75,7 +75,7 @@ export class ProfileWrapper implements OnInit {
           id: 'profile',
           label: 'Profile',
           icon: "person",
-          class: "material-icons",
+          icon_class: "material-icons",
           header: "Profile Settings",
           description: "Manage your personal Details"
         },
@@ -83,7 +83,7 @@ export class ProfileWrapper implements OnInit {
           id: 'plans',
           label: 'Plans',
           icon: "crown",
-          class: "material-symbols-outlined",
+          icon_class: "material-symbols-outlined",
           header: "Subscription Plans",
           description: "Manage pricing and user subscription plans"
         },
@@ -91,7 +91,7 @@ export class ProfileWrapper implements OnInit {
           id: 'categories',
           label: 'Categories',
           icon: "category",
-          class: "material-icons",
+          icon_class: "material-icons",
           header: "Media Categories",
           description: "Create and manage image/video categories"
         },
@@ -99,7 +99,7 @@ export class ProfileWrapper implements OnInit {
           id: 'download-history',
           label: 'Download History',
           icon: "download",
-          class: "material-icons",
+          icon_class: "material-icons",
           header: "Download Activity",
           description: "Monitor download history of users"
         },
@@ -107,7 +107,7 @@ export class ProfileWrapper implements OnInit {
           id: 'upload-history',
           label: 'Upload History',
           icon: "upload",
-          class: "material-symbols-outlined",
+          icon_class: "material-symbols-outlined",
           header: "Upload Activity",
           description: "View upload history and contributor media"
         },

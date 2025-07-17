@@ -15,32 +15,34 @@ import { ConstService } from '../../../core/services/constants/const.service';
     standalone: true,
     imports: [CommonModule, FormsModule, RouterLink, PlanCards],
     templateUrl: './homepage.html',
-  styleUrls: ['./homepage.css']
+    styleUrls: ['./homepage.css']
 })
 export class Homepage implements OnInit {
-    categories:IMediaCategory[]=[];
-    hostURL!:string
-    message='';
-    constructor(private  uploadService:UploadService, private constant:ConstService ){}
+    categories: IMediaCategory[] = [];
+    hostURL!: string
+    message = '';
+    constructor(private uploadService: UploadService, private constant: ConstService) { }
     ngOnInit(): void {
-        this.uploadService.getCategories().subscribe({next:(res)=>{
-            console.log('category response',res)
-            if(res.error){
-                this.message=res.message;
-                return
-            }
-    
-            this.categories=res.media_categories
-            this.hostURL = this.constant.getHostURL()
-        },
-    
-             error: (err) => {
-        console.error('Failed to load categories', err);
-      },
+
+        this.hostURL = this.constant.getHostURL()
+        this.uploadService.getCategories().subscribe({
+            next: (res) => {
+                console.log('category response', res)
+                if (res.error) {
+                    this.message = res.message;
+                    return
+                }
+
+                this.categories = res.media_categories
+            },
+
+            error: (err) => {
+                console.error('Failed to load categories', err);
+            },
         });
-    
-        
+
+
     }
-    
+
     //category service
 }
