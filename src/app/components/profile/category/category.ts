@@ -13,7 +13,7 @@ import { IMediaCategory } from '../../../core/interfaces/content.interface';
 export class Category implements OnInit{
   categoryForm!: FormGroup;
   showCreateCategory: boolean = false;
-  imagePreview: string | undefined;
+  imagePreview: string | null = null;
   showCreatePlan: boolean = false;
   message!: string;
   isLoading:boolean = true;
@@ -59,7 +59,7 @@ export class Category implements OnInit{
 
   resetCategoryForm(): void {
     this.categoryForm.reset();
-    this.imagePreview = '';
+    this.imagePreview = null;
   }
 
   onImageUpload(event: Event): void {
@@ -78,7 +78,7 @@ export class Category implements OnInit{
   }
 
   removeImage(): void {
-    this.imagePreview = '';
+    this.imagePreview = null;
     this.categoryForm.patchValue({ image: '' });
   }
 

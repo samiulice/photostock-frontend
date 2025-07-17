@@ -6,9 +6,9 @@
         <a href="/"><img class="h-8 w-auto" src="logo.png" alt="Logo" /></a>
         <div class="hidden md:flex space-x-4">
           <a href="/"
-            class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold">Home</a>
+            class="text-[#6051dc] hover:bg-[#6051dc] hover:text-white px-3 py-2 rounded-md text-sm font-bold">Home</a>
           <a [routerLink]="['/image']" [queryParams]="{ id: 0, name: 'All'}"
-            class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold">Images</a>
+            class="text-[#6051dc] hover:bg-[#6051dc] hover:text-white px-3 py-2 rounded-md text-sm font-bold">Images</a>
         </div>
       </div>
 
@@ -18,9 +18,9 @@
       <div class="flex items-center space-x-2 pl-80">
         <ng-container *ngIf="!isLoggedIn">
           <a routerLink="/login"
-            class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold ml-20">Login</a>
+            class="text-[#6051dc] hover:bg-[#6051dc] hover:text-white px-3 py-2 rounded-md text-sm font-bold ml-20">Login</a>
           <a routerLink="/register"
-            class="text-[#3d2ad0e1] hover:bg-[#3d2ad0e1] hover:text-white px-3 py-2 rounded-md text-sm font-bold">Register</a>
+            class="text-[#6051dc] hover:bg-[#6051dc] hover:text-white px-3 py-2 rounded-md text-sm font-bold">Register</a>
         </ng-container>
         <ng-container *ngIf="isLoggedIn">
           <!-- Profile Dropdown Container -->
@@ -43,8 +43,8 @@
                 <div class="flex justify-around">
                   <div class="flex items-center space-x-1 p-2">
                     <button routerLink="/profile/"
-                      class="px-1 py-2 rounded text-sm text-[#3d2ad0e1] font-bold inline-flex justify-center hover:bg-gray-200">
-                      <span class="material-icons text-[#3d2ad0e1]" style="
+                      class="px-1 py-2 rounded text-sm text-[#6051dc] font-bold inline-flex justify-center hover:bg-gray-200">
+                      <span class="material-icons text-[#6051dc]" style="
                       margin:2px;
                           font-size: 18px;
                           line-height: 1;
@@ -56,8 +56,8 @@
                   </div>
                   <div class="flex items-center space-x-1 p-2">
                     <button (click)="logout()"
-                      class="px-1 py-2 rounded text-sm text-[#3d2ad0e1] font-bold inline-flex justify-center hover:bg-gray-200">
-                      <span class="material-icons text-[#3d2ad0e1]" style="
+                      class="px-1 py-2 rounded text-sm text-[#6051dc] font-bold inline-flex justify-center hover:bg-gray-200">
+                      <span class="material-icons text-[#6051dc]" style="
                           margin:2px;
                           font-size: 18px;
                           line-height: 1;

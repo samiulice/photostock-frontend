@@ -24,9 +24,12 @@ export class Header implements OnInit {
   constructor(private auth: AuthService, private constService:ConstService) { }
   ngOnInit(): void {
     this.hostURL = this.constService.getHostURL()
-    const user: IUserWithID = JSON.parse(localStorage.getItem('user') || '');
     this.auth.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
+      if(this.isLoggedIn){
+        const user: IUserWithID = JSON.parse(localStorage.getItem('user') || '');
+        this.user = user
+      }
     });
   }
   toggleDropdown() {

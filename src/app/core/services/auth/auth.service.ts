@@ -20,10 +20,10 @@ export class AuthService {
   }
 
 
-  loginSuccess(token: string, redirectedRoute:string = '/profile') {
+  loginSuccess(token: string, redirectedRoute:string = '/profile', focusFragment:string = '') {
     localStorage.setItem('token', token);
     this.loggedIn.next(true);
-    this.router.navigate([redirectedRoute]);
+    this.router.navigate([redirectedRoute], { fragment: focusFragment });
   }
   getImageData(id: any) {
     throw new Error('Method not implemented.');
@@ -32,11 +32,12 @@ export class AuthService {
     throw new Error('Method not implemented.');
   }
   logoutSuccess() {
-    localStorage.removeItem('token');
+    localStorage.clear()
 
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }
+
 
   hasToken(): boolean {
     return !!localStorage.getItem('token');
@@ -45,7 +46,6 @@ export class AuthService {
   register(data: RegisterPayload) {
     console.log("Registration Payload", data)
     return this.http.post<IAuth>(this.authURL + "/register", data);
-
   }
 
   login(email: string, password: string) {

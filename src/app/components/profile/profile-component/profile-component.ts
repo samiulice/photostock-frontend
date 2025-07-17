@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   isEditing = false;
   isPhotoChange = false;
   isSaving = false;
+  isSelectPlan = false;
   user!: IUserWithID;
   profileForm!: FormGroup;
   imagePreview = '';
@@ -133,5 +134,9 @@ export class ProfileComponent implements OnInit {
         localStorage.setItem('user', JSON.stringify(this.user))
       })
     }
+  }
+
+  selectPlan(){
+    this.isSelectPlan = true;
   }
 }

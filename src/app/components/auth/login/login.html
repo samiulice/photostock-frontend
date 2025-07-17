@@ -20,7 +20,7 @@
       <div *ngIf="message" class="bg-red-100 text-red-800 p-2 rounded mb-4">
         {{ message }}
       </div>
-      <button [disabled]="isLoading" type="submit"class="w-full bg-[#6051dc] text-white py-2 rounded hover:bg-[#3d2ad0e1]">
+      <button [disabled]="isLoading" type="submit"class="w-full bg-[#6051dc] text-white py-2 rounded hover:bg-[#6051dc]">
         <div *ngIf="!isLoading">Login</div>
         <div *ngIf="isLoading" class="flex justify-center items-center">
           <div class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

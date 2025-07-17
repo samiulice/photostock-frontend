@@ -24,6 +24,7 @@ export class Login implements OnInit {
   isLoading = false;
   message = '';
   redirectedRoute: string = '/profile';
+  focusFragment: string = '';
 
   constructor(
     private auth: AuthService,
@@ -31,11 +32,13 @@ export class Login implements OnInit {
     private activatedRoute: ActivatedRoute
   ) { }
   ngOnInit() {
-    const redirectTo =
-      this.activatedRoute.snapshot.queryParamMap.get('redirectTo');
+    const redirectTo = this.activatedRoute.snapshot.queryParamMap.get('redirectTo');
+    const focusFragment = this.activatedRoute.snapshot.queryParamMap.get('fragment');
     console.log('User should be redirected to:', redirectTo);
     if (redirectTo) {
       this.redirectedRoute = redirectTo;
+    } if (focusFragment) {
+      this.focusFragment = focusFragment;
     }
   }
   login() {
@@ -45,7 +48,8 @@ export class Login implements OnInit {
       next: (res) => {
         this.errorHandlerService.notifyUser(res.error, res.message, () => {
           localStorage.setItem('user', JSON.stringify(res.user));
-          this.auth.loginSuccess(res.token, this.redirectedRoute);
+          this.auth.loginSuccess(res.token, this.redirectedRoute, this.focusFragment);
+         
         })
       },
       error: (err) => {
