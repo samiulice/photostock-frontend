@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
 
   isEditing = false;
   isPhotoChange = false;
-  isSaving = false;
+  isUploading = false;
   isSelectPlan = false;
   user!: IUserWithID;
   profileForm!: FormGroup;
@@ -84,7 +84,7 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    this.isSaving = true;
+    this.isUploading = true;
     const formData = new FormData();
     formData.append('image', this.selectedFile);  // Append raw file (not base64)
 
@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit {
         console.log('Upload successful:', res);
         localStorage.setItem('user', JSON.stringify(res.user))
         this.user = res.user
-        this.isSaving = false
+        this.isUploading = false
         this.isPhotoChange = false
         // location.reload()
       },
@@ -117,6 +117,7 @@ export class ProfileComponent implements OnInit {
   }
   saveProfile(): void {
     if (this.profileForm.valid) {
+      this.isUploading = true;
       // Save form values into user object
       console.log(this.profileForm.value)
       this.user = { ...this.user, ...this.profileForm.value };
@@ -128,10 +129,12 @@ export class ProfileComponent implements OnInit {
       this.profileService.updateProfile(this.user).subscribe((res) => {
         if (res.error) {
           alert(res.message)
+          this.isUploading =false
           return
         }
         //update localstorage item
         localStorage.setItem('user', JSON.stringify(this.user))
+        this.isUploading = false;
       })
     }
   }
@@ -139,4 +142,14 @@ export class ProfileComponent implements OnInit {
   selectPlan(){
     this.isSelectPlan = true;
   }
+
+  getExpiryDate(startDateStr: string|undefined, validityDays: number|undefined): string {
+  if (!startDateStr || !validityDays) return '-';
+
+  const startDate = new Date(startDateStr);
+  const expiryDate = new Date(startDate);
+  expiryDate.setDate(startDate.getDate() + validityDays);
+
+  return expiryDate.toISOString(); // or return formatted date
+}
 }

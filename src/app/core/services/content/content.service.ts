@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConstService } from '../constants/const.service';
-import { IMediaListWithResp } from '../../interfaces/content.interface';
+import { IMediaCategoryWithResp, IMediaListWithResp } from '../../interfaces/content.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +16,9 @@ export class ContentService {
 
   getThumbnails(category: number = 0) {
     return this.http.get<IMediaListWithResp>(this.mediaURL + "?category=" + category)
+  }
+
+  createCategory(formData:FormData){
+    return this.http.post<IMediaCategoryWithResp>(this.baseURL + '/categories', formData);
   }
 }

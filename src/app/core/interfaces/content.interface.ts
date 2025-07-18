@@ -10,6 +10,16 @@ export interface IMediaCategory {
   created_at: Date;
   updated_at: Date;
 }
+
+
+export interface IMediaCategoryListResp extends IResp {
+  media_categories: IMediaCategory[]
+}
+export interface IMediaCategoryWithResp extends IResp {
+  media_category: IMediaCategory
+}
+
+
 export interface IMedia {
   id: number;
   media_uuid: string;
@@ -31,13 +41,9 @@ export interface IMedia {
   updated_at: Date;
 }
 
-export interface IMediaCategoryListResp extends IResp {
-  media_categories: IMediaCategory[]
-}
-
-export interface IMediaListWithResp extends IResp {
-  medias: IMedia[]
-}
 export interface IMediaWithResp extends IResp {
   media: IMedia
+}
+export interface IMediaListWithResp extends IResp {
+  medias: IMedia[]
 }
