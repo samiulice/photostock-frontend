@@ -10,6 +10,9 @@
   </div>
   <!-- Create Category Form -->
   <div *ngIf="showCreateCategory" class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div *ngIf="isUploading" class="absolute inset-0 bg-white/70 z-10 flex items-center justify-center">
+      <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+    </div>
     <div class="p-4">
       <h3 class="text-lg font-semibold">Create New Category</h3>
       <p class="text-sm text-gray-600">
@@ -23,12 +26,6 @@
           <div class="space-y-1">
             <label class="text-sm font-medium text-gray-700">Category Name</label>
             <input formControlName="name" placeholder="e.g., Professional"
-              class="h-8 text-sm border border-gray-200 rounded px-2 w-full" />
-          </div>
-
-          <div class="space-y-1">
-            <label class="text-sm font-medium text-gray-700">Description</label>
-            <input formControlName="description" placeholder="Brief description of the category"
               class="h-8 text-sm border border-gray-200 rounded px-2 w-full" />
           </div>
         </div>
@@ -60,7 +57,8 @@
             <!-- Upload Controls -->
             <div class="flex-1 space-y-2">
               <div class="flex items-center space-x-2">
-                <input type="file" #fileInput accept="image/*" (change)="onImageUpload($event)" class="hidden" />
+                <input type="file" #fileInput accept="image/png, image/jpeg" (change)="onImageUpload($event)"
+                  class="hidden" />
                 <button type="button" (click)="fileInput.click()"
                   class="text-sm h-7 px-3 py-1 border border-gray-200 rounded hover:bg-gray-50">
                   Choose Image
@@ -79,7 +77,7 @@
 
         <div class="flex space-x-2 pt-2">
           <button type="button" (click)="createCategory()"
-            class="text-sm px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700">
+            class="text-sm px-3 py-1.5 bg-[#6051dc] text-white rounded hover:bg-[#6031dc]">
             Create Category
           </button>
           <button type="button" (click)="cancelCategoryCreation()"
@@ -96,7 +94,7 @@
   <div *ngIf="isLoading" class="flex justify-center items-center h-[20vh]">
     <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
   </div>
-  <div *ngIf="!isLoading" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  <div *ngIf="!isLoading" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
     <div *ngFor="let category of categories" class="bg-white rounded-lg shadow-sm border border-gray-200">
       <div class="p-4">
         <div class="flex items-start space-x-3">
@@ -136,6 +134,9 @@
     </div>
     <div *ngIf="categories.length == 0 && !isLoading" class="badge flex justify-center">
       No category available
+    </div>
+    <div *ngIf="isLoading" class="flex justify-center items-center">
+      <div class="w-6 h-6 border-2 border-[#6051DC] border-t-transparent rounded-full animate-spin"></div>
     </div>
   </div>
 

@@ -54,21 +54,15 @@
               Choose Image
             </button>
             <button
-              [disabled]="isSaving"
+              [disabled]="isUploading"
               *ngIf="imagePreview"
               type="button"
               (click)="saveImage()"
               class="text-sm h-7 px-1 py-1 text-red-800 border border-gray-200 rounded hover:bg-red-50"
             >
-              <ng-container *ngIf="!isSaving; else loading">
-                Save
-              </ng-container>
 
-              <ng-template #loading>
-                <div
-                  class="w-4 h-4 border-2 border-[#6051DC] border-t-transparent rounded-full animate-spin"
-                ></div>
-              </ng-template>
+                Save
+
             </button>
           </div>
           <p class="text-xs text-gray-500">
@@ -119,6 +113,9 @@
   </div>
 
   <div class="p-4 space-y-4">
+    <div *ngIf="isUploading" class="absolute inset-0 bg-white/70 z-20 flex items-center justify-center">
+      <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+    </div>
     <form [formGroup]="profileForm">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="space-y-1">
@@ -172,21 +169,65 @@
   </div>
 </div>
 
-<div class="bg-white rounded-lg border border-gray-300 p-2 my-4">
-  <span class="badge text-xl flex justify-center items-center">Subscription Plan</span>
+<div class="bg-white rounded-lg border border-gray-300 p-4 my-4">
+  <h2 class="text-xl font-semibold text-center mb-4">Subscription Plan</h2>
 
-  <div class="flex">
-    <div class="flex justify-start w-1/2 p-4 space-y-4">
-   <label for="current_plan">Current Plan: </label>
-   <span class="badge text-[#6051dc] px-2">Free</span>
-  </div>
-  <div class="flex justify-end w-1/2 p-4 space-y-4">
-   <button
-      type="button"
-      class="px-5 py-2 text-sm bg-[#6051dc] text-white rounded hover:bg-[#6031dc] transition duration-150"
-    >
-      Buy Plan
-    </button>
-  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    
+    <!-- Show Buy Plan if no subscription -->
+    <div *ngIf="!user.current_subscription" class="flex items-center justify-end">
+      <button
+        type="button"
+        class="px-5 py-2 text-sm bg-[#6051dc] text-white rounded hover:bg-[#6031dc] transition duration-150"
+      >
+        Buy Plan
+      </button>
+    </div>
+
+    <!-- Current Plan -->
+    <div class="flex items-center space-x-2">
+      <label class="text-sm font-medium text-gray-700">Current Plan:</label>
+      <span class="badge text-[#6051dc] px-2">
+        {{ user.current_subscription?.plan_details?.title || "Free" }}
+      </span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <label class="text-sm font-medium text-gray-700">Price:</label>
+      <span class="badge text-[#6051dc] px-2">
+       {{ user.current_subscription?.plan_details?.price | currency:'USD':'symbol':'1.2-2' }}
+
+      </span>
+    </div>
+    <!-- Example: Start Date -->
+    <div class="flex items-center space-x-2">
+      <label class="text-sm font-medium text-gray-700">Start Date:</label>
+      <span class="text-sm text-gray-800">
+        {{ user.current_subscription?.payment_time| date }}
+      </span>
+    </div>
+
+    <!-- Example: Expiry Date -->
+    <div class="flex items-center space-x-2">
+      <label class="text-sm font-medium text-gray-700">Expires On:</label>
+      <span class="text-sm text-gray-800">
+        {{ getExpiryDate(user.current_subscription?.payment_time, user.current_subscription?.plan_details?.expires_at) | date }}
+      </span>
+    </div>
+
+    <!-- Example: Status -->
+    <div class="flex items-center space-x-2">
+      <label class="text-sm font-medium text-gray-700">Status:</label>
+      <span [ngClass]="user.current_subscription ? 'text-green-600' : 'text-gray-500'">
+        {{ user.current_subscription ? 'Active' : 'Inactive' }}
+      </span>
+    </div>
+    <!-- Example: Remaining Downloads -->
+    <div class="flex items-center space-x-2">
+      <label class="text-sm font-medium text-gray-700">Remaining Download:</label>
+      <span class="text-sm text-gray-800">
+        {{ user.current_subscription?.total_downloads || 0 }}
+      </span>
+    </div>
   </div>
 </div>
+

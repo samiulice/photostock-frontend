@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-images-nav',
-  imports:[CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './images-nav.html',
   styleUrls: ['./images-nav.css']
 })
@@ -20,25 +20,25 @@ import { ActivatedRoute } from '@angular/router';
 export class ImagesNav implements OnInit {
   cartItemCount: number = 0;
   isSearchOpen: boolean = false;
-  selectedCategory: string='All';
+  selectedCategory: string = 'All';
   isScrolled: boolean = false;
   categories: IMediaCategory[] = [];
 
   message: any;
 
-    constructor(private uploadService: UploadService, private route:ActivatedRoute) {}
+  constructor(private uploadService: UploadService, private route: ActivatedRoute) { }
 
-    @Output() categoryChange = new EventEmitter<IMediaCategory>();
+  @Output() categoryChange = new EventEmitter<IMediaCategory>();
 
 
 
   ngOnInit(): void {
-    
+
 
     //fetch available image categories from backend
     this.uploadService.getCategories(true).subscribe({
       next: (res: { error: any; message: any; media_categories: IMediaCategory[]; }) => {
-        console.log('category response',res)
+        console.log('category response', res)
         if (res.error) {
           this.message = res.message;
           return;
@@ -57,7 +57,7 @@ export class ImagesNav implements OnInit {
       const i = params['id'];
       const n = params['name'];
 
-      if(i && n){
+      if (i && n) {
         id = parseInt(i);
         name = n
         this.selectedCategory = name
@@ -67,7 +67,7 @@ export class ImagesNav implements OnInit {
     console.log("Query: ", id, name)
   }
 
-  onCategorySelect(category:IMediaCategory): void {
+  onCategorySelect(category: IMediaCategory): void {
     this.selectedCategory = category.name;
     this.categoryChange.emit(category);
   }
@@ -78,7 +78,7 @@ export class ImagesNav implements OnInit {
   }
 
 
-  
+
 
   // toggleSearch(): void {
   //   this.isSearchOpen = !this.isSearchOpen;
@@ -89,7 +89,7 @@ export class ImagesNav implements OnInit {
   //   }
   // }
 
-  
+
 
   // onCartClick(): void {
   //   console.log('Cart clicked!');

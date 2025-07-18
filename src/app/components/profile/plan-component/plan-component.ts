@@ -16,6 +16,7 @@ export class PlanComponent implements OnInit {
   plans: IPlanWithID[] = [];
   planForm!: FormGroup;
   isLoading: boolean = true;
+  isUploading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -85,7 +86,9 @@ export class PlanComponent implements OnInit {
 
 
   createPlan(): void {
+    
     if (this.planForm.valid) {
+      this.isUploading = true;
       const formValue = this.planForm.value;
 
       const newPlan: IPlan = {
@@ -106,13 +109,14 @@ export class PlanComponent implements OnInit {
       this.planService.addPlan(newPlan).subscribe((res) => {
         if (res.error) {
           alert(res.message);
+          this.isUploading = false;
           return;
         }
         this.plans.push(res.plan)
+        this.isUploading = false;
       });
 
       this.resetPlanForm();
-      this.showCreatePlan = false;
     }
   }
 

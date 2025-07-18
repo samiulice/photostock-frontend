@@ -21,3 +21,26 @@ export interface IPlanListWithResp extends IResp {
 export interface IPlanWithResp extends IResp {
 	plan: IPlanWithID;
 }
+
+export interface ISubscription {
+  user_id: number;
+  subscription_plan_id: number;
+  plan_details: IPlan;
+  payment_amount: number;
+  payment_time: string; // ISO date string
+  total_downloads: number;
+  status: boolean;
+  created_at: string;   // ISO date string
+  updated_at: string;   // ISO date string
+}
+
+export interface ISubscriptionWithID extends ISubscription{
+		id: number;
+}
+export interface ISubscriptionListWithResp extends IResp {
+	subscriptions: ISubscriptionWithID[];
+}
+
+export interface ISubscriptionWithResp extends IResp {
+	subscription: ISubscriptionWithID;
+}

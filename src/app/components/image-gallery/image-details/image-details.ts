@@ -1,4 +1,4 @@
-import { CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ImageService } from '../../../core/services/image/image.service';
@@ -15,100 +15,142 @@ import { IUserWithID } from '../../../core/interfaces/user.interface';
   imports: [CommonModule, RouterModule],
 })
 export class ImageDetails implements OnInit {
-  imageData: IMedia | undefined;
+  imageData!: IMedia;
   user!: IUserWithID;
   hostURL: string;
+  isLoading = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private imageService: ImageService,
     private authService: AuthService,
-    private constantService: ConstService,
+    private constantService: ConstService
   ) {
-    this.hostURL = constantService.getHostURL();
+    this.hostURL = this.constantService.getHostURL();
   }
 
   ngOnInit(): void {
-    const u = localStorage.getItem('user');
-    if (u) {
-      this.user = JSON.parse(u);
-    }
+    this.loadUserFromLocalStorage();
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
-        this.getImageData(id);
+        this.fetchImageData(id);
       }
     });
   }
 
-  getImageData(id: string) {
-    this.imageService.getImageById(id).subscribe((data) => {
-      console.log(data);
-      if (data.error) {
-        alert(data.message);
-        return;
-      }
-      this.imageData = data.media;
-      console.log("Fetched image data: ", this.imageData)
+  private loadUserFromLocalStorage(): void {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      this.user = JSON.parse(userData);
+    }
+  }
+
+  private fetchImageData(id: string): void {
+    this.imageService.getImageById(id).subscribe({
+      next: (data) => {
+        if (data.error) {
+          alert(data.message);
+          return;
+        }
+        this.imageData = data.media;
+        console.log('Fetched image data:', this.imageData);
+      },
+      error: (err) => {
+        console.error('Error fetching image:', err);
+        alert('Failed to load image details.');
+      },
     });
   }
 
-  handleDownload() {
-    let url: string = '';
+  handleDownload(): void {
+    this.isLoading = true;
+
     if (!this.imageData) {
+      alert('No image data found.');
       return;
     }
-    // check user login status
-    //if not logged in, redirect to login page
+
+    // 1. Check if user is logged in
     if (!this.authService.hasToken()) {
-      this.router.navigate(['/login'], {
-        queryParams: { redirectTo: `/image-details/${this.imageData?.id}` },
-      });
+      this.redirectToLogin();
       return;
     }
-    //after login ,, redirect to the current page
 
-    //check license type
-    //if lic_type == 0, download it for free
-
-    if (this.imageData.license_type == 0) {
-      const url = this.imageData.media_url;
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'original-image.jpg'; // optional filename
-      document.body.appendChild(a);
-      a.click(); // ✅ this triggers the download
-      document.body.removeChild(a);
+    // 2. Free license image
+    if (this.imageData.license_type === 0) {
+      this.downloadFullResolution(this.imageData.id);
+      return;
     }
 
-    //else check user subscription
-    else {
-      if (this.user.subscription_id == null || this.user.subscription_id == 0) {
-        this.downloadWatermarked(this.imageData.id);
-
-        // this.showPricingPopup();
-      } else {
-        // this.downloadFullResolution(this.imageData.id);
-      }
+    // 3. Premium: check subscription
+    if (!this.hasValidSubscription()) {
+      this.downloadWatermarkedPreview();
+    } else {
+      this.downloadFullResolution(this.imageData.id);
     }
   }
 
-  downloadWatermarked(imageId: number) {
-    let url: string = this.imageData?.media_url ?? '';
+  private redirectToLogin(): void {
+    this.router.navigate(['/login'], {
+      queryParams: { redirectTo: `/image-details/${this.imageData?.id}` },
+    });
+  }
+
+  private hasValidSubscription(): boolean {
+    return this.user?.subscription_id !== null && this.user?.subscription_id > 0;
+  }
+
+   downloadWatermarkedPreview(): void {
+    let url = this.imageData?.media_url ?? '';
+
     if (!url) {
-      // Handle the case where url is not available
       alert('Image URL is not available.');
       return;
     }
-    // Proceed with download logic here
-    // Example: window.open(url, '_blank');
+
+    // Convert thumbnail path to watermarked version
     url = url.replace('/thumbnails/', '/watermarked/').replace('thumb_', 'wm_');
+
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'watermarked-image.jpg'; // optional, set filename
+    a.download = 'watermarked-image.jpg';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  }
+
+  private downloadFullResolution(id: number): void {
+    this.imageService.downloadImage(id).subscribe({
+      next: (response) => {
+        const blob = new Blob([response.body!], { type: 'application/octet-stream' });
+        const downloadUrl = window.URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+
+        const contentDisposition = response.headers.get('Content-Disposition');
+        const filenameMatch = contentDisposition?.match(/filename="(.+)"/);
+        const filename = filenameMatch ? filenameMatch[1] : `${id}.jpg`;
+
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(downloadUrl);
+
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000); 
+      },
+      error: (error) => {
+        console.error('Download failed:', error);
+        alert('You need a valid subscription to download this image.');
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000); 
+      },
+    });
   }
 }

@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UploadService } from '../../../core/services/upload/upload-service.service';
 import { IMediaCategory } from '../../../core/interfaces/content.interface';
+import { ContentService } from '../../../core/services/content/content.service';
+import { ErrorHandlerService } from '../../../core/services/errorHandler/error-handler.service';
 
 @Component({
   selector: 'app-category',
@@ -14,14 +16,20 @@ export class Category implements OnInit{
   categoryForm!: FormGroup;
   showCreateCategory: boolean = false;
   imagePreview: string | null = null;
+  imageFile: File | null = null;
   showCreatePlan: boolean = false;
   message!: string;
   isLoading:boolean = true;
+  isUploading:boolean = false;
   categories!: IMediaCategory[];
 
-  constructor(private uploadService:UploadService){}
+  constructor(private uploadService:UploadService,private contentService:ContentService, private fb: FormBuilder, private errorHandlerService:ErrorHandlerService){}
   ngOnInit(): void {
-      this.uploadService.getCategories().subscribe({
+    this.categoryForm = this.fb.group({
+      name:['', Validators.required],
+      image:['']
+    })
+    this.uploadService.getCategories().subscribe({
       next: (res) => {
         console.log('category response', res);
         if (res.error) {
@@ -38,56 +46,55 @@ export class Category implements OnInit{
         console.error('Failed to load categories', err);
       },
     });
+
+
   }
   createCategory(): void {
-    if (this.categoryForm.valid) {
-      const formValue = this.categoryForm.value;
-      // const newCategory: IMediaCategory = {
-      //   id: Date.now().toString(),
-      //   name: formValue.name,
-      //   description: formValue.description,
-      //   // image: formValue.image || '/images/upload-image.jpg',
-      //   // planCount: 0,
-      //   createdDate: new Date().toISOString().split('T')[0],
-      // };
+    this.isUploading = true
+  if (this.categoryForm.valid && this.imageFile) {
+    const formValue = this.categoryForm.value;
+    const formData = new FormData();
+    formData.append('name', formValue.name);
+    formData.append('image', this.imageFile);
 
-      // this.profileService.addCategory(newCategory);
-      this.resetCategoryForm();
-      this.showCreateCategory = false;
-    }
+    this.contentService.createCategory(formData).subscribe((res) => {
+      this.errorHandlerService.notifyUser(res.error, res.message, () => {
+        this.isUploading = false;
+        this.categories.push(res.media_category);
+        alert('Category added successfully');
+      });
+    });
+
+    this.resetCategoryForm();
+  } else {
+    alert('Please fill all required fields and upload an image.');
   }
+}
+
 
   resetCategoryForm(): void {
     this.categoryForm.reset();
     this.imagePreview = null;
+    this.imageFile = null;
   }
 
-  onImageUpload(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    const file = target.files?.[0];
+ onImageUpload(event: Event): void {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
-        this.imagePreview = result;
-        this.categoryForm.patchValue({ image: result });
-      };
-      reader.readAsDataURL(file);
-    }
+  if (file) {
+    this.imageFile = file; // store the file for FormData
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.imagePreview = e.target?.result as string; // For image display
+    };
+    reader.readAsDataURL(file);
   }
+}
 
   removeImage(): void {
     this.imagePreview = null;
-    this.categoryForm.patchValue({ image: '' });
-  }
-
-  cancelPlanCreation(): void {
-    this.showCreatePlan = false;
-    this.resetPlanForm();
-  }
-  resetPlanForm() {
-    throw new Error('Method not implemented.');
+    this.imageFile = null;
   }
 
   cancelCategoryCreation(): void {
