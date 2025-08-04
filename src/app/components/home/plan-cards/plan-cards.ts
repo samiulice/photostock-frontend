@@ -5,27 +5,28 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IUserWithID } from '../../../core/interfaces/user.interface';
 import { HttpParams } from '@angular/common/http';
 import { ErrorHandlerService } from '../../../core/services/errorHandler/error-handler.service';
+import { IPlanWithID } from '../../../core/interfaces/subscriptionPlan.interface';
 
 @Component({
   selector: 'app-plan-cards',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './plan-cards.html',
-  styleUrls: ['./plan-cards.css']
+  styleUrls: ['./plan-cards.css'],
 })
 export class PlanCards implements OnInit {
   user: IUserWithID | null = null;
+  plans: IPlanWithID[] = [];
 
   constructor(
     private subscriptionPlanService: SubscriptionPlanService,
     private router: Router,
-    private route:ActivatedRoute,
-    private errorHandlerService:ErrorHandlerService
+    private route: ActivatedRoute,
+    private errorHandlerService: ErrorHandlerService
   ) {}
 
-    
   ngOnInit(): void {
-    const userData:string = localStorage.getItem('user') || "";
+    const userData: string = localStorage.getItem('user') || '';
     if (userData) {
       try {
         this.user = JSON.parse(userData);
@@ -35,7 +36,15 @@ export class PlanCards implements OnInit {
       }
     }
 
-    this.route.fragment.subscribe(fragment => {
+    //fetch plans
+    this.subscriptionPlanService.plansList.subscribe((res) => {
+      this.errorHandlerService.notifyUser(res.error, res.message, () => {
+        if (res.plans && res.plans.length != 0) {
+          this.plans = res.plans;
+        }
+      });
+    });
+    this.route.fragment.subscribe((fragment) => {
       if (fragment) {
         setTimeout(() => {
           const element = document.getElementById(fragment);
@@ -49,7 +58,7 @@ export class PlanCards implements OnInit {
 
   buyPlan(planId: number): void {
     if (!this.user) {
-      this.router.navigate(['/login'],{
+      this.router.navigate(['/login'], {
         queryParams: { redirectTo: '/', fragment: 'plans' },
       });
       return;
@@ -68,14 +77,14 @@ export class PlanCards implements OnInit {
             this.user.current_subscription = res.subscription;
           }
         });
-        
+
         alert('Success: Plan purchased!');
         // Optionally reload user data or redirect
       },
       error: (err) => {
         console.error('Error purchasing plan:', err);
         alert('An unexpected error occurred. Please try again later.');
-      }
+      },
     });
   }
 }

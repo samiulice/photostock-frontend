@@ -6,7 +6,6 @@ import { Homepage } from './components/home/homepage/homepage';
 import { authGuardGuard } from './core/guards/auth-guard-guard';
 import { ImageWrapper } from './components/image-gallery/image-wrapper/image-wrapper';
 import { ImageDetails } from './components/image-gallery/image-details/image-details';
-import { Profile } from './dummy-user/profile/profile';
 import { ProfileWrapper } from './components/profile/profile-wrapper/profile-wrapper';
 
 
@@ -19,8 +18,6 @@ export const routes: Routes = [
   { path: 'profile/admin', component: AdminProfile },
   {path:'image',component:ImageWrapper},
   {path:'image-details/:id', component:ImageDetails},
-  {path:'dummy', component:Profile},
-
-  
+ 
 ];
 

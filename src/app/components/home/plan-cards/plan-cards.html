@@ -1,85 +1,54 @@
 <section class="py-8 px-4 bg-white">
   <!-- Heading -->
   <div class="max-w-7xl mx-auto text-center mb-8">
-    <h2 class="text-3xl mb-6 text-cente ">Plans and Pricing</h2>
+    <h2 class="text-3xl mb-6 text-cente">Plans and Pricing</h2>
   </div>
 
   <!-- Trial Badge -->
 
   <!-- Plans using Flex -->
-  <div class="flex flex-col md:flex-row justify-center gap-6 max-w-7xl mx-auto">
-    
-    <!-- Individuals Plan -->
-    <div class="flex flex-col justify-between bg-gradient-to-br from-[#FAEBE7] to-white border border-gray-200 shadow rounded-2xl p-6 min-h-[550px]">
-    <div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Basic</h3>
-      <p class="text-sm text-gray-500 mb-4">Starts at</p>
-      <p class="text-3xl font-bold text-gray-900 mb-2">$0 <span class="text-sm font-normal">/ month/user</span></p>
-      <p class="text-sm text-gray-700 mb-4">Good for individuals who are just starting out and simply want the essentials.</p>
-    
-      <ul class="text-sm text-gray-800 space-y-2">
-        <li>✔ 1 user</li>
-        <li>✔ Unlimited calendars</li>
-        <li>✔ Unlimited event types</li>
-        <li>✔ Workflows</li>
-        <li>✔ Integrate with your favorite apps</li>
-        <li>✔ Accept payments via Stripe</li>
-      </ul>
-      </div>
-      <div>
-        <button (click)="buyPlan(1)" class="w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 font-medium py-2 px-4 rounded-lg mb-6 ">
-        Buy now
-      </button>
-      </div>
-    </div>
-
-    <!-- Teams Plan -->
-    <div class="flex flex-col justify-between bg-gradient-to-br from-[#E0E6FB] to-white border border-gray-200 shadow rounded-2xl p-6 min-h-[550px]">
-      <div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Premium</h3>
-      <p class="text-sm text-gray-500 mb-4">Starts at</p>
-      <p class="text-3xl font-bold text-gray-900 mb-2">$12 <span class="text-sm font-normal">/ month/user</span></p>
-      <p class="text-sm text-gray-700 mb-4">Highly recommended for small teams who seek to upgrade their time & perform.</p>
-      
-      <ul class="text-sm text-gray-800 space-y-2">
-        <li>✔ 1 team</li>
-        <li>✔ Schedule meetings as a team</li>
-        <li>✔ Round-Robin, Fixed Round-Robin</li>
-        <li>✔ Collective Events</li>
-        <li>✔ Advanced Routing Forms</li>
-        <li>✔ Team Workflows</li>
-      </ul>
-      </div>
-      <div>
-      <button (click)="buyPlan(2)" class="w-full bg-indigo-600 text-white hover:bg-indigo-700 font-medium py-2 px-4 rounded-lg mb-6 mt-6">
-        Buy now
-      </button>
+  <section class="container mx-auto px-4 md:px-8 my-6">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+      <div *ngFor="let p of plans">
+        <div
+          class="flex flex-col justify-between bg-gradient-to-br from-[#E7F6FC] to-white border border-gray-200 shadow rounded-2xl p-8 min-w-6 min-h-[400px]"
+        >
+          <div>
+            <h3 class="text-3xl text-center font-semibold text-gray-900 mb-2">
+              {{p.title}}
+            </h3>
+            <p class="text-sm text-gray-500 mb-2">Starts at</p>
+            <p class="text-2xl font-bold text-gray-900 mb-2">
+              {{p.price | currency}}
+              <span class="text-sm font-normal">/ {{p.expires_at }}days</span>
+            </p>
+            <br />
+            <ul
+              *ngFor="let t of p.terms"
+              class="text-sm text-gray-800 space-y-2"
+            >
+              <li class="flex items-center gap-2">
+                <span
+                  class="inline-flex items-center justify-center w-4 h-4 bg-blue-100 text-green-600 rounded-full border border-green-600"
+                >
+                  <span class="material-icons text-sm" style="font-size: 1px"
+                    >check</span
+                  >
+                </span>
+                {{t}}
+              </li>
+            </ul>
+          </div>
+          <div>
+            <button
+              (click)="buyPlan(p.id)"
+              class="w-full bg-white text-gray-700 border border-[#24343D] hover:bg-gray-100 font-medium py-2 px-4 rounded-lg mb-6 mt-6"
+            >
+              Buy now
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Enterprise Plan -->
-    <div class="flex flex-col justify-between bg-gradient-to-br from-[#E7F6FC] to-white border border-gray-200 shadow rounded-2xl p-6 min-h-[550px]">
-      <div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Unlimited</h3>
-      <p class="text-sm text-gray-500 mb-4">Starts at</p>
-      <p class="text-3xl font-bold text-gray-900 mb-2">$15k <span class="text-sm font-normal">/ year</span></p>
-      <p class="text-sm text-gray-700 mb-4">Robust scheduling for larger teams looking to have more control, privacy & security.</p>
-    
-      <ul class="text-sm text-gray-800 space-y-2">
-        <li>✔ 1 parent team and unlimited sub-teams</li>
-        <li>✔ Organization workflows</li>
-        <li>✔ Insights - analyze your booking data</li>
-        <li>✔ Active directory sync</li>
-        <li>✔ 24/7 Email, Chat and Phone support</li>
-        <li>✔ Sync your HRIS tools</li>
-      </ul>
-      </div>
-      <div>
-        <button (click)="buyPlan(3)" class="w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 font-medium py-2 px-4 rounded-lg mb-6 mt-6">
-        Buy now
-      </button>
-      </div>
-    </div>
-
-  </div>
+  </section>
 </section>
