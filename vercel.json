@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "public": true,
   "builds": [
     {
-      "src": "dist/photostock-frontend/**",
-      "use": "@vercel/static"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/photostock-frontend"
+      }
     }
   ],
   "rewrites": [
