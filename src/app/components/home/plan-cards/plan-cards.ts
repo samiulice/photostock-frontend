@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { SubscriptionPlanService } from '../../../core/services/subscriptionPlan/subscription-plan.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IUserWithID } from '../../../core/interfaces/user.interface';
-import { HttpParams } from '@angular/common/http';
 import { ErrorHandlerService } from '../../../core/services/errorHandler/error-handler.service';
 import { IPlanWithID } from '../../../core/interfaces/subscriptionPlan.interface';
 
