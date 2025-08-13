@@ -1,15 +1,13 @@
 {
   "version": 2,
   "public": true,
+  "builds": [
+    {
+      "src": "dist/photostock-frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "headers": [
-    {
-      "source": "/(.*).(js|css|png|jpg|jpeg|gif|svg|ico)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    }
   ]
 }
